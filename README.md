@@ -497,4 +497,4 @@ Take a look in the `.rubocop_todo.yml` located in the project root for more info
 
 Hirepool came out of the startup hirepool.io.
 
-Contributors to this project at hirepool.io included Alison Bellach, Brady Sammons, Colin Zhu, Erin Wilson, Paulius Dragunas, and Tom Fitch.
+Contributors to this project at hirepool.io included [alibee](https://github.com/alibee), [Brady Sammons](https://github.com/soulrider911), [Colin Zhu](https://github.com/colinexl), [Erin Wilson](https://github.com/techmatchmaker), [Paulius](https://github.com/paulius005), and [Tom Fitch](https://github.com/tmjfitch).
