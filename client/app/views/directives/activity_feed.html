@@ -1,0 +1,13 @@
+<div class="hp-activity-feed-container">
+  <div class="day-container" ng-repeat="(dayKey, dayEvents) in vm.data.days">
+    <h5 ng-show="dayKey === vm.getToday()">Today</h5>
+    <h5 ng-show="dayKey === vm.getYesterday()">Yesterday</h5>
+    <h5 ng-show="dayKey !== vm.getToday() && dayKey !== vm.getYesterday()">{{dayKey}}</h5>
+    <ul ng-show="!vm.userId">
+      <li ng-repeat="event in dayEvents" class="position-{{vm.data.users[event.user_id].position}} user-{{vm.data.users[event.user_id].index}}"><span class="color-swatch" style="background-color: {{vm.data.users[event.user_id].color}};">&nbsp;</span><div class="event-content"><a href="#/admin/user_profile/{{event.user_id}}">{{event.user.name}}</a> {{vm.getActionDescription(event)}} at {{vm.getDate(event.created_at)}}</div></li>
+    </ul>
+    <ul ng-show="vm.userId">
+      <li ng-repeat="event in dayEvents" class="position-{{event.position}} user-{{event.oppIndex}}"><span class="color-swatch" style="background-color: {{event.color}};">&nbsp;</span><div class="event-content">{{vm.getActionDescription(event)}} <span ng-class="{'opp-details-link': event.interviews.length === 1}" ng-click="vm.showOppDetails(event)">{{vm.getOppDescription(event)}}</span> at {{vm.getDate(event.created_at)}}</div></li>
+    </ul>
+  </div>
+</div>

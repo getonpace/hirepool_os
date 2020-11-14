@@ -1,0 +1,15 @@
+<div class="modal" id="accounts-merged-message" ng-controller="AccountsMergedMessageCtrl as vm">
+  <div class="modal-dialog">
+    <header>
+      <h4>Welcome {{vm.data.firstName}}!</h4>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <p>You just logged in via {{vm.data.user.provider}} for the first time.</p>
+      <p>We just want to let you know that you can access your hirepool account using any authentication method with a matching email address.</p>
+      <p>So far you've logged in via {{vm.data.availableProviders}}</p>
+      <p>If there are any problems or you think one of these logins is incorrect please contact us at <a href="mailto:support@hirepool.io">support@hirepool.io</a> or using our intercom channel in the lower right corner of the page.</p>
+      <p>Enjoy using hirepool!</p>
+    </section>
+  </div>
+</div><!-- // Accounts Merged Message Modal -->

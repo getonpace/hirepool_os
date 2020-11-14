@@ -1,0 +1,870 @@
+@charset 'utf-8';
+
+@import 'angular-bootstrap-datetimepicker-variables';
+@import 'angular-bootstrap-datetimepicker-core';
+
+@import 'settings';
+@import 'foundation';
+@import 'motion-ui';
+
+@include foundation-global-styles;
+@include foundation-grid;
+@include foundation-typography;
+@include foundation-button;
+//@include foundation-forms;
+//@include foundation-visibility-classes;
+@include foundation-float-classes;
+@include foundation-accordion;
+//@include foundation-accordion-menu;
+//@include foundation-badge;
+//@include foundation-breadcrumbs;
+//@include foundation-button-group;
+//@include foundation-callout;
+@include foundation-close-button;
+//@include foundation-drilldown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
+//@include foundation-flex-video;
+@include foundation-label;
+//@include foundation-media-object;
+@include foundation-menu;
+//@include foundation-off-canvas;
+//@include foundation-orbit;
+//@include foundation-pagination;
+@include foundation-progress-bar;
+//@include foundation-slider;
+//@include foundation-sticky;
+//@include foundation-reveal;
+//@include foundation-switch;
+//@include foundation-table;
+@include foundation-tabs;
+//@include foundation-thumbnail;
+@include foundation-title-bar;
+@include foundation-tooltip;
+@include foundation-top-bar;
+
+@include motion-ui-transitions;
+@include motion-ui-animations;
+
+//Hirepool Custom Files
+@import 'compare';
+@import 'ac-forms';
+@import 'cards';
+@import 'modals';
+@import 'card-grid';
+@import 'media-q';
+@import 'privacy';
+@import 'faq';
+@import 'admin';
+@import 'notes-editor';
+@import 'thumb-ratings';
+@import 'opportunity-details';
+@import 'map-view';
+@import 'grid-view';
+@import 'guide';
+@import 'event-fodals';
+@import 'admin-view-page';
+@import 'admin-user-profile';
+@import 'admin-overview';
+@import 'content-page';
+@import 'help-library';
+@import 'hp-activity-feed';
+@import 'hp-sortable-table';
+@import 'hp-timeframe-picker';
+@import 'hp-opportunity-actions-cell';
+@import 'hp-opportunity-rating-cell';
+@import 'hp-diy-dropdown';
+@import 'hp-datetime-picker';
+@import 'user-login-and-registration';
+@import 'collaborator-provide-feedback';
+@import 'loading-spinner';
+@import 'ftu-overlay';
+@import 'hp-app-header';
+@import 'hp-opportunities-subheader';
+@import 'resume_upload';
+@import 'billing';
+
+// ////////////////////////////////////////////
+// Global Styles
+// ////////////////////////////////////////////
+html{
+  height: 100%;
+  background-color: inherit;
+}
+body{
+  -webkit-text-size-adjust: 100%;
+  padding-top: 100px;
+  height: 100%;
+  &.no-header{
+    padding-top: 0;
+  }
+  &.blue-bg{
+    background-color: $primary-color;
+  }
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+h1,h2,h3{
+  font-weight: 600;
+}
+.logo-chip{
+  $size: 120px;
+  border-radius: 6px;
+  border: 1px solid $border-color;
+  width: $size;
+  height: $size;
+  display: inline-block;
+  &.circle{
+    border-radius: 300px;
+  }
+  table{
+     height:$size;
+     width: $size;
+     margin: 0;
+     padding: 0;
+     border: 0;
+    td{
+      vertical-align: middle;
+      text-align: center;
+      padding: 15px;
+      img{
+        max-height: $size/2;
+      }
+    }
+  }
+}
+.fa{
+  font-weight: normal !important;
+}
+.has-tip{
+  cursor: auto;
+}
+//Sub heder
+header.sub-head{
+  margin-bottom: 10px;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  .utilities{
+    width: 100%;
+    .utility{
+      width: 100%;
+      vertical-align: top;
+      margin:0 0 5px 0;
+      &.flex-spacer{
+        display: none;
+      }
+      &.dropdown{
+        height: 33px;
+      }
+      &.button{
+        height: 33px;
+        white-space: nowrap;
+        padding: 0.85em 1em;
+      }
+    }
+  }
+  .page-title{
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .button{
+    margin: 0;
+    border: none;
+    &.hollow {
+      border: 1px solid #2199e8;
+    }
+  }
+}
+//custom dropdowns
+.menu > li > a.button.small{
+  padding: .85em 1.8em .85em .85rem;
+  .fa{
+    vertical-align: top;
+    line-height: 1;
+  }
+}
+
+// GINGER-MOD
+.tooltip {
+  z-index: 1050;
+}
+
+.dropdown.menu .is-dropdown-submenu-parent.is-down-arrow a.button:after{
+  border: inset 3px;
+  border-color: #fff transparent transparent;
+  border-top-style: solid;
+  border-bottom-width: 0;
+  top: .7rem;
+  right: 9px;
+}
+.dropdown.menu{
+  // GINGER-MOD
+  .divider{
+    border-top: solid 1px #A9A9A9;
+    clear: both;
+    height: 1px;
+    width: 100%;
+  }
+  .submenu{
+    z-index: 10;
+    box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.239216) 0px 1px 4px;
+    border: none;
+    border-radius: 3px;
+    overflow: hidden;
+    padding: .3rem 0;
+    li a{
+      padding: .75rem 1rem;
+      font-size: 14px;
+      font-family: $body-font-family;
+      color: $midnight-blue;
+      opacity: .6;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    // GINGER-MOD typo for active
+    li.active a,
+    li.active a:hover{
+      background-color: transparent;
+      color: $primary-color;
+      opacity: 1;
+    }
+  }
+  &.inline{
+    padding-left: 0px;
+    vertical-align: -11px;
+    display: inline-block;
+    .is-dropdown-submenu-parent.is-down-arrow> a{
+      padding:8px;
+      padding: 0 20px 8px 0;
+      padding-right: 20px;
+      &:after{
+        top:50%;
+        margin-top:-3.1px;
+      }
+    }
+  }
+  //right aligned
+  &[data-menu-right] .is-dropdown-submenu.first-sub{
+    left: auto !important;
+    right: 0px;
+    top: 105%;
+  }
+}
+
+//buttons
+.button{
+  text-transform: uppercase;
+  &.centered-button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  &.hollow:not(.large){
+    font-weight: 600;
+  }
+  &.large{
+    font-size: 1rem;
+  }
+  //social buttons
+  &.social-facebook{
+    background-color: #3C5A9A;
+    &:hover{
+      background-color: darken(#3C5A9A,8%);
+    }
+  }
+  &.social-twitter{
+    background-color: #55ADED;
+    &:hover{
+      background-color: darken(#55ADED,8%);
+    }
+  }
+  &.social-linkedin{
+    background-color: #0E76A9;
+    &:hover{
+      background-color: darken(#0E76A9,8%);
+    }
+  }
+  &.social-gmail{
+    background-color: #D93025;
+    &:hover{
+      background-color: darken(#D93025,8%);
+    }
+  }
+  &.social-github{
+    background-color: #24292E;
+    &:hover{
+      background-color: darken(#24292E,8%);
+    }
+  }
+  &.social{
+    width: 120px;
+    border: none;
+    text-align: center;
+    position: relative;
+    margin: 10px 5px;
+    &.fb{
+      background-color: #3C5A9A;
+      &:hover{
+        background-color: darken(#3C5A9A,8%);
+      }
+    }
+    &.tw{
+      background-color: #55ADED;
+      &:hover{
+        background-color: darken(#55ADED,8%);
+      }
+    }
+    &.in{
+      background-color: #0E76A9;
+      &:hover{
+        background-color: darken(#0E76A9,8%);
+      }
+    }
+    .fa{
+      width: 28%;
+      height: 100%;
+      line-height: 43px;
+      background-color: rgba(0,0,0,.1);
+      position: absolute;
+      left: 0;
+      top:0;
+      border-radius: 3px 0 0 3px;
+    }
+    span{
+      padding-left: 28%;
+    }
+  }
+}
+
+
+//notifaction box
+.notification-box{
+  background-color: $cloud-blue;
+  padding: 15px;
+  border-radius: 3px;
+  padding: 30px;
+  margin-bottom: 20px;
+  button{
+    margin-bottom: 0;
+  }
+  &.collab-ftu{
+    strong{
+      display: block;
+      margin-bottom: 5px;
+    }
+    p{
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+    .button{
+      margin-top: 10px;
+    }
+    .ac-form{
+      padding:0;
+      padding-bottom: 16px; /* GINGER-MOD */
+      textarea{
+        min-height: 150px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+//conrifmation boxes upon actions like add feedback...
+.confirm-notification{
+  display: inline-block;
+  padding: 18px 15px;
+  background-color: $white;
+  color: $white;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 5;
+  font-size: 13px;
+  font-weight: bold;
+}
+.accordion-item .confirm-notification{
+  right: -142px;
+  top: 0;
+  margin-top: 0;
+  height: 100%;
+  &.show{
+    animation: noti_slide_in 2.5s ease;
+  }
+}
+.card .confirm-notification{
+    top: -62px;
+    left: 50%;
+    margin-left: -76px;
+    &.show{
+      animation: noti_slide_down 2.5s ease;
+  }
+}
+.has-tip{
+  border-bottom: none;
+}
+
+// ////////////////////////////////////////////
+// Opportunity Cards Index
+// ////////////////////////////////////////////
+.opportunity-cards-index{
+  .dynamic-layout-item-parent{
+    background-color: $white;
+  }
+  .loading{
+    position: absolute;
+    top: 383px;
+    @include breakpoint(medium){
+      top: 287px;
+    }
+    width: 100%;
+    .loading-ui{
+      width: 200px;
+      height: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+
+// ////////////////////////////////////////////
+// Opportunity Details
+// ////////////////////////////////////////////
+header.section-head{
+  border-bottom: 1px solid $midnight-blue;
+  padding-bottom: 5px;
+  height: 33px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  .button{
+    margin: 0 0 2px 5px;
+    border: none;
+  }
+  h6{
+    display: inline-block;
+    margin-right: auto;
+  }
+}
+.opp-details >.columns,
+.activity,
+.collab{
+  margin-bottom: rem-calc(20px);
+}
+.opp-details{
+  .logo-chip{
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  }
+  header.details{
+    vertical-align: top;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 620px;
+    //margin-bottom: 40px;
+    h3,
+    h6{
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    h3{
+      margin-bottom: 0;
+    }
+    h6{
+      color: lighten($midnight-blue, 20%);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .ratings{
+    li{
+      cursor: pointer;
+      text-align: center;
+      width:33.333333333%;
+      margin-right: -4px;
+      display: inline-block;
+      padding: 0 4px;
+      color: $midnight-blue;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      h3, span{
+        font-weight: bold;
+      }
+      h3{
+        line-height:1;
+        font-size: 1.9375rem;
+        color: $primary-color;
+        &.hirepool{
+          color: $midnight-blue;
+        }
+      }
+      span{
+        display: block;
+        line-height: 1.1;
+        font-size: 11px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+//activity feed accordions
+.accordion.activity-feed{
+  border: none;
+  >li{
+    padding:0;
+    height: auto;
+    margin-bottom: 20px;
+    transition: box-shadow .2s ease;
+    border-radius: 3px;
+    a.accordion-title{
+      position: relative;
+      overflow: hidden;
+      border-radius: 3px 3px 0 0;
+      cursor: pointer;
+      padding: 10px 12px;
+      cursor: pointer;
+      &:before{
+        display: none;
+      }
+      &:hover{
+        background-color: $white;
+      }
+      strong, h6, .utils{
+        display: inline-block;
+      }
+      .interview-title{
+        @include clearfix;
+        margin-bottom: 10px;
+      }
+      .date{
+        text-align: center;
+        line-height: 1;
+        font-size: rem-calc(18px);
+        float: left;
+        width: 24px;
+        margin-right: 5px;
+        color: $midnight-blue;
+        font-weight: normal;
+        span{
+          display: block;
+          font-family: $header-font-family;
+          &.mo{
+            font-size: 40%;
+          }
+        }
+      }
+      h5{
+        color: $midnight-blue;
+        line-height: 1.5;
+        float: left;
+        margin: 0;
+
+        .name{
+          color: $black-55;
+          font-size: 14px;
+          span{
+            color: rgba(0,0,0,.35);
+          }
+        }
+      }
+      .utils{
+        button:not(.button){
+          position: relative;
+          overflow: hidden;
+          white-space: nowrap;
+          padding: 8px;
+          text-indent: 40px;
+          max-width: 28px;
+          border-radius: 3px;
+          border: 1px solid $midnight-blue;
+          color: $midnight-blue;
+          transition: all .2s ease;
+          text-align: left;
+          opacity: .5;
+          .fa{
+            position: absolute;
+            left: 0px;
+            width: 100%;
+            text-align: center;
+            text-indent: 0;
+          }
+          &.feedback{
+            border-color: $warning-color;
+            color: $warning-color;
+          }
+          &.delete{
+            border-color: $alert-color;
+            color: $alert-color;
+          }
+          &:hover,
+          &.active{
+            opacity: 1;
+          }
+          &:focus{
+            outline: none;
+          }
+          &.active{
+            opacity: 1;
+          }
+        }
+        span.rating{
+          position: absolute;
+          background-color: #fff;
+          right: 10px;
+          top:10px;
+          padding: 5px 8px;
+          border-radius: 2px;
+          font-size: 11px;
+          font-family: $header-font-family;
+          color: $midnight-blue;
+          display: inline-block;
+          border: 1px solid $slate-blue;
+        }
+      }
+    }
+    &.is-editing{
+      border-color: $primary-color;
+       box-shadow: 0 0 12px 2px rgba(76,157,230,.2);
+      .accordion-content .actions{
+        margin-top: 10px;
+        height: 97px;
+      }
+    }
+  }
+  div.accordion-content{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    background-color: $cloud-blue;
+    .actions{
+      transition: height .25s ease;
+      height: 0px;
+      overflow: hidden;
+      .button.success{
+        margin-bottom: 0;
+      }
+    }
+    >.feedback-message{
+      max-width: 420px;
+      margin: 0 auto;
+    }
+  }
+  footer.accordion-footer{
+    padding: 6px 8px 8px 8px;
+    ul{
+      line-height: 1;
+      li{
+        display: inline-block;
+        font-size: rem-calc(12px);
+        line-height: 1;
+        color: lighten($midnight-blue, 10%);
+      }
+    }
+    a{
+      font-size: 12px;
+      display: inline-block;
+      @include overflow-bg();
+    }
+  }
+}
+div.accordion-content .ac-form,
+ul.collab-list{
+  li{
+    margin-bottom: 25px;
+    h6{
+      font-size: 14px;
+      color: lighten($midnight-blue, 5%);
+    }
+    p{
+      font-size: 14px;
+    }
+  }
+}
+
+// ////////////////////////////////////////////
+// loaders
+// ////////////////////////////////////////////
+.pulse-loader,
+.pulse-loader:after,
+.pulse-loader:before,
+.bubble-loader,
+.bubble-loader ul{
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top:0;
+  bottom:0;
+}
+.pulse-loader{
+  background-color: rgba(0,0,0,.7);
+  &:after,
+  &:before{
+    content: "";
+    margin: auto;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(255,255,255,.5);
+    border-radius: 200px;
+    animation: bounce 1s infinite ease-in-out;
+  }
+  &:after{
+    animation-delay: -.7s;
+  }
+}
+
+.bubble-loader{
+  z-index: 10;
+  background: rgba(255,255,255,.9);
+  $size: 10px;
+  ul{
+    list-style-type: none;
+    margin:0;
+    margin: auto;
+    display: inline-block;
+    width: 66px;
+    height: $size*2;
+    li{
+      display: inline-block;
+      background-color: rgba(0,0,0,.4);
+      width: $size;
+      height: $size;
+      margin: 0 6px;
+      border-radius: 50%;
+      @for $i from 1 through 3{
+        &:nth-child(#{$i}){
+          animation: bounce 1.2s infinite ease-in-out ($i * .28s);
+        }
+      }
+    }
+  }
+}
+
+// ////////////////////////////////////////////
+// Animations
+// ////////////////////////////////////////////
+@keyframes bounce {
+  0%, 100% { transform: scale(0) }
+  50% { transform: scale(1.5) }
+}
+@keyframes bob{
+  from{
+    transform: translateY(0px);
+  }
+  to{
+    transform: translateY(15px);
+  }
+}
+@keyframes fade_in{
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+}
+
+@keyframes noti_slide_in{
+  0%{
+    right: -142px;
+  }
+  25%{
+   right: 0;
+  }
+  80%{
+   right: 0;
+  }
+  100%{
+    right: -142px;
+  }
+}
+
+@keyframes noti_slide_down{
+  0%{
+    top: -62px;
+  }
+  25%{
+   top: 0;
+  }
+  80%{
+   top: 0;
+  }
+  100%{
+    top: -62px;
+  }
+}
+@keyframes slide_in{
+  from{
+    transform: translateY(-70px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes twinkle{
+  from{
+    transform: scale(1);
+    opacity: 1;
+  }
+  to{
+    transform: scale(.5);
+    opacity: .5;
+  }
+}
+
+// ////////////////////////////////////////////
+// angular related
+// ////////////////////////////////////////////
+.ng-hide.ng-hide-animate{
+  display: none !important;
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+// all of rzslider is GINGER-MOD
+rzslider .rz-pointer{
+  background-color: #4C9DE6;
+  &.rz-active:after{
+    background-color: #ffffff;
+  }
+}
+
+// GINGER-MOD
+.accordion-item {
+  animation: fade_in .2s ease-in;
+}
+
+// GINGER-MOD
+button.button.secondary.small.acc-top,
+button.button.success.small.acc-top {
+  margin-top: 3px;
+}
+
+.use-foundation-table{
+  @include foundation-table($nest: true);
+}
+
+#intercom-container{
+  .intercom-messenger-frame{
+    bottom: 175px!important;
+    height: calc(100% - 175px - 20px)!important;
+  }
+  iframe.intercom-launcher-frame,iframe.intercom-launcher-discovery-frame{
+    bottom: 100px!important;
+  }
+}

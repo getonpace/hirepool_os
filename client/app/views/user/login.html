@@ -1,0 +1,58 @@
+<div ng-controller="UserSignInCtrl" id="UserLoginPage">
+  <div class="row login">
+    <div class="medium-6 medium-centered columns">
+      <img class="mascot" src="images/nar.svg" alt="narwhal">
+      <img class="logo" src="images/logo.svg" alt="hirepool logo">
+    </div>
+  </div>
+  <div class="row login login-container">
+    <div class="medium-6 medium-centered columns email-login-container">
+      <form name="signInForm" id="login_page_email_login_form" ng-submit="submitSignIn(signIn)" role="form" novalidate>
+        <div class="ac-form" ng-class="{error: email_invalid || email_req}">
+          <input ng-change="hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="email" placeholder="{{'login.email-placeholder'|translate}}" name="email" id="email" ng-model="signIn.email" autocapitalize="off" required focus-if/>
+          <i class="fa fa-envelope"></i>
+          <span ng-show="email_invalid" class='error-message'>{{'login.error.invalid-email'|translate}}</span>
+          <span ng-show="email_req" class='error-message'>{{'login.error.no-email'|translate}}</span>
+        </div>
+        <div class="ac-form" ng-class="{error: password_req || creds_invalid}">
+          <input ng-change="hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="password" placeholder="{{'login.password-placeholder'|translate}}" name="password" id="password" ng-model="signIn.password" required/>
+          <i class="fa fa-lock"></i>
+          <span ng-show="password_req" class='error-message'>{{'login.error.invalid-password'|translate}}</span>
+          <span ng-show="creds_invalid" class='error-message'>Username or password is wrong. <a href="#/forgot_password" id="sign_in_page_goto_forgot_password_page_link">Forgot password? Reset it.</a></span>
+        </div>
+        <button type="submit" ng-hide='tryingToSubmit' class='button large expanded' id="sign_in_page_email_submit_button">Next</button>
+        <button type="submit" ng-show='tryingToSubmit' class='button large expanded' disabled>{{'login.trying_to_submit'|translate}}</button>
+      </form>
+    </div>
+  </div>
+  <div class="row login login-container">
+    <div class="medium-6 medium-centered columns horizontal-separator">
+      <p><span>OR</span></p>
+    </div>
+    </div>
+    <div class="row login login-container">
+    <div class="medium-6 medium-centered columns social-login-container">
+      <div ng-hide="showExpandedSocialButtons">
+        <button class="button secondary expanded" ng-click="showExpandedSocialButtons = true">Login with social</button>
+        <div class="ac-form social-logins">
+          <a ng-click="authenticate('facebook')" id="sign_in_page_facebook_mini_login_button"><i class="fa fa-facebook-official"></i></a>
+          <a ng-click="authenticate('github')" id="sign_in_page_github_mini_login_button"><i class="fa fa-github-square"></i></a>
+          <a ng-click="authenticate('google')" id="sign_in_page_google_mini_login_button"><i class="fa fa-google"></i></a>
+          <a ng-click="authenticate('linkedin')" id="sign_in_page_linkedin_mini_login_button"><i class="fa fa-linkedin-square"></i></a>
+          <!-- <a ng-click="authenticate('twitter')">{{'login.twitter'|translate}}</a> -->
+        </div>
+      </div>
+      <div ng-show=showExpandedSocialButtons>
+        <button class="button expanded social-login social-gmail" id="gmail_login" ng-click="authenticate('google')" id="sign_in_page_google_big_login_button">Login with Gmail <i class="fa fa-google"></i></button>
+        <button class="button expanded social-login social-facebook" id="facebook_login" ng-click="authenticate('facebook')" id="sign_in_page_facebook_big_login_button">Login with Facebook <i class="fa fa-facebook"></i></button>
+        <button class="button expanded social-login social-github" id="github_login" ng-click="authenticate('github')" id="sign_in_page_github_big_login_button">Login with GitHub <i class="fa fa-github"></i></button>
+        <button class="button expanded social-login social-linkedin" id="linkedin_login" ng-click="authenticate('linkedin')" id="sign_in_page_linkedin_big_login_button">Login with LinkedIn <i class="fa fa-linkedin"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="row login">
+    <div class="medium-6 medium-centered columns">
+      <p class="small">By signing up you agree to hirepool's <a href="#/user_agreement" target="_blank">Terms of Service</a> and <a href="#/privacy" target="_blank">Privacy Policy</a>.</p>
+    </div>
+  </div>
+</div>

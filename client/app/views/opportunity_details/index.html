@@ -1,0 +1,69 @@
+<div class="row opp-details-container" ng-controller="OpportunityDetailsIndexCtrl">
+
+  <div class="columns medium-8 activity">
+    <div class="opp-details" ng-show="opportunity">
+      <div class="logo-chip">
+        <table>
+          <tr>
+             <td>
+              <img ng-src="https://logo.clearbit.com/{{opportunity.company.domain}}?size=200" on-error-src="images/company-placeholder.jpg" alt="">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <header class="details">
+        <div class="title-container">
+          <h3>{{opportunity.job_title}}</h3>
+          <button id="opportunity_details_page_open_guide_button" class="button secondary tiny" ng-click="setupAndTrackGuideModal()" data-modal-trigger data-modal="guide-modal" hp-event-recorder="{action: 'open-modal', modal: 'guide-v1', page: 'opportunity-details', interviews: [{{opportunity.id}}]}" title="{{'opportunity-card.guide'|translate}}"><i class="fa fa-book"> </i></button>
+          <button id="opportunity_details_page_edit_opportunity_button" class="button secondary tiny" ng-click="setCurrentOpportunity()" data-modal-trigger data-modal="edit-opportunity-modal" hp-event-recorder="{action: 'open-modal', modal: 'edit-opportunity', page: 'opportunity-details', interviews: [{{opportunity.id}}]}" title="{{'opportunity-card.edit_opportunity'|translate}}"><i class="fa fa-pencil"> </i></button>
+        </div>
+        <h6>
+          <div>{{opportunity.company.name}}{{opportunity.location ? ', '+opportunity.location : ''}}</div>
+          <div>{{'opportunity_index.status'|translate}} {{getStatus()}}<span ng-show="showAppliedOn()"> on {{getAppliedOnDate()}}</span><button id="opportunity_details_page_unarchive_opportunity_button" class="button tiny hollow secondary" ng-show="opportunity.archived" ng-click="unarchiveOpportunity()" hp-event-recorder="{action: 'unarchive-opportunity', page: 'opportunity-details', interviews: [{{opportunity.id}}]}" title="Unarchive Opportunity"><i ng-hide="view.updatingArchived" class="fa fa-archive"> </i><i ng-show="view.updatingArchived" class="fa fa-spinner"> </i></button><button id="opportunity_details_page_archive_opportunity_button" class="button tiny hollow secondary" ng-show="!opportunity.archived" ng-click="archiveOpportunity()" hp-event-recorder="{action: 'archive-opportunity', page: 'opportunity-details', interviews: [{{opportunity.id}}]}" title="Archive Opportunity"><i ng-hide="view.updatingArchived" class="fa fa-archive"> </i><i ng-show="view.updatingArchived" class="fa fa-spinner"> </i></button></div>
+          <div>{{'opportunity_index.source'|translate}} {{opportunity.source}}<span ng-show="opportunity.referrer_name || opportunity.referrer_email"> from </span><span ng-show="opportunity.referrer_name">{{opportunity.referrer_name}}</span><span ng-show="opportunity.referrer_name && opportunity.referrer_email"> (<a href="mailto:{{opportunity.referrer_email}}">{{opportunity.referrer_email}}</a>)</span><span ng-show="!opportunity.referrer_name && opportunity.referrer_email"> <a href="mailto:{{opportunity.referrer_email}}">{{opportunity.referrer_email}}</a></span></div>
+          <div ng-show="opportunity.job_url">{{'opportunity_index.job_posting'|translate}} <a href="{{opportunity.job_url}}" target="_blank">{{opportunity.job_url}}</a></div>
+          <div ng-if="opportunity.offer">{{getStatusString()}} <span class="green">{{opportunity.offer.base_salary | currency:"$":0}}</span> {{'opportunity_index.base'|translate}}<span ng-if="opportunity.offer.expiration_date">, {{'opportunity_index.expiration-date'|translate}} {{getOfferExpiration(opportunity.offer.expiration_date)}}</span></div>
+        </h6>
+      </header><!-- //header -->
+    </div><!-- //opp-details -->
+    <header class='section-head'>
+      <h6>{{'opportunity_index.event_activity'|translate}} <span>({{opportunity.events.length}})</span></h6>
+      <button class="button secondary tiny" ng-click="openingAddOfferModal()" title="Add-Edit Offer" data-modal-trigger data-modal="offer-modal"><i class="fa fa-usd"> </i> <span>{{opportunity.offer ? 'opportunity_index.edit-offer' : 'opportunity_index.add-offer' |translate}}</span></button>
+      <button class="button tiny" ng-click="openAddEventFodal()" title="{{'opportunity_index.add_event'|translate}}"><fa class="fa fa-plus"></fa> <span>{{'opportunity_index.add_event'|translate}}</span></button>
+    </header>
+    <div class="notification-box text-center" ng-hide="waitingForOpportunity || opportunity.events.length > 0">
+      <p>{{'opportunity_index.activity-placeholder'|translate}}</p>
+      <button class="button expanded" ng-click="openAddEventFodal()">{{'opportunity_index.add_event'|translate}}</button>
+    </div>
+    <ul class="activity-feed">
+      <li class="event-container" id="event_container_{{event.id}}" ng-repeat="event in opportunity.events" ng-controller="OpportunityDetailsEventCtrl as vm" ng-include="'views/opportunity_details/event.html'"></li>
+    </ul>
+  </div><!-- //main left-colum -->
+
+  <aside class="columns medium-4">
+    <ng-include src="'views/opportunity_details/notes.html'"></ng-include>
+    <div class="collab accordion" data-accordion data-allow-all-closed="true">
+      <div id="opp_collab_accordion" class="accordion-item is-active" data-accordion-item>
+        <a class="accordion-title" ng-click="setCollabAccordionOpen()">
+          <header class="section-head">
+            <h6><span id="opp_collab_ftu_target" class="fa" ng-class="{'fa-caret-down': collabAccordionOpen, 'fa-caret-right': collabAccordionClosed}"></span> {{'opportunity_index.collaborators'|translate}} <span class="fa fa-question data-tooltip has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex=1 title="Collaborators are people you trust, and whose input you'd like on a company or role."></span></h6>
+            <button class="button float-right secondary tiny" ng-click="openAccordionModal($event)", title="Add Collaborator" data-modal-trigger data-modal="add-collaborator-modal" hp-event-recorder="{action: 'open-modal', modal: 'add-collaborator', page: 'opportunity-details', interviews: [{{opportunity.id}}]}"><i class="fa fa-plus"></i> <span>{{'opportunity_index.add-collaborator'|translate}}</span></button>
+          </header>
+        </a>
+        <div class="accordion-content" data-tab-content>
+          <ng-include src="'views/opportunity_details/first_collaborator.html'"></ng-include>
+          <ul class="collab-list no-bullet" ng-show="opportunity.collaborator_feedbacks.length > 0">
+            <li ng-repeat="collaborator in opportunity.collaborator_feedbacks track by $index">
+              <ng-include src="'views/opportunity_details/collaborator.html'" ng-controller="OpportunityDetailsCollaboratorCtrl"></ng-include>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </aside><!-- //right-colum -->
+
+</div>
+
+<script type="text/javascript">
+  $('.data-tooltip').foundation();
+</script>

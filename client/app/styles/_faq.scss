@@ -1,0 +1,33 @@
+.faq {
+  .faq-help{
+    p{
+      margin-bottom: 2em;
+    }
+    .button{
+      font-size: 1em;
+      margin-left: 1em;
+      margin-bottom: 4px;
+      padding: 0.4em 0.8em;
+      &.yes:hover, &.yes:focus{
+        background-color: $success-color;
+      }
+      &.no:hover, &.no:focus{
+        background-color: $alert-color;
+      }
+    }
+  }
+  .faq-contact-question-container{
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    img{
+      max-width: 2em;
+      font-size: 1em;
+      margin-top: 0;
+    }
+    span{
+      width: calc(100% - 50px);
+      margin-left: 10px;
+    }
+  }
+}

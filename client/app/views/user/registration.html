@@ -1,0 +1,78 @@
+<div ng-controller="UserRegistrationsCtrl as vm" id="UserRegistrationPage">
+  <div class="row login">
+    <div class="medium-6 medium-centered columns">
+      <img class="mascot" src="images/nar.svg" alt="narwhal">
+      <img class="logo" src="images/logo.svg" alt="hirepool logo">
+    </div>
+  </div>
+  <div class="row login one-column-registration-container" ng-show="vm.showOneColumn()">
+    <div class="medium-6 medium-centered columns">
+      <form name="reg_form_one_column" id="registration_page_email_version_email_registration_form" ng-submit="vm.submitRegistration()" role="form" novalidate>
+        <p>Register with the email you use for your job search.</p>
+        <div class="ac-form" ng-class="{error: vm.view.errors.name_req}">
+          <input ng-change="vm.hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="text" name="name" placeholder="{{'registration.name-placeholder'|translate}}" id="name" ng-model="vm.data.registration.name" required focus-if/>
+          <span ng-show="vm.view.errors.name_req" class='error-message'>{{'registration.error.no-name'|translate}}</span>
+        </div>
+        <div class="ac-form" ng-class="{error: vm.view.errors.email_taken || vm.view.errors.email_invalid || vm.view.errors.email_req || vm.view.errors.failed_submit_registration}">
+          <input ng-change="vm.hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="text" name="email" autocapitalize="off" placeholder="{{'registration.email-placeholder'|translate}}" id="email" ng-model="vm.data.registration.email" required/>
+          <i class="fa fa-envelope"></i>
+          <span ng-show="vm.view.errors.failed_submit_registration" class='error-message'>API ERROR: try again. <a href="mailto:support@hirepool.io">Email support@hirepool.io</a> if errors persist.</span>
+          <span ng-show="vm.view.errors.email_taken" class='error-message'>{{'registration.error.email-used'|translate}}</span>
+          <span ng-show="vm.view.errors.email_invalid" class='error-message'>{{'registration.error.invalid-email'|translate}}</span>
+          <span ng-show="vm.view.errors.email_req" class='error-message'>{{'registration.error.no-email'|translate}}</span>
+        </div>
+        <div class="ac-form password-field" ng-class="{error: vm.hasPwErrors()}">
+          <input ng-change="vm.hasPwErrors()" type="password" name="password" placeholder="{{'registration.password-placeholder'|translate}}" id="password" ng-model="vm.data.registration.password" required/>
+          <i class="fa fa-lock"></i>
+          <span class="error-message error-ok">Your password must contain <span ng-class="{'pw-good': vm.view.passwordErrors.pwIsLongEnough && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwIsLongEnough && vm.view.passwordErrors.showPwError }">at least 8 characters</span>, one of which being <span ng-class="{'pw-good': vm.view.passwordErrors.pwHasLowercase && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwHasLowercase && vm.view.passwordErrors.showPwError }">a lower case letter</span>, one <span ng-class="{'pw-good': vm.view.passwordErrors.pwHasUppercase && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwHasUppercase && vm.view.passwordErrors.showPwError }">an upper case letter</span>, and one <span ng-class="{'pw-good': vm.view.passwordErrors.pwHasDigit && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwHasDigit && vm.view.passwordErrors.showPwError }">a digit (0-9)</span>.</span>
+        </div>
+        <button ng-hide="vm.view.tryingToSubmit" class="button large expanded submit-registration" id="sign_up_page_email_only_email_submit_button">Next</button>
+        <button ng-show="vm.view.tryingToSubmit" class="button large expanded submit-registration" disabled>{{'registration.trying_to_submit'|translate}}</button>
+      </form>
+    </div>
+  </div>
+  <div class="row login two-column-registration-container" ng-show="vm.showTwoColumn()">
+    <div class="medium-10 medium-centered columns">
+      <div class="medium-6 columns email-login-container">
+      <form name="reg_form_two_column" id="registration_page_social_version_email_registration_form" ng-submit="vm.submitRegistration()" role="form" novalidate>
+          <p class="registration-reminder-text">Register with the email you use for your job search.</p>
+          <div class="ac-form" ng-class="{error: vm.view.errors.name_req}">
+            <input ng-change="vm.hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="text" name="name" placeholder="{{'registration.name-placeholder'|translate}}" id="name" ng-model="vm.data.registration.name" required focus-if/>
+            <span ng-show="vm.view.errors.name_req" class='error-message'>{{'registration.error.no-name'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.email_taken || vm.view.errors.email_invalid || vm.view.errors.email_req || vm.view.errors.failed_submit_registration}">
+            <input ng-change="vm.hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="text" name="email" autocapitalize="off" placeholder="{{'registration.email-placeholder'|translate}}" id="email" ng-model="vm.data.registration.email" required/>
+            <i class="fa fa-envelope"></i>
+            <span ng-show="vm.view.errors.failed_submit_registration" class='error-message'>API ERROR: try again. <a href="mailto:support@hirepool.io">Email support@hirepool.io</a> if errors persist.</span>
+            <span ng-show="vm.view.errors.email_taken" class='error-message'>{{'registration.error.email-used'|translate}}</span>
+            <span ng-show="vm.view.errors.email_invalid" class='error-message'>{{'registration.error.invalid-email'|translate}}</span>
+            <span ng-show="vm.view.errors.email_req" class='error-message'>{{'registration.error.no-email'|translate}}</span>
+          </div>
+          <div class="ac-form password-field" ng-class="{error: vm.hasPwErrors()}">
+            <input ng-change="vm.hasPwErrors()" type="password" name="password" placeholder="{{'registration.password-placeholder'|translate}}" id="password" ng-model="vm.data.registration.password" required/>
+            <i class="fa fa-lock"></i>
+            <span class="error-message error-ok">Your password must contain <span ng-class="{'pw-good': vm.view.passwordErrors.pwIsLongEnough && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwIsLongEnough && vm.view.passwordErrors.showPwError }">at least 8 characters</span>, one of which being <span ng-class="{'pw-good': vm.view.passwordErrors.pwHasLowercase && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwHasLowercase && vm.view.passwordErrors.showPwError }">a lower case letter</span>, one <span ng-class="{'pw-good': vm.view.passwordErrors.pwHasUppercase && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwHasUppercase && vm.view.passwordErrors.showPwError }">an upper case letter</span>, and one <span ng-class="{'pw-good': vm.view.passwordErrors.pwHasDigit && vm.view.passwordErrors.showPwError, 'pw-bad': !vm.view.passwordErrors.pwHasDigit && vm.view.passwordErrors.showPwError }">a digit (0-9)</span>.</span>
+          </div>
+          <button ng-hide="vm.view.tryingToSubmit" class="button large expanded submit-registration" id="sign_up_page_social_email_submit_button">Next</button>
+          <button ng-show="vm.view.tryingToSubmit" class="button large expanded submit-registration" disabled>{{'registration.trying_to_submit'|translate}}</button>
+        </form>
+      </div>
+      <div class="medium-6 medium-centered columns horizontal-separator">
+        <p><span>OR</span></p>
+      </div>
+      <div class="medium-6 columns social-login-container">
+        <p class="registration-reminder-text"><span ng-show="vm.showSocialLogin() || vm.showProfessionalLogin()">Or do you use another service for your job search?</span><span ng-hide="vm.showSocialLogin() || vm.showProfessionalLogin()">Or register via your Gmail account.</span></p>
+        <button class="button expanded social-login social-gmail" id="sign_up_page_social_google_submit_button" ng-click="vm.doOauth('google')">Sign up with Gmail <i class="fa fa-google"></i></button>
+        <button class="button expanded social-login social-facebook" id="sign_up_page_social_facebook_submit_button" ng-show="vm.showSocialLogin()" ng-click="vm.doOauth('facebook')">Sign up with Facebook <i class="fa fa-facebook"></i></button>
+        <button class="button expanded social-login social-github" id="sign_up_page_social_github_submit_button" ng-show="vm.showProfessionalLogin()" ng-click="vm.doOauth('github')">Sign up with GitHub <i class="fa fa-github"></i></button>
+        <button class="button expanded social-login social-linkedin" id="sign_up_page_social_linkedin_submit_button" ng-show="vm.showSocialLogin() || vm.showProfessionalLogin()" ng-click="vm.doOauth('linkedin')">Sign up with LinkedIn <i class="fa fa-linkedin"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="row login">
+    <div class="medium-6 medium-centered columns">
+      <p class="small">By signing up you agree to hirepool's <a href="#/user_agreement" target="_blank">Terms of Service</a> and <a href="#/privacy" target="_blank">Privacy Policy</a>.</p>
+      <p class="small"><a href="#/sign_in" id="sign_up_page_goto_signin_page_link">Already have an account? Login.</a></p>
+    </div>
+  </div>
+</div>

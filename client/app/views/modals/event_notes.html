@@ -1,0 +1,19 @@
+<div class="modal" id="event-notes-modal" ng-controller="ModalsEventNotesCtrl as vm">
+  <div class="modal-dialog">
+    <header>
+      <h4>Notes for {{vm.getEventStyle(vm.data.event.style, vm.data.event.substyle)}} on {{vm.getEventDate(vm.data.event.date)}}</h4>
+      <h5>{{vm.data.opportunity.job_title}} at {{vm.data.opportunity.company.name}}</h5>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <hp-notes-editor notes="vm.data.event.notes" opportunity-id="vm.data.event.interview_id" event-id="vm.data.event.id"></hp-notes-editor>
+    </section>
+    <section ng-repeat="interviewer in vm.data.interviewers">
+      <div class="participant-title">
+        <h5>{{$index + 1}}. <span ng-show="interviewer.is_poc" class="poc">POC: </span>{{interviewer.name}}</h5>
+        <h6 ng-show="interviewer.email || interviewer.relationship">{{interviewer.relationship}}<span ng-show="interviewer.relationship && interviewer.email"> - </span>{{interviewer.email}}</h6>
+      </div>
+      <hp-notes-editor notes="interviewer.notes" opportunity-id="vm.data.event.interview_id" event-id="vm.data.event.id" interviewer-id="interviewer.id"></hp-notes-editor>
+    </section>
+  </div>
+</div>

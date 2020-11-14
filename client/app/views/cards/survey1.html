@@ -1,0 +1,144 @@
+<div ng-controller="CardsSurvey1Ctrl">
+  <!-- Cards -->
+  <div class="progress"></div>
+  <div class="card-container">
+    <ul class="card-steps no-bullet">
+
+      <!-- card  -->
+      <li class="card-step card-active" id="welcome">
+        <h2>{{'survey.welcome'|translate:{ name: user.name||user.email } }}</h2>
+        <div class="card-content">
+          <img src="images/nar.svg" alt="">
+          <p class="intro-p">{{'survey.intro'|translate}}</p>
+        </div>
+        <footer>
+          <button class="button large" ng-click="nextButtonHandler($event)">{{'survey.start'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="goals">
+        <h2>{{question1.title}}</h2>
+        <div class="subtitle">{{question1.subtitle}}</div>
+        <div class="card-content">
+          <form action="">
+            <input type="checkbox" id="goals-{{answer.id}}"" name="goals" ng-repeat-start="answer in question1.possible_answers" ng-model="answer.value" ng-change="questionCheckChanged(answer, question1)"/>
+            <label ng-repeat-end for="goals-{{answer.id}}">{{answer.answer}}</label>
+          </form>
+        </div>
+        <footer>
+          <button ng-disabled="question1.checked < 1" class="button large" ng-click="nextButtonHandler($event)">{{'survey.next'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="location">
+        <h2>{{question3.title}}</h2>
+        <div class="subtitle">{{question3.subtitle}}</div>
+        <div class="card-content">
+          <form class="ac-form" id="locationField">
+            <div class="search">
+              <location-auto-complete ng-model="question3.answer" location-init-val="{{question3.answer}}" location-title-label="Search location" location-div-class="search search-md"></location-auto-complete>
+            </div>
+          </form>
+          <a href="" class="button hollow expanded" ng-hide="question3.locating" ng-click="getCurrLocation()"><i class="fa fa-map-marker"></i> {{'survey.question3.current-location'|translate}}</a>
+          <a href="" class="button hollow expanded" ng-show="question3.locating"><i class="fa fa-map-marker"></i> Locating...</a>
+        </div>
+        <footer>
+          <button ng-disabled="!question3.answer || question3.answer.length < 4" class="button large" ng-click="nextButtonHandler($event)">{{'survey.next'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="travel-time">
+        <h2>{{question4.title}}</h2>
+        <div class="subtitle">{{question4.subtitle}}</div>
+        <div class="card-content">
+          <form action="">
+            <input type="radio" id="travel-time-{{answer.id}}" name="travel-time" ng-repeat-start="answer in question4.possible_answers" ng-model="question4.answer" ng-value="answer.answer_desc"/>
+            <label ng-repeat-end for="travel-time-{{answer.id}}">{{answer.answer}}</label>
+          </form>
+        </div>
+        <footer>
+          <button ng-disabled="!question4.answer.length" class="button large" ng-click="nextButtonHandler($event)">{{'survey.next'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="roles">
+        <h2>{{question5.title}}</h2>
+        <div class="subtitle">{{question5.subtitle}}</div>
+        <div class="card-content">
+          <form class="ac-form" id="rolesField">
+            <hp-autocomplete
+              ng-model="question5"
+              suggestions="getOpportunityRoleAutoCompleteOptions"
+              value-key="role"
+              placeholder="Start typing a field of work"
+              uid="onboarding_survey_field"
+              input-name="onboarding_survey_field"
+              update-entire-model="false"
+            ></hp-autocomplete>
+          </form>
+        </div>
+        <footer>
+          <button ng-disabled="!question5.role.length" class="button large" ng-click="nextButtonHandler($event)">{{'survey.next'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="offer-choice">
+        <h2>{{question6.title}}</h2>
+        <div class="subtitle">{{question6.subtitle}}</div>
+        <div class="card-content">
+          <div class="ac-form">
+            <input type="checkbox" id="offer-choice-{{answer.id}}" name="offer-choice" ng-repeat-start="answer in question6.possible_answers" ng-model="answer.value" ng-change="questionCheckChanged(answer, question6)"/>
+            <label ng-repeat-end for="offer-choice-{{answer.id}}">{{answer.answer}}</label>
+          </div>
+        </div>
+        <footer>
+          <button ng-disabled="question6.checked < 1" class="button large" ng-click="nextButtonHandler($event)">{{'survey.next'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="offer-accept">
+        <h2>{{question7.title}}</h2>
+        <div class="subtitle">{{question7.subtitle}}</div>
+        <div class="card-content">
+          <div class="ac-form">
+            <input type="radio" id="offer-accept-{{answer.id}}" name="offer-accept" ng-repeat-start="answer in question7.possible_answers" ng-model="question7.answer" ng-value="answer.answer_desc"/>
+            <label ng-repeat-end for="offer-accept-{{answer.id}}">{{answer.answer}}</label>
+          </div>
+        </div>
+        <footer>
+          <button ng-disabled="!question7.answer.length" class="button large" ng-click="nextButtonHandler($event)">{{'survey.next'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="offer-decision">
+        <h2>{{question8.title}}</h2>
+        <div class="subtitle">{{question8.subtitle}}</div>
+        <div class="card-content">
+          <div class="ac-form">
+            <input type="checkbox" id="offer-decision-{{answer.id}}" name="offer-decision" ng-repeat-start="answer in question8.possible_answers" ng-model="answer.value" ng-change="questionCheckChanged(answer, question8)"/>
+            <label ng-repeat-end for="offer-decision-{{answer.id}}">{{answer.answer}}</label>
+          </div>
+        </div>
+        <footer>
+          <button ng-disabled="question8.count < 1" ng-click="submitSurvey1($event)" class="button large">{{'survey.finish'|translate}}</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="location">
+        <h2>{{'survey.saving'|translate}}</h2>
+        <div class="card-content">
+          <h6 class="text-center">{{'survey.saving.title'|translate}}</h6>
+          <img class="nar-loader" src="images/nar-swimming.gif" alt="Narhwal Loader">
+        </div>
+      </li>
+    </ul>
+  </div> <!-- //card container -->
+</div>

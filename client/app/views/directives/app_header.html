@@ -1,0 +1,81 @@
+<div class="top-bar hp-header" ng-style="RouteData.get('display')" ng-cloak>
+  <div class="header-left" ng-class="{ 'logged-in-user': vm.userIsLoggedIn(), 'admin-user': vm.userIsAdmin(), 'show-add-event': vm.showAddEvent() }" ng-cloak>
+    <button class="hide-on-desktop opportunities-index-ftu-target-toggle-view" alt="navigation" type="button" data-nav-toggle hp-event-recorder="{action: 'toggle-mobile-menu', page: 'mobile-menu'}">
+      <span></span>
+    </button>
+    <ul ng-show="vm.showAddNew()" class="dropdown menu utility add-new-dropdown hide-on-mobile" data-dropdown-menu data-click-open="true" data-disable-hover="true">
+      <li class="is-dropdown-submenu-parent">
+        <button class="button small hollow app-header-add-new-button app-header-add-opportunities" hp-event-recorder="{action: 'toggle-add-new-menu', page: 'top-menu'}" ng-cloak><i class="fa fa-plus"></i> Add New</button>
+        <ul class="menu">
+          <li><a ng-click="vm.resetAddEventFodal()" data-modal-trigger data-modal="add-event-and-opportunity-fodal" hp-event-recorder="{action: 'open-modal', modal: 'add-event-and-opportunity', page: 'top-menu'}"><i class="fa fa-microphone"></i> Add Event</a></li>
+          <li><a data-modal-trigger data-modal="add-opportunity-modal" hp-event-recorder="{action: 'open-modal', modal: 'add-opportunity', page: 'top-menu'}"><i class="fa fa-plus"></i> Add Opportunity</a></li>
+          <li ng-if="vm.showUploadOpportunities()" class="submenu-item-border"><a data-modal-trigger data-modal="add-opportunites-fodal" hp-event-recorder="{action: 'open-modal', modal: 'add-desktop-opportunities', page: 'top-menu'}"><i class="fa fa-upload"></i> {{'opportunities.csv'|translate}}</a></li>
+        </ul>
+      </li>
+    </ul>
+    <a href="#/" class="hide-on-mobile my-opportunities-header-link" ng-if="vm.showBackToMyOpportunities()" hp-event-recorder="{action: 'back-to-opportunities', page: 'top-menu'}" ng-cloak><i class="fa fa-angle-left"></i> My Opportunities</a>
+  </div>
+  <div class="header-center" ng-class="{ 'logged-in-user': vm.userIsLoggedIn(), 'admin-user': vm.userIsAdmin() }" hp-event-recorder="{action: 'useless-header-click', page: 'top-menu'}" ng-cloak>
+    <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1063.89 387.96"><defs><style>.svg-cls-1{fill:#fff;fill-rule:evenodd;}</style></defs><title>svg-hirepool-logo</title><g><path class="svg-cls-1" d="M937.76,134.86a61,61,0,1,0,61.06,61A61.15,61.15,0,0,0,937.76,134.86Zm0,143.48a82.52,82.52,0,1,1,82.64-82.52A82.59,82.59,0,0,1,937.76,278.35ZM758.91,134.86a61,61,0,1,0,61.06,61A61.15,61.15,0,0,0,758.91,134.86Zm0,143.48a82.52,82.52,0,1,1,82.64-82.52A82.59,82.59,0,0,1,758.91,278.35Zm-187.8-21.86c-31.15,0-56.12-23.4-62.29-53.58V192.44c0-.92,1.54-1.54,1.23-2.16,2.78-31.1,29.6-55.73,61.67-55.73a60.89,60.89,0,0,1,60.75,61C632.47,229.08,604.72,256.48,571.11,256.48ZM572.65,113c-45.64,0-84.19,36.95-84.19,82.52,0,3.08-.93,6.16-.93,9.24V377.18a10.79,10.79,0,0,0,21.59,0V251.56A86.44,86.44,0,0,0,571.42,278c45.64,0,83.57-36.95,83.57-82.52A82.32,82.32,0,0,0,572.65,113ZM446.22,209.37A10.48,10.48,0,0,0,433,216.76a55.36,55.36,0,0,1-30.22,35.1c-26.52,12.62-59.21,2.46-74-22.78-8-14.16-10.18-30.17-5.24-45.57a57.64,57.64,0,0,1,101.45-16.63l-54,25.25a10.88,10.88,0,1,0,9.25,19.71l58-27.4a16.87,16.87,0,0,0,9.25-10.78,18.26,18.26,0,0,0-1.85-14.47,78.75,78.75,0,1,0-33.92,112.39,77.91,77.91,0,0,0,41.63-48.65A10.84,10.84,0,0,0,446.22,209.37ZM1053.09,0a10.92,10.92,0,0,0-10.79,10.78V272.5a10.79,10.79,0,0,0,21.59,0V10.78A10.92,10.92,0,0,0,1053.09,0ZM189.65,104.69a10.92,10.92,0,0,0-10.79,10.78v157a10.79,10.79,0,0,0,21.59,0v-157A10.92,10.92,0,0,0,189.65,104.69ZM72.47,98.22c-19.74,0-35.46,8-50.88,20.94V10.78A10.92,10.92,0,0,0,10.79,0,10.92,10.92,0,0,0,0,10.78V272.5a10.92,10.92,0,0,0,10.79,10.78A10.92,10.92,0,0,0,21.59,272.5V170.89a51,51,0,0,1,50.88-51.11c28.06,0,50.88,22.78,50.88,50.5V272.5a10.79,10.79,0,0,0,21.59,0V170.27C144.94,130.55,112.56,98.22,72.47,98.22Zm232.82,0c-40.09,0-74,32.64-74,72.67V272.5a10.79,10.79,0,0,0,21.59,0V170.89c0-28.33,24.36-51.11,52.42-51.11a10.78,10.78,0,1,0,0-21.55Z"/></g></g></svg>
+  </div>
+  <div class="header-right" ng-class="{ 'logged-in-user': vm.userIsLoggedIn(), 'admin-user': vm.userIsAdmin(), 'show-add-event': vm.showAddEvent() }" ng-cloak>
+    <a href="https://hirepool.blog?utm_medium=web_referral&utm_source=hirepool_app_page&utm_campaign=AUG8_HIREPOOL_APP_PAGE_HEADER_&placement=header" target="_blank" class="hide-on-mobile" hp-event-recorder="{action: 'goto-blog', page: 'top-menu'}">Blog</a>
+    <a href="#/help_library" target="_blank" class="hide-on-mobile" ng-class="{ 'active': vm.isActive('/help_library', true) }" hp-event-recorder="{action: 'goto-help-library', page: 'top-menu'}">Help</a>
+    <ul ng-show="vm.userIsLoggedIn()" class="dropdown menu utility settings-header-dropdown hide-on-mobile" data-menu-right data-dropdown-menu data-click-open="true" data-disable-hover="true">
+      <li class="is-dropdown-submenu-parent">
+        <a hp-event-recorder="{action: 'toggle-settings-dropdown', page: 'top-menu'}">Settings</a>
+        <ul class="menu">
+          <li><a href="#/user_agreement" ng-class="{ 'active': vm.isActive('/user_agreement') }" hp-event-recorder="{action: 'goto-user-agreement', page: 'top-menu'}"><i class="fa fa-file-text"></i> {{'index.user_agreement'|translate}}</a></li>
+          <li><a href="#/privacy_for_humans" ng-class="{ 'active': vm.isActive('/privacy_for_humans') }" hp-event-recorder="{action: 'goto-privacy_for_humans', page: 'top-menu'}"><i class="fa fa-users"></i> Privacy For People</a></li>
+          <li><a href="#/privacy" ng-class="{ 'active': vm.isActive('/privacy') }" hp-event-recorder="{action: 'goto-privacy', page: 'top-menu'}"><i class="fa fa-legal"></i> {{'index.privacy-policy'|translate}}</a></li>
+          <li><a ng-click="vm.logout()" hp-event-recorder="{action: 'logout', page: 'top-menu'}"><i class="fa fa-sign-out"></i> {{'index.logout'|translate}}</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul ng-show="vm.userIsAdmin()" class="dropdown menu utility admin-tools-header-dropdown hide-on-mobile" data-menu-right data-dropdown-menu data-click-open="true" data-disable-hover="true">
+      <li class="is-dropdown-submenu-parent">
+        <a hp-event-recorder="{action: 'toggle-admin-dropdown', page: 'top-menu'}">Admin Tools</a>
+        <ul class="menu">
+          <li><a href="#/admin/overview" ng-class="{ 'active': vm.isActive('/admin/overview') }" hp-event-recorder="{action: 'goto-admin-overview', page: 'top-menu'}"><i class="fa fa-info-circle"></i> {{'Admin Overview'|translate}}</a></li>
+          <li><a href="#/admin/activity_feed" ng-class="{ 'active': vm.isActive('/admin/activity_feed') }" hp-event-recorder="{action: 'goto-admin-activity-feed', page: 'top-menu'}"><i class="fa fa-align-justify"></i> {{'Activity Feed'|translate}}</a></li>
+          <li ng-if="vm.userIsHirepoolAdmin()"><a href="#/generate" hp-event-recorder="{action: 'goto-admin-generate', page: 'top-menu'}"><i class="fa fa-user-plus"></i> {{'Generate'|translate}}</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul ng-hide="vm.userIsLoggedIn()" class="dropdown menu utility logged-out-settings-header-dropdown hide-on-mobile" data-menu-right data-dropdown-menu data-click-open="true" data-disable-hover="true">
+      <li class="is-dropdown-submenu-parent">
+        <a hp-event-recorder="{action: 'toggle-logged-out-settings-dropdown', page: 'top-menu'}">Settings</a>
+        <ul class="menu">
+          <li><a href="#/user_agreement" ng-class="{ 'active': vm.isActive('/user_agreement') }" hp-event-recorder="{action: 'goto-user-agreement', page: 'top-menu'}"><i class="fa fa-file-text"></i> {{'index.user_agreement'|translate}}</a></li>
+          <li><a href="#/privacy_for_humans" ng-class="{ 'active': vm.isActive('/privacy_for_humans') }" hp-event-recorder="{action: 'goto-privacy_for_humans', page: 'top-menu'}"><i class="fa fa-users"></i> Privacy For People</a></li>
+          <li><a href="#/privacy" ng-class="{ 'active': vm.isActive('/privacy') }" hp-event-recorder="{action: 'goto-privacy', page: 'top-menu'}"><i class="fa fa-legal"></i> {{'index.privacy-policy'|translate}}</a></li>
+        </ul>
+      </li>
+    </ul>
+    <a href="#/sign_in" class="button small hollow hide-on-desktop" ng-show="!vm.userIsLoggedIn()">Login</a>
+    <button class="button small hollow hide-on-desktop add-opportunity-button app-header-add-opportunity-button" ng-show="vm.showAddNew()" data-modal-trigger data-modal="add-opportunity-modal" hp-event-recorder="{action: 'open-modal', modal: 'add-opportunity', page: 'mobile-menu'}"><i class="fa fa-plus"></i> <span class="desktop-content">Add Opportunity</span></button>
+    <a href="#/" class="button small hollow hide-on-desktop my-opportunities-header-link" ng-show="vm.showBackToMyOpportunities()" hp-event-recorder="{action: 'back-to-opportunities', page: 'mobile-menu'}"><i class="fa fa-angle-left"></i> <span class="desktop-content">My Opportunities</span><span class="mobile-content">Home</span></a>
+    <a href="#/sign_in" class="hide-on-mobile" ng-show="!vm.userIsLoggedIn()" ng-cloak>Login</a>
+    <a class="hide-on-mobile" data-modal-trigger data-modal="user-profile-modal" ng-if="vm.userIsLoggedIn()" hp-event-recorder="{action: 'open-modal', modal: 'user-profile', page: 'top-menu'}" ng-cloak><i class="fa fa-user"></i></a>
+  </div>
+</div>
+<div class="off-canvas-nav" id="offCanvas" ng-cloak>
+  <nav>
+    <a href="#/admin/overview" ng-if="vm.userIsLoggedIn() && vm.userIsAdmin()" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/admin/overview') }" hp-event-recorder="{action: 'goto-admin-overview', page: 'mobile-menu'}"><i class="fa fa-info-circle"></i> {{'Admin Overview'|translate}}</a>
+    <a href="#/admin/activity_feed" ng-if="vm.userIsLoggedIn() && vm.userIsAdmin()" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/admin/activity_feed') }" hp-event-recorder="{action: 'goto-admin-activity-feed', page: 'mobile-menu'}"><i class="fa fa-align-justify"></i> {{'Activity Feed'|translate}}</a>
+    <a href="#/generate" ng-if="vm.userIsLoggedIn() && vm.userIsHirepoolAdmin()" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/generate') }" hp-event-recorder="{action: 'goto-admin-generate', page: 'mobile-menu'}"><i class="fa fa-user-plus"></i> {{'Generate'|translate}}</a>
+    <a ng-click="vm.hideNav()" ng-if="vm.userIsLoggedIn()" data-modal-trigger data-modal="user-profile-modal" hp-event-recorder="{action: 'open-modal', modal: 'user-profile', page: 'mobile-menu'}"><i class="fa fa-user"></i> User Profile</a>
+    <a href="#/" ng-if="vm.userIsLoggedIn()" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/') }" hp-event-recorder="{action: 'goto-cards-view', page: 'mobile-menu'}"><i class="fa fa-th"></i> {{'index.home'|translate}}</a>
+    <a href="#/grid_view" ng-if="vm.userIsLoggedIn()" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/grid_view') }" hp-event-recorder="{action: 'goto-grid-view', page: 'mobile-menu'}"><i class="fa fa-list-ul"></i> {{'index.grid_view'|translate}}</a>
+    <a href="#/help_library" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/help_library', true) }" hp-event-recorder="{action: 'goto-help-library', page: 'mobile-menu'}"><i class="fa fa-question"></i> {{'index.help_library'|translate}}</a>
+    <a href="https://hirepool.blog?utm_medium=web_referral&utm_source=hirepool_app_page&utm_campaign=AUG8_HIREPOOL_APP_PAGE_HEADER_&placement=sidebar" target="_blank" ng-click="vm.hideNav()" hp-event-recorder="{action: 'goto-blog', page: 'mobile-menu'}"><i class="fa fa-file"></i> Blog</a>
+  </nav>
+  <footer>
+    <nav>
+      <a href="#/user_agreement" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/user_agreement') }" hp-event-recorder="{action: 'goto-user-agreement', page: 'mobile-menu'}"><i class="fa fa-file-text"></i> {{'index.user_agreement'|translate}}</a>
+      <a href="#/privacy_for_humans" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/privacy_for_humans') }" hp-event-recorder="{action: 'goto-privacy_for_humans', page: 'mobile-menu'}"><i class="fa fa-users"></i> Privacy For People</a>
+      <a href="#/privacy" ng-click="vm.hideNav()" ng-class="{ 'active': vm.isActive('/privacy') }" hp-event-recorder="{action: 'goto-privacy', page: 'mobile-menu'}"><i class="fa fa-legal"></i> {{'index.privacy-policy'|translate}}</a>
+      <a ng-if="vm.userIsLoggedIn()" ng-click="vm.hideNav();vm.logout();" hp-event-recorder="{action: 'logout', page: 'mobile-menu'}"><i class="fa fa-sign-out"></i> {{'index.logout'|translate}}</a>
+    </nav>
+  </footer>
+</div>

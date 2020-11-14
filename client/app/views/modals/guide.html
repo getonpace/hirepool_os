@@ -1,0 +1,304 @@
+<div class="modal" id="guide-modal" ng-controller="ModalsGuideCtrl as vm">
+  <div class="modal-dialog">
+    <header>
+      <div class="logo-chip">
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <img ng-src="https://logo.clearbit.com/{{vm.card.company.domain}}?size=200" on-error-src="images/company-placeholder.jpg" alt="">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="header-text-container">
+        <h4>{{vm.card.job_title}}</h4>
+        <h5>{{vm.card.company.name}}</h5>
+        <div class="location-container" ng-show="vm.card.location">
+            <h6 class="location-string">{{vm.card.location}}</h6>
+            <a class="map-link button small hollow" href="https://www.google.com/maps/search/?api=1&query={{vm.getMapQueryString()}}" target="_blank"><i class="fa fa-map"></i></a>
+        </div>
+      </div>
+      <div id="guide_modal_map_container" ng-show="!vm.showLoading() && vm.card.location"></div>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section class="loading" ng-show="vm.showLoading()">
+      <div class="loading-ui">
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+    </section>
+    <section class="details" ng-show="!vm.showLoading() && (vm.card.cbData.description || vm.getHeadquarters() || vm.card.cbData.url || vm.getSocialUrl('linkedin') || vm.getSocialUrl('facebook') || vm.getSocialUrl('twitter'))">
+      <ul class="no-bullet">
+        <li ng-show="vm.card.cbData.description">
+          <label class="big-label">{{'modal.guide.description'|translate}}</label><p class="content">{{vm.card.cbData.description}}</p>
+        </li>
+<!--
+        <li>
+          <label>{{'modal.guide.acquisitions'|translate}}</label><p class="content">WE DON'T GET ACQUISITION DATA</p>
+        </li>
+-->
+<!--
+        <li>
+          <label>{{'modal.guide.ipo'|translate}}</label><p class="content">WE DON'T GET IPO DATA / {{vm.card.cbData.ticker}}</p>
+        </li>
+ -->
+        <li ng-show="vm.getHeadquarters()">
+          <label>{{'modal.guide.headquarters'|translate}}</label><p class="content">{{vm.getHeadquarters()}}</p>
+        </li>
+<!--
+        <li>
+          <label>{{'modal.guide.founders'|translate}}</label><p class="content">WE DON'T GET FOUNDERS DATA</p>
+        </li>
+ -->
+        <li ng-show="vm.card.cbData.url">
+          <label>{{'modal.guide.website'|translate}}</label><p class="content"><a target="_blank" href="{{vm.card.cbData.url}}">{{vm.card.cbData.url}}</a></p>
+        </li>
+        <li ng-show="vm.getSocialUrl('linkedin') || vm.getSocialUrl('facebook') || vm.getSocialUrl('twitter')">
+          <label>{{'modal.guide.social'|translate}}</label><p class="content social"><a target="_blank" ng-show="vm.getSocialUrl('facebook')" href="{{vm.getSocialUrl('facebook')}}" class="fa fa-facebook" aria-hidden="true"></a> <a target="_blank" ng-show="vm.getSocialUrl('linkedin')" href="{{vm.getSocialUrl('linkedin')}}" class="fa fa-linkedin" aria-hidden="true"></a> <a target="_blank" ng-show="vm.getSocialUrl('twitter')" href="{{vm.getSocialUrl('twitter')}}" class="fa fa-twitter" aria-hidden="true"></a></p>
+        </li>
+      </ul>
+    </section>
+    <section class="candidate-experience" ng-show="!vm.showLoading() && (vm.getOffersPercent('interview_offers_accepted') || vm.getOffersPercent('interview_offers_declined') || vm.getOffersPercent('other') || vm.getInterviewDifficultyPercent())">
+      <div class="accordion" data-accordion data-allow-all-closed="true">
+        <div id="candidate_experience_accordion" class="accordion-item is-active" data-accordion-item>
+          <a class="accordion-title" ng-click="vm.toggleAccordionState('candidateExperienceAccordion')">
+            <header class="section-head">
+              <h6>{{'modal.guide.candidate_experience'|translate}}<span class="fa" ng-class="{'fa-caret-down': vm.candidateExperienceAccordionOpen, 'fa-caret-left': vm.candidateExperienceAccordionClosed}"></span></h6>
+            </header>
+          </a>
+          <div class="accordion-content" data-tab-content>
+            <div id="offers_container" ng-show="vm.getOffersPercent('interview_offers_accepted') || vm.getOffersPercent('interview_offers_declined') || vm.getOffersPercent('other')">
+              <h6>{{'modal.guide.offers'|translate}}</h6>
+              <div class="rings-visualization-container">
+                <svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+                 <g>
+                  <title>rings</title>
+                  <circle id="circle" class="full_circle" r="54.90845" cy="61" cx="61" stroke-width="8" stroke="#e6e6e6" fill="none"></circle>
+                  <circle id="circle" class="outer_ring" r="54.90845" cy="61" cx="61" stroke-width="8" stroke="#33cc33" fill="none" stroke-dashoffset="{{vm.getOffersOffset('interview_offers_accepted')}}"></circle>
+                  <circle id="circle" class="full_circle" r="44.88169" cy="61" cx="61" stroke-width="8" stroke="#e6e6e6" fill="none"></circle>
+                  <circle id="circle" class="mid_ring" r="44.88169" cy="61" cx="61" stroke-width="8" stroke="#009933" fill="none" stroke-dashoffset="{{vm.getOffersOffset('interview_offers_declined')}}"></circle>
+                  <circle id="circle" class="full_circle" r="34.85493" cy="61" cx="61" stroke-width="8" stroke="#e6e6e6" fill="none"></circle>
+                  <circle id="circle" class="inner_ring" r="34.85493" cy="61" cx="61" stroke-width="8" stroke="#003300" fill="none" stroke-dashoffset="{{vm.getOffersOffset('other')}}"></circle>
+                 </g>
+               </svg>
+              </div>
+              <div class="rings-key">
+                <ul class="no-bullet">
+                  <li class="accepted"><label>{{'modal.guide.offers.accepted'|translate}}</label><p>{{vm.getOffersPercentFormatted('interview_offers_accepted')}}</p></li>
+                  <li class="declined"><label>{{'modal.guide.offers.declined'|translate}}</label><p>{{vm.getOffersPercentFormatted('interview_offers_declined')}}</p></li>
+                  <li class="other"><label>{{'modal.guide.offers.none_other'|translate}}</label><p>{{vm.getOffersPercentFormatted('other')}}</p></li>
+                </ul>
+              </div>
+            </div>
+<!--
+            <div id="interview_source_container">
+              <h6>{{'modal.guide.interview_source'|translate}}</h6>
+              <p>NOT IMPLEMENTING NOW</p>
+            </div>
+-->
+            <div id="interview_difficulty_container" ng-show="vm.getInterviewDifficultyPercent()">
+              <h6>{{'modal.guide.interview_difficulty'|translate}} - {{vm.getInterviewDifficultyValue()}} {{vm.getInterviewDifficultyLabel()}}</h6>
+              <div class="progress-bar-visualization">
+                <div class="progress-bar">
+                  <div ng-class="vm.getInterviewDifficultyClass()" style="width:{{vm.getInterviewDifficultyPercent()}}%"></div>
+                </div>
+                <div class="label label-bottom">
+                  <span>{{'modal.guide.interview_difficulty.easy'|translate}}</span>
+                  <span>{{'modal.guide.interview_difficulty.average'|translate}}</span>
+                  <span>{{'modal.guide.interview_difficulty.hard'|translate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="interview-process" ng-show="!vm.showLoading() && (vm.getDurationValue() || vm.getInterviewExperiencePercent('interview_experiences_positive') || vm.getInterviewExperiencePercent('interview_experiences_neutral') || vm.getInterviewExperiencePercent('interview_experiences_negative'))">
+      <div class="accordion" data-accordion data-allow-all-closed="true">
+        <div id="interview_process_accordion" class="accordion-item is-active" data-accordion-item>
+          <a class="accordion-title" ng-click="vm.toggleAccordionState('interviewProcessAccordion')">
+            <header class="section-head">
+              <h6>{{'modal.guide.interview_process'|translate}}<span class="fa" ng-class="{'fa-caret-down': vm.interviewProcessAccordionOpen, 'fa-caret-left': vm.interviewProcessAccordionClosed}"></span></h6>
+            </header>
+          </a>
+          <div class="accordion-content" data-tab-content>
+            <div class="metric-container" ng-show="vm.card.company.interview_recent_reviews">
+              <h6>{{'modal.guide.reviews'|translate}}</h6>
+              <p class="metric-value">{{vm.card.company.interview_recent_reviews}}</p>
+            </div>
+            <div class="metric-container" ng-show="vm.getDurationValue()">
+              <h6>{{'modal.guide.average_duration'|translate}}</h6>
+              <p class="metric-value">{{vm.getDurationValue()}}</p>
+              <p class="metric-label">{{vm.getDurationLabel()}}</p>
+            </div>
+            <div id="interview_experience_container" ng-show="vm.getInterviewExperiencePercent('interview_experiences_positive') || vm.getInterviewExperiencePercent('interview_experiences_neutral') || vm.getInterviewExperiencePercent('interview_experiences_negative')">
+              <h6>{{'modal.guide.interview_experience'|translate}}</h6>
+              <div class="progress-bar-visualization">
+                <div class="progress-bar label-right">
+                  <div class="success" style="width:{{vm.getInterviewExperiencePercent('interview_experiences_positive')}}%"></div>
+                </div>
+                <div class="label label-right">
+                  <span>{{'modal.guide.interview_experience.positive'|translate}}</span>
+                </div>
+              </div>
+              <div class="progress-bar-visualization">
+                <div class="progress-bar label-right">
+                  <div class="warning" style="width:{{vm.getInterviewExperiencePercent('interview_experiences_neutral')}}%"></div>
+                </div>
+                <div class="label label-right">
+                  <span>{{'modal.guide.interview_experience.neutral'|translate}}</span>
+                </div>
+              </div>
+              <div class="progress-bar-visualization">
+                <div class="progress-bar label-right">
+                  <div class="error" style="width:{{vm.getInterviewExperiencePercent('interview_experiences_negative')}}%"></div>
+                </div>
+                <div class="label label-right">
+                  <span>{{'modal.guide.interview_experience.negative'|translate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="glassdoor-ratings" ng-show="!vm.showLoading() && (vm.getRatingsPercent('overallRating') || vm.getRecommendToFriendPercent() ||vm.getRatingsPercent('cultureAndValuesRating') || vm.getRatingsPercent('seniorLeadershipRating') || vm.getRatingsPercent('workLifeBalanceRating') || vm.getRatingsPercent('compensationAndBenefitsRating') || vm.getRatingsPercent('careerOpportunitiesRating'))">
+      <div class="accordion" data-accordion data-allow-all-closed="true">
+        <div id="glassdoor_ratings_accordion" class="accordion-item is-active" data-accordion-item>
+          <a class="accordion-title" ng-click="vm.toggleAccordionState('glassdoorRatingsAccordion')">
+            <header class="section-head">
+              <h6>{{'modal.guide.glassdoor_ratings'|translate}}<span class="fa" ng-class="{'fa-caret-down': vm.glassdoorRatingsAccordionOpen, 'fa-caret-left': vm.glassdoorRatingsAccordionClosed}"></span></h6>
+            </header>
+          </a>
+          <div class="accordion-content" data-tab-content>
+            <div class="rating-container" ng-show="vm.getRatingsPercent('overallRating') || vm.getRecommendToFriendPercent()">
+              <div class="progress-bar-visualization" ng-show="vm.getRatingsPercent('overallRating')">
+                <div class="label label-top">
+                  <span>{{'modal.guide.overall_rating'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRatingsClass('overallRating')" style="width:{{vm.getRatingsPercent('overallRating')}}%"></div>
+                  <div class="progress-bar-five">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.card.gdData.overallRating}}</span>
+                </div>
+              </div>
+              <div class="progress-bar-visualization" ng-show="vm.getRecommendToFriendPercent()">
+                <div class="label label-top">
+                  <span>{{'modal.guide.recommend_friend'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRecommendToFriendClass()" style="width:{{vm.getRecommendToFriendPercent()}}%"></div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.getRecommendToFriendPercentFormatted()}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="rating-container" ng-show="vm.getRatingsPercent('cultureAndValuesRating') || vm.getRatingsPercent('seniorLeadershipRating') || vm.getRatingsPercent('workLifeBalanceRating')">
+              <h6>{{'modal.guide.culture'|translate}}</h6>
+              <div class="progress-bar-visualization progress-bar-five" ng-show="vm.getRatingsPercent('cultureAndValuesRating')">
+                <div class="label label-top">
+                  <span>{{'modal.guide.culture.culture_values'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRatingsClass('cultureAndValuesRating')" style="width:{{vm.getRatingsPercent('cultureAndValuesRating')}}%"></div>
+                  <div class="progress-bar-five">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.card.gdData.cultureAndValuesRating}}</span>
+                </div>
+              </div>
+              <div class="progress-bar-visualization progress-bar-five" ng-show="vm.getRatingsPercent('seniorLeadershipRating')">
+                <div class="label label-top">
+                  <span>{{'modal.guide.culture.senior_leadership'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRatingsClass('seniorLeadershipRating')" style="width:{{vm.getRatingsPercent('seniorLeadershipRating')}}%"></div>
+                  <div class="progress-bar-five">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.card.gdData.seniorLeadershipRating}}</span>
+                </div>
+              </div>
+              <div class="progress-bar-visualization progress-bar-five" ng-show="vm.getRatingsPercent('workLifeBalanceRating')">
+                <div class="label label-top">
+                  <span>{{'modal.guide.culture.work_life_balance'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRatingsClass('workLifeBalanceRating')" style="width:{{vm.getRatingsPercent('workLifeBalanceRating')}}%"></div>
+                  <div class="progress-bar-five">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.card.gdData.workLifeBalanceRating}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="rating-container" ng-show="vm.getRatingsPercent('compensationAndBenefitsRating') || vm.getRatingsPercent('careerOpportunitiesRating')">
+              <h6>{{'modal.guide.employee_growth'|translate}}</h6>
+              <div class="progress-bar-visualization progress-bar-five" ng-show="vm.getRatingsPercent('compensationAndBenefitsRating')">
+                <div class="label label-top">
+                  <span>{{'modal.guide.employee_growth.comp_benefits'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRatingsClass('compensationAndBenefitsRating')" style="width:{{vm.getRatingsPercent('compensationAndBenefitsRating')}}%"></div>
+                  <div class="progress-bar-five">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.card.gdData.compensationAndBenefitsRating}}</span>
+                </div>
+              </div>
+              <div class="progress-bar-visualization progress-bar-five" ng-show="vm.getRatingsPercent('careerOpportunitiesRating')">
+                <div class="label label-top">
+                  <span>{{'modal.guide.employee_growth.career_opps'|translate}}</span>
+                </div>
+                <div class="progress-bar label-right">
+                  <div ng-class="vm.getRatingsClass('careerOpportunitiesRating')" style="width:{{vm.getRatingsPercent('careerOpportunitiesRating')}}%"></div>
+                  <div class="progress-bar-five">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+                <div class="label label-right">
+                  <span>{{vm.card.gdData.careerOpportunitiesRating}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).foundation();
+</script>

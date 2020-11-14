@@ -1,0 +1,45 @@
+hp-opportunity-rating-cell{
+  svg{
+    height: 30px;
+    vertical-align: middle;
+    &.opp-rating-10{
+      fill: #FF5700;
+    }
+    &.opp-rating-9{
+      fill: #FF6F04;
+    }
+    &.opp-rating-8{
+      fill: #FF7E06;
+    }
+    &.opp-rating-7{
+      fill: #FF8F09;
+    }
+    &.opp-rating-6{
+      fill: #FFB20E;
+    }
+    &.opp-rating-5{
+      fill: #FFB20E;
+    }
+    &.opp-rating-4{
+      fill: #FFC311;
+    }
+    &.opp-rating-3{
+      fill: #FFD313;
+    }
+    &.opp-rating-2{
+      fill: #FFE315;
+    }
+    &.opp-rating-1{
+      fill: #FFF317;
+    }
+  }
+  span{
+    position: absolute;
+    left: 11px;
+    top: 1px;
+    color: $white;
+    &.opp-rating-10{
+      left: 6px;
+    }
+  }
+}

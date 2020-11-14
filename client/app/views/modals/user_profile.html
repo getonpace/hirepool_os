@@ -1,0 +1,70 @@
+<div class="modal" id="user-profile-modal" ng-controller="ModalsUserProfileCtrl">
+  <div class="modal-dialog">
+    <header>
+      <h4><i class="fa fa-user"></i> {{'modal.user_profile.title'|translate}}</h4>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section class="content">
+      <form id="change_name_form" name="changeNameForm" ng-submit="submitNameChange(user.name)" role="form" novalidate>
+        <div class="ac-form" ng-class="{error: nameError || nameRequiredError}">
+          <h6>{{'modal.user_profile.name'|translate}}:</h6>
+          <div class="name-field-container">
+            <input type="text" name="user_profile_name" class="input-sm name-field" ng-model="user.name" ng-change="enableNameSaving()" required/>
+            <span ng-show="nameError" class="error-message">Unable to save name</span>
+            <span ng-show="nameRequiredError" class="error-message">Enter a name before saving</span>
+          </div>
+          <button class="small button submit hollow" ng-show="showSaveName" ng-disabled="disableSaveName">Save</button>
+          <button class="small button hollow" ng-disabled="true" ng-show="savingName"><i class="fa fa-spinner fa-spin"> </i></button>
+          <button class="small button hollow" ng-disabled="true" ng-show="nameSaved"><i class="fa fa-check"> </i></button>
+        </div>
+      </form>
+      <h6>{{'modal.user_profile.email'|translate}}:</h6>
+      <p>{{user.email}}</p>
+      <p class="explanatory-subtext">Email <a href="mailto:support@hirepool.io">support@hirepool.io</a> to change your email address.</p>
+      <h6>Login methods currently in use:</h6>
+      <ul>
+        <li ng-repeat="provider in user.available_authentication_providers">{{provider}}</li>
+      </ul>
+
+      <hr>
+
+      <button class="small button expanded hollow" ng-click="setShowChangePassword()" ng-hide="showChangePassword || showCsvExportLinks"><i class="fa fa-lock"></i> {{'modal.user_profile.reset_password'|translate}}</button>
+      <button class="small button expanded hollow" ng-click="setCsvExportLinks()" ng-hide="showChangePassword || showCsvExportLinks || loadingCsvData"><i class="fa fa-files-o"></i> Export My Data</button>
+      <button class="small button expanded hollow" ng-click="setCsvExportLinks()" ng-hide="showChangePassword || showCsvExportLinks || !loadingCsvData"><i class="fa fa-spinner"></i></button>
+      <a class="small button expanded hollow" href="#/billing" ng-click="closeModal()" ng-hide="showChangePassword || showCsvExportLinks || premiumIsFree"><i class="fa fa-dollar-sign"></i> Billing</a>
+      <button class="small button submit expanded hollow" ng-click="retakeSurvey()" ng-hide="showChangePassword || showCsvExportLinks">{{userData.retakeSurveyButtonText}}</button>
+      <button class="small button submit expanded hollow" ng-click="retakePremiumSurvey()" ng-hide="showChangePassword || showCsvExportLinks || !user.cerebro_opt_in">{{userData.retakePremiumSurveyButtonText}}</button>
+
+      <div ng-show="showChangePassword">
+        <form name="changePasswordForm" ng-submit="submitPasswordChange(password)" role="form" novalidate>
+          <div class="ac-form" ng-class="{error: curr_pass_invalid || curr_pass_req}">
+            <label for="curr-pw">{{'modal.change-password.current'|translate}}</label>
+            <input id="curr-pw" name="curr-pw" ng-model="password.current_password" ng-change="hasClientValidationErrors()" type="password" class="input-sm" placeholder="{{'modal.change-password.current-placeholder'|translate}}" required/>
+            <span ng-show="curr_pass_invalid" class="error-message">Current password incorrect</span>
+            <span ng-show="curr_pass_req" class="error-message">Current password required</span>
+          </div>
+          <div class="ac-form password-field" ng-class="{error: hasPwErrors() || equals_current_pass || other_error}">
+            <label for="new-pw">{{'modal.change-password.new'|translate}}</label>
+            <input id="new-pw" name="pw" ng-model="password.password" ng-change="hasPwErrors()" type="password" class="input-sm" placeholder="{{'modal.change-password.new-placeholder'|translate}}" required/>
+            <span ng-show="other_error" class="error-message">Error saving password</span>
+            <span ng-show="equals_current_pass" class="error-message">New password must be different from current passsword</span>
+            <span class="error-message error-ok">Your password must contain <span ng-class="{'pw-good': passwordErrors.pwIsLongEnough && passwordErrors.showPwError, 'pw-bad': !passwordErrors.pwIsLongEnough && passwordErrors.showPwError }">at least 8 characters</span>, one of which being <span ng-class="{'pw-good': passwordErrors.pwHasLowercase && passwordErrors.showPwError, 'pw-bad': !passwordErrors.pwHasLowercase && passwordErrors.showPwError }">a lower case letter</span>, one <span ng-class="{'pw-good': passwordErrors.pwHasUppercase && passwordErrors.showPwError, 'pw-bad': !passwordErrors.pwHasUppercase && passwordErrors.showPwError }">an upper case letter</span>, and one <span ng-class="{'pw-good': passwordErrors.pwHasDigit && passwordErrors.showPwError, 'pw-bad': !passwordErrors.pwHasDigit && passwordErrors.showPwError }">a digit (0-9)</span>.</span>
+          </div>
+          <button ng-hide="password.changed_successfully || tryingToSave" class="button submit expanded">{{'modal.change-password.change'|translate}}</button>
+          <button ng-show="tryingToSave" class="button submit expanded" type="button" disabled>{{'modal.change-password.changing'|translate}}</button>
+        </form>
+        <button ng-click="setHideChangePassword()" ng-show="password.changed_successfully" class="button submit expanded">Done</button>
+        <button ng-click="setHideChangePassword()" ng-hide="password.changed_successfully" class="button submit hollow expanded">Cancel</button>
+      </div>
+
+      <div id="export-user-data" ng-show="showCsvExportLinks">
+        <h6>Export my data (download as CSV):</h6>
+        <ul class="csv-export-links"></ul>
+        <h6 ng-show="hasUploadedResumes">Uploaded resumes:</h6>
+        <ul class="resume-export-links" ng-show="hasUploadedResumes"></ul>
+        <button ng-click="resetCsvDataExports()" class="small button hollow expanded">Done</button>
+      <div>
+
+    </section>
+  </div>
+</div><!-- //user profile modal -->

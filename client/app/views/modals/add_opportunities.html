@@ -1,0 +1,334 @@
+<div class="modal" id="add-opportunites-fodal" ng-controller="ModalsAddOpportunitiesCtrl as vm">
+  <div ng-show="vm.showErrorPopup()" class="error-popup" ng-class="{ 'large-error-popup': vm.errors.no_company_name_error || vm.errors.applied_boolean_error || vm.errors.applied_on_date_error }">
+    <button class="close-errors" type="button" ng-click="vm.closeErrorPopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <p ng-if="vm.errors.csv_req">Please upload a valid CSV.</p>
+    <p ng-if="vm.errors.company_name_req">Please match a column to <strong>Company Name</strong>.</p>
+    <p ng-if="vm.errors.csvFileTypeError">Currently you can only upload CSV files.</p>
+    <p ng-if="vm.errors.csvParseError">We cannot parse your CSV.</p>
+    <p ng-if="vm.errors.genericCheckCsvError">Something went wrong! Please try again.<br>If this persists, <a href="mailto:support@hirepool.io">email us at support@hirepool.io</a>.</p>
+    <p ng-if="vm.errors.no_company_name_error || vm.errors.applied_boolean_error || vm.errors.applied_on_date_error"><strong>Your CSV has some values we can't parse.</strong></p>
+    <p ng-if="vm.errors.no_company_name_error">There are {{ vm.errors.no_company_name_error_count }} rows with no company name. If a row doesn't have a company name, no opportunity will be created for that row.</p>
+    <p ng-if="vm.errors.applied_on_date_error">There are values in the Applied On column that we can't parse as dates. Those opportunities will be created without any value in the Applied On field. Some of the values include:<em class="error-example-list-item" ng-repeat="example in vm.errors.applied_on_date_error_values.slice(0,4)"> {{example}}</em>.</p>
+    <p ng-if="vm.errors.applied_boolean_error">There are values in the Applied column that we can't parse as true or false. Those opportunities will be created with Applied as false. Some of the values include:<em class="error-example-list-item" ng-repeat="example in vm.errors.applied_boolean_error_values.slice(0,4)"> {{example}}</em>.</p>
+    <p ng-if="vm.errors.no_company_name_error || vm.errors.applied_boolean_error || vm.errors.applied_on_date_error">You can continue with errors and create opportunities for as many rows from your CSV as we can, or you can <a href="javascript:void(0);" ng-click="vm.closeModal();">cancel now</a> to go edit your CSV, then try uploading again.</p>
+  </div>
+  <div class="modal-dialog row">
+    <header>
+      <h2 class="header-title">Import From CSV</h2>
+      <div class="progress-tracker">
+        <div class="step" ng-class="vm.getActiveProgressClass('import')">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Import</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('approve')">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Approve</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('match')">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Match</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('done')">
+          <div class="dot"><i class="fa fa-check"></i></div>
+          <div class="tracker-label">Done</div>
+        </div>
+        <div class="bar"><span class="progress-tracker-bar" ng-class="vm.view.state">&nbsp;</span></div>
+      </div>
+      <button ng-click="resetData()" class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+
+    <div class="modal-content opportunities-modal-content columns">
+      <section class="add-event-container add-opportunities-file columns medium-8 medium-offset-2" ng-show="vm.view.state === 'import'">
+        <form name="addOpportunitiesForm" role="form" novalidate>
+          <div id="filedrag" class="columns medium-10 medium-offset-1" ngf-drop="vm.upload($file)" ng-class="{ dragging: vm.data.fileName }">
+            <img src="images/icon-csv-add.svg" alt="Add CSV">
+            <h4>Add your file to get started</h4>
+            <p>Drag & drop any .csv file or <span ngf-select="vm.upload($file)">browse</span></p>
+            <p>{{ vm.data.fileName }}</p>
+          </div>
+        </form>
+      </section> <!-- end add_opportunites_csv -->
+
+      <section class="add-event-container approve-data-container" ng-show="vm.view.state === 'approve'">
+        <p>Let's double check your imported data.</p>
+        <div class="table-container">
+          <div class="header-confirm notification-box">
+            <div class="float-left">
+              <p>Is the top row a header?</p>
+            </div>
+            <div class="float-right">
+              <button ng-click="vm.verifyHeaderRow(false)" class="button hollow">No</button>
+              <button ng-click="vm.verifyHeaderRow(true)" class="button">Yes</button>
+            </div>
+          </div>
+          <table>
+            <tbody>
+              <tr ng-repeat="opportunity in vm.data.opportunities">
+                <td ng-repeat="item in opportunity.row track by $index">
+                  <strong>
+                    {{ item }}
+                  </strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section> <!-- end approve -->
+
+      <section class="add-event-container match-data-container" ng-show="vm.view.state === 'match' && !vm.view.showLoadingScreen" >
+        <div class="match-first-step" ng-show="vm.view.matchFirstStep">
+          <div class="row">
+            <div class="columns medium-5">
+              <p>
+                Match your spreadsheet to the hirepool fields. The only required field is <strong>Company Name</strong>, but the more you match, the better!
+              </p>
+            </div>
+            <div class="notification-box columns medium-3">
+              <p><strong>Options</strong></p>
+              <div class="questions ac-form">
+                <input type="checkbox"
+                       value="add_participants"
+                       id="add_participants_radio_btn"
+                       ng-checked="vm.hiddenColumnCount() >= 1 && vm.view.showHiddenColumns"
+                       ng-disabled="vm.hiddenColumnCount() < 1"
+                       ng-click="vm.toggleHiddenColumnVisibility()">
+                <label for="add_participants_radio_btn">
+                  Show hidden columns <strong>({{ vm.hiddenColumnCount() }}/{{vm.data.opportunityColumns.length}})</strong>
+                </label>
+                <input type="checkbox"
+                       value="add_interactions"
+                       id="add_interactions_radio_btn"
+                       ng-checked="vm.data.opportunities[0].header"
+                       ng-click="vm.toggleHeaderRow()">
+                <label for="add_interactions_radio_btn">
+                  Data has a header row
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="columns-container">
+            <div class="row">
+              <div ng-repeat="columnObject in vm.data.opportunityColumns track by $index"
+                   class="columns medium-3 step-one-columns"
+                   ng-show="columnObject.visible"
+                   ng-hide="columnObject.field === 'domain'">
+                <img src="images/approved-circle.svg" alt="Check" class="column-approved" ng-show="columnObject.field">
+                <button class="button hollow float-right"
+                        ng-click="vm.hideColumn(columnObject)"
+                        ng-hide="columnObject.field ||columnObject.hidden">Hide
+                </button>
+                <button class="button hollow float-right"
+                        ng-click="vm.showColumn(columnObject)"
+                        ng-hide="columnObject.field ||!columnObject.hidden">Don't Hide
+                </button>
+                <div class="opportunity-columns" ng-class="{selected: columnObject.field, hidden: columnObject.hidden }">
+                  <div class="opportunity-column-header">
+                    <select name="fieldName" ng-model="vm.view.selectedOptions[$index]" ng-disabled="columnObject.hidden" ng-init="vm.view.selectedOptions[$index] = columnObject.field" ng-change="columnObject.field = vm.view.selectedOptions[$index]">
+                      <option value="">Select</option>
+                      <option ng-repeat="(key, value) in vm.view.opportunityOptions" ng-disabled="vm.hasBeenSelected(key)" ng-value="key">{{ value }}</option>
+                    </select>
+                  </div>
+                  <div class="column-data">
+                    <ul>
+                      <li ng-repeat="data in columnObject.column track by $index" ng-class="{header: data.header}">
+                        <span ng-show="data.value">{{ data.value }}</span>
+                        <span ng-show="!data.value">-</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="match-second-step" ng-show="vm.view.matchSecondStep">
+          <div class="row section border-bottom">
+            <div class="columns medium-5">
+              <p>
+                We’ve compared your company names with our database.
+              </p>
+            </div>
+            <div class="columns medium-3">
+              <p>
+                Found <strong>{{ vm.aprovedAndSemiApprovedCount(vm.data.opportunityColumns[0].column) }}</strong> opportunites in <strong>{{ vm.totalCount(vm.data.opportunityColumns[0].column) }}</strong> rows.
+              </p>
+            </div>
+          </div>
+          <div class="row section border-bottom">
+            <div class="columns medium-4">
+              <div class="notification-box perfect-matches">
+                <div class="row">
+                  <div class="columns medium-12">
+                    <img src="images/approved-circle.svg" alt="Check" class="column-approved">
+                    <h5>
+                      <strong>
+                        {{ vm.approvedCount(vm.data.opportunityColumns[0].column) }} Perfect Matches
+                      </strong>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns medium-4">
+              <div class="notification-box not-exact-matches">
+                <div class="row">
+                  <div class="columns medium-12">
+                    <img src="images/semiapproved-circle.svg" alt="Check" class="column-approved">
+                    <h5>
+                      <strong>
+                        {{ vm.semiApprovedCount(vm.data.opportunityColumns[0].column) }} with no exact match
+                      </strong>
+                    </h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="columns medium-12">
+                    <p>
+                      <strong>
+                        We can still add these.
+                      </strong>
+                      Finding a match allows us to give you personalized advice later on.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="columns medium-4">
+              <div class="notification-box unnamed">
+                <div class="row">
+                  <div class="columns medium-12">
+                    <img src="images/unapproved-circle.svg" alt="Check" class="column-approved">
+                    <h5>
+                      <strong>
+                        {{ vm.unApprovedCount(vm.data.opportunityColumns[0].column) }} unnamed
+                      </strong>
+                    </h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="columns medium-12">
+                    <p>
+                      <strong>
+                        We can't add these.
+                      </strong>
+                      Opportunities require a company name to be added to the pool.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row section">
+            <div class="columns medium-5">
+              <div ng-hide="vm.view.ignoreColumns">
+                <h5>
+                  <i class="fa fa-search"></i>
+                  Search for matches to improve your data:
+                </h5>
+              </div>
+              <div ng-show="vm.view.ignoreColumns">
+                <h5>
+                  <i class="fa fa-check"></i>
+                  Ready to add {{ vm.aprovedAndSemiApprovedCount(vm.data.opportunityColumns[0].column) }} opportunites.
+                </h5>
+              </div>
+            </div>
+            <div class="columns medium-2">
+              <input type="checkbox"
+                     id="toggle_columns"
+                     ng-click="vm.toggleIgnoreColumns()">
+              <label for="toggle_columns">
+                Skip this step
+              </label>
+            </div>
+          </div>
+
+          <div class="columns-container" ng-hide="vm.view.ignoreColumns">
+            <div class="row">
+              <div class="company-name-validation columns medium-1">
+                <ul>
+                  <li class="empty-header">
+                    <h5 class="field-header"></h5>
+                  </li>
+                  <li class="validation-images"
+                      ng-repeat="data in vm.data.opportunityColumns[0].column track by $index"
+                      ng-hide="data.header || vm.data.opportunityColumns[0].column[$index].preValidated">
+                    <img src="images/approved-circle.svg" alt="Check" class="column-approved"
+                         ng-show="vm.isApproved(data)">
+                    <img src="images/semiapproved-circle.svg" alt="Check" class="column-approved"
+                         ng-show="vm.isSemiApproved(data)">
+                    <img src="images/unapproved-circle.svg" alt="Check" class="column-approved"
+                         ng-show="vm.isUnapproved(data)">
+                  </li>
+                </ul>
+              </div>
+              <div ng-repeat="columnObject in vm.data.opportunityColumns"
+                   class="columns medium-3 step-two-columns"
+                   ng-if="columnObject.field"
+                   ng-hide="columnObject.field === 'domain'"
+                   ng-class="{ companyName: columnObject.field === 'name' }">
+                <div class="opportunity-columns selected">
+                  <div class="column-data">
+                    <ul>
+                      <li class="field-header">
+                        <h5>
+                          {{ vm.view.opportunityOptions[columnObject.field] }}
+                        </h5>
+                      </li>
+                      <li ng-repeat="data in columnObject.column track by $index"
+                          ng-hide="data.header || vm.data.opportunityColumns[0].column[$index].preValidated">
+                        <div class="ac-form" ng-if="columnObject.field === 'name'">
+                          <div class="search search-sm">
+                            <input placeholder="{{'company-name.search'|translate}}" ng-change="vm.getCompanySuggestions(data, $index);"
+                            ng-click="vm.getCompanySuggestions(data, $index);" ng-keydown="vm.company_key(data, $event)" ng-model="data.value" ng-model-options="{ debounce: 200 }" id="autocomplete" type="search" autocomplete="off" name="name"/>
+                            <i class="fa fa-search"></i>
+                            <button class="reset" ng-click="vm.clearField(data)"><i class="fa fa-times-circle"></i></button>
+                            <div class="search-results hdpi" ng-show='data.predictions && data.predictions.length !== 0'>
+                              <div class="pac-item" ng-click="vm.setCompany(data, prediction)" ng-repeat="prediction in data.predictions" ng-class="{active : $index === data.selectedIndex}"><span ng-bind-html="prediction.name | highlight:prediction.employerSplitStringArray"></span></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div ng-if="columnObject.field !== 'name'" class="display-data">
+                          <span ng-show="data.value">{{ data.value }}</span>
+                          <span ng-show="!data.value">-</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section> <!-- end match -->
+
+      <section class="add-event-container add-opportunities-loading" ng-show="vm.view.showLoadingScreen && vm.view.state !== 'done'">
+        <div class="row">
+          <div class="columns medium-4 medium-offset-4">
+            <img src="images/nar-swimming.gif" alt="Loading">
+            <h2>Thanks for waiting.</h2>
+          </div>
+        </div>
+      </section>
+
+      <section class="add-event-container add-opportunities-complete" ng-show="vm.view.state === 'done'">
+        <img src="images/success-narwhal.svg" alt="Success">
+        <h2>Import Complete!</h2>
+        <h4>New opportunities created!</h4>
+        <button ng-click="vm.backToDashboard()" class="button">RETURN TO DASHBOARD</button>
+      </section> <!-- end summary -->
+    </div>
+
+    <footer ng-hide="vm.view.state === 'done'">
+      <div class="button-container">
+        <button class="button hollow" ng-disabled="vm.view.state === 'import'" ng-click="vm.stepBack()">Back</button>
+        <button class="button" ng-show="vm.view.state !== 'match' && vm.view.state !== 'done'" ng-disabled="vm.view.state === 'approve'" ng-click="vm.stepNext()">Next</button>
+        <button class="button" ng-show="vm.view.state === 'match' && vm.view.matchFirstStep" ng-click="vm.validateData()">Submit</button>
+        <button class="button" ng-show="vm.view.state === 'match' && vm.view.matchSecondStep" ng-click="vm.submitData()">Submit</button>
+      </div>
+    </footer>
+  </div>
+</div>

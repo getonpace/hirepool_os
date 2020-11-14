@@ -1,0 +1,109 @@
+.login{
+  margin-top: 1rem;
+  .mascot,
+  .logo{
+    display: block;
+    margin: 0 auto;
+  }
+  .mascot{
+    max-width: 90px;
+    animation: fade_in 2s ease-in, bob 2s ease-in-out infinite alternate;
+  }
+  .logo{
+    max-width: 150px;
+    margin-top: 1rem;
+  }
+  .button:not(.hollow){
+    margin:15px 0 15px 0;
+  }
+  .button.hollow{
+    border: none;
+    margin:0;
+  }
+}
+
+#UserRegistrationPage, #UserLoginPage{
+  .horizontal-separator{
+    p{
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid $light-gray;
+      line-height: 0.1em;
+      margin: 10px 0 20px;
+      span{
+        padding: 0px 10px;
+        background-color: $white;
+      }
+    }
+  }
+  .one-column-registration-container, .two-column-registration-container{
+    @include breakpoint(medium){
+      margin-bottom: 40px;
+    }
+    .horizontal-separator{
+      p{
+        @include breakpoint(medium){
+          display: none;
+        }
+      }
+    }
+  }
+  .two-column-registration-container{
+    .email-login-container{
+      margin-bottom: 20px;
+      @include breakpoint(medium){
+        margin-bottom: 0;
+        border-right: 1px solid $light-gray;
+      }
+    }
+    .registration-reminder-text{
+      @include breakpoint(medium){
+        min-height: 50px;
+      }
+    }
+  }
+  p{
+    text-align: center;
+    &.small{
+      font-size: 80%;
+      margin-bottom: 0;
+      @include breakpoint(medium){
+        font-size: 90%;
+      }
+    }
+  }
+  .logo{
+    margin-bottom: 20px;
+  }
+  .ac-form{
+    margin-bottom: 12px;
+    padding-top: 0;
+    .fa{
+      top: 17px;
+      @include breakpoint(medium){
+        top: 24px;
+      }
+    }
+    .error-message{
+      padding-left: 6px;
+    }
+  }
+  .login-button, .signup-button{
+    margin-bottom: 20px;
+    margin-top: 5px;
+      @include breakpoint(medium){
+        margin-bottom: 40px;
+      }
+  }
+  button{
+    margin-top: 0;
+    &.submit-registration{
+      margin-bottom: 0;
+    }
+    &.social-login{
+      .fa{
+        float: right;
+      }
+    }
+  }
+}

@@ -1,0 +1,373 @@
+.opp-details-container{
+  h6{
+    margin-bottom: 0;
+  }
+}
+.opp-details{
+  margin-bottom: 20px;
+  @include breakpoint(medium) {
+    margin-bottom: 10px;
+  }
+  header{
+    .title-container{
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include breakpoint(medium){
+        justify-content: flex-start;
+      }
+      h3{
+        display: inline-block;
+        margin-right: 20px;
+      }
+      button{
+        margin: 0;
+        border: none;
+        margin-right: 5px;
+        &:last-child{
+          margin-right: 0;
+        }
+      }
+    }
+    h6{
+      div{
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .button.secondary.hollow{
+        border-width: 0;
+        padding: 0;
+        font-size: 1rem;
+        margin: 0;
+        line-height: 1.4;
+        margin-left: 5px;
+        vertical-align: top;
+      }
+    }
+  }
+}
+.collab, .opp-detail-notes{
+  &.accordion{
+    border-width: 0;
+    .accordion-title{
+      border-width: 0;
+      padding: 0;
+      &:hover{
+        background-color: inherit;
+      }
+      &:before{
+        content: '';
+      }
+      span.data-tooltip{
+        color: $primary-color;
+      }
+    }
+    .accordion-content{
+      border-width: 0;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.activity-feed{
+  list-style-type: none;
+  margin-left: 0;
+  .activity-label{
+    font-weight: bold;
+  }
+  .save-event-button{
+    width: 100%;
+    border-radius: 0;
+    margin-bottom: 0;
+    background-color: $success-color;
+  }
+  .event-container{
+    margin-bottom: 20px;
+    border-radius: 3px 3px 0 0;
+    .interactions-container:first-of-type{
+      border-top: 1px solid $light-gray;
+      padding-top: 20px;
+    }
+    .interactions-container{
+      padding: 0 30px 1px 30px;
+      // padding: 20px 30px 47px 30px;
+      // TODO INCREASE THE BOTTOM PADDING WHEN WE ADD ADD INTERACTION BUTTON BACK
+      background-color: $off-white;
+      .add-interaction-button{
+        float: right;
+        background-color: $white;
+      }
+      .accordion{
+        background-color: $off-white;
+        .accordion-item{
+          background-color: $off-white;
+          border-width: 0;
+          &:hover{
+            box-shadow: none;
+          }
+          .accordion-title[aria-expanded="true"]{
+            .utils{
+              button{
+                .accordion-chevron::before{
+                  content: "\f078";
+                }
+              }
+            }
+          }
+          .accordion-title[aria-expanded="false"]{
+            .utils{
+              button{
+                .accordion-chevron::before{
+                  content: "\f053";
+                }
+              }
+            }
+          }
+          .accordion-title{
+            border-width: 0 0 1px 0;
+            padding-left: 0;
+            padding-right: 0;
+            &:hover{
+              background-color: $off-white;
+            }
+            .interaction-title{
+              h5{
+                font-weight: normal;
+                font-size: 16px;
+                margin-top: 11px;
+                @include breakpoint(medium){
+                  margin-top: 0;
+                }
+              }
+              &.event-title{
+                h5{
+                  margin-top: 0;
+                }
+              }
+            }
+            .utils{
+              position: absolute;
+              background: none;
+              right: 0;
+              padding-left: 10px;
+              background-color: $off-white;
+              &.event-utils{
+                bottom: 8px;
+              }
+              .participants{
+                display: inline-block;
+                max-width: 0;
+                overflow-x: hidden;
+                @include breakpoint(845px){
+                  max-width: none;
+                  overflow-x: visible;
+                }
+                color: $midnight-blue;
+                font-size: 12px;
+              }
+              .modal-state{
+                padding-right: 0px !important;
+                border-width: 0;
+                max-width: 20px;
+                @include breakpoint(medium){
+                  padding-right: 8px !important;
+                }
+              }
+            }
+          }
+          .accordion-content{
+            background-color: $off-white;
+            border-width: 0;
+            .interaction-feedback-title{
+              font-variant: all-small-caps;
+              font-size: 16px;
+            }
+            fieldset{
+              border: 1px solid $light-gray;
+              legend{
+                font-variant: all-small-caps;
+                font-family: Montserrat, sans-serif;
+              }
+              p{
+                font-size: 11px;
+                margin-bottom: 5px;
+              }
+              .button.hollow{
+                float: right;
+                background-color: $body-background;
+                margin-bottom: 10px;
+              }
+              .participant-header{
+                padding: 10px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid $light-gray;
+                &.no-participants{
+                  border-bottom-width: 0;
+                  margin-bottom: 0;
+                }
+                h5{
+                  margin-bottom: 0;
+                  font-size: 14px;
+                  font-weight: normal;
+                  padding-top: 8px;
+                  @include breakpoint(medium){
+                    padding-top: 0;
+                  }
+                }
+                .utils{
+                  float: right;
+                  button{
+                    transition: all .2s ease;
+                    font-size: 14px;
+                    overflow: hidden;
+                    max-width: 28px;
+                    padding: 8px;
+                    border: 1px solid $midnight-blue;
+                    white-space: nowrap;
+                    border-radius: 3px;
+                    opacity: .5;
+                    &:hover{
+                      opacity: 1;
+                    }
+                    @include breakpoint(medium){
+                      width: 13px;
+                      padding: 0;
+                      border-width: 0;
+                      margin-left: 15px;
+                    }
+                    .fa{
+                      padding-right: 10px;
+                    }
+                    &.delete{
+                      color: $alert-color;
+                      border-color: $alert-color;
+                      @include breakpoint(medium){
+                        color: $midnight-blue;
+                      }
+                      &:hover{
+                        color: $alert-color;
+                        width: 75px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .event-header{
+      padding: 14px 14px 10px 14px;
+      h5{
+        margin-bottom: 0;
+      }
+      .details{
+        p{
+          display: inline-block;
+          font-size: 11px;
+          margin-bottom: 0;
+          margin-right: 10px;
+        }
+      }
+      .date{
+        text-align: center;
+        line-height: 1;
+        font-size: rem-calc(18px);
+        float: left;
+        width: 24px;
+        margin-right: 5px;
+        color: $midnight-blue;
+        font-weight: normal;
+        span{
+          display: block;
+          font-family: $header-font-family;
+          &.mo{
+            font-size: 40%;
+          }
+        }
+      }
+      .utils{
+        float: right;
+        padding-top: 15px;
+        .rating{
+          font-size: 11px;
+          font-weight: bold;
+          border: 1px solid $light-gray;
+          border-radius: 3px;
+          padding: 8px;
+          @include breakpoint(medium){
+            padding: 5px 8px;
+            margin-right: -4px;
+          }
+        }
+        button{
+          transition: all .2s ease;
+          font-size: 14px;
+          overflow: hidden;
+          max-width: 28px;
+          padding: 8px;
+          border: 1px solid $midnight-blue;
+          white-space: nowrap;
+          border-radius: 3px;
+          opacity: .5;
+          &:hover{
+            opacity: 1;
+          }
+          @include breakpoint(medium){
+            width: 13px;
+            padding: 0;
+            border-width: 0;
+            margin-left: 15px;
+            opacity: 1;
+          }
+          .fa{
+            padding-right: 10px;
+          }
+          &.event-notes{
+            &:hover{
+              width: 101px;
+              @include breakpoint(medium){
+                max-width: 101px;
+              }
+            }
+          }
+          &.edit{
+            &:hover{
+              width: 88px;
+              @include breakpoint(medium){
+                max-width: 88px;
+              }
+            }
+          }
+          &.feedback{
+            color: $warning-color;
+            border-color: $warning-color;
+            &:hover{
+              width: 133px;
+              @include breakpoint(medium){
+                max-width: 133px;
+              }
+            }
+          }
+          &.delete{
+            color: $alert-color;
+            border-color: $alert-color;
+            @include breakpoint(medium){
+              color: $midnight-blue;
+            }
+            &:hover{
+              color: $alert-color;
+              width: 75px;
+              @include breakpoint(medium){
+                max-width: 75px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

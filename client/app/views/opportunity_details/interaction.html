@@ -1,0 +1,88 @@
+<a class="accordion-title">
+  <div class="interaction-title">
+    <h5><span class="activity-label">{{'interaction.interaction'|translate}} {{$index + 1}}:</span> {{vm.data.interaction.style}}</h5>
+  </div>
+  <div class="utils">
+    <span class="participants">{{vm.data.interaction.interviewers.length}} {{'interaction.participants'|translate}}</span>
+    <button class="feedback" ng-show="vm.needsFeedback()"><i class="fa fa-bullhorn"></i>{{'event.needs_feedback'|translate}}</button>
+    <button class="delete" data-modal-trigger data-modal="remove-interaction-modal" ng-click="vm.openAccordionModal($event)"><i class="fa fa-trash-o"></i>{{'interview.remove'|translate}}</button>
+    <button class="modal-state"><i class="fa accordion-chevron"></i>&nbsp;</button>
+  </div>
+</a><!-- //accordion-title -->
+<div class="accordion-content" data-tab-content>
+
+  <div class="row">
+    <div class="columns medium-12">
+      <h5 class="interaction-feedback-title" ng-show=vm.showFeedback()>{{'interaction.feedback'|translate}}</h5>
+      <form name="addFeedbackForm" role="form" class="ac-form" novalidate ng-show=vm.showFeedback()>
+        <div class="ac-form">
+          <label for="one_word">{{'interview.one_word.label'|translate}}</label>
+          <input class="input-sm" ng-model="vm.data.interaction.one_word" type="text" placeholder="{{'interview.one_word.placeholder'|translate}}" name="one_word" ng-change="vm.feedbackChanged()"/>
+        </div>
+        <div class="ac-form">
+          <color-ratings
+            rating-label="{{'interview.cultural-rating.rating-label'|translate}}"
+            left-label="{{'interview.cultural-rating.rating-left-label'|translate}}"
+            right-label="{{'interview.cultural-rating.rating-right-label'|translate}}"
+            unique-id="culture-{{interaction.id}}"
+            rating="vm.data.interaction.culture_val">
+          </color-ratings>
+        </div>
+      </form>
+      <fieldset>
+        <legend>{{'interaction.participants'|translate}}</legend>
+
+        <div class="participant-container" ng-repeat="participant in vm.data.interaction.interviewers">
+          <header class="participant-header">
+<!-- 
+            <div class="utils">
+              <button class="delete" data-modal-trigger data-modal="remove-participant-modal" ng-click="vm.openRemoveParticipantModal($event, participant)"><i class="fa fa-trash-o"></i>{{'interview.remove'|translate}}</button>
+            </div>
+ -->
+            <div class="participant-title">
+              <h5>{{$index + 1}}. {{participant.interviewer.name}}</h5>
+            </div>
+          </header>
+          <div class="row" data-tab-content>
+            <div class="columns medium-12">
+              <p><span class="activity-label">{{'participant.email'|translate}}:</span> {{participant.interviewer.email}}</p>
+              <p><span class="activity-label">{{'participant.relationship'|translate}}:</span> {{participant.interviewer.relationship}}</p>
+              <form name="addFeedbackForm" role="form" class="ac-form" novalidate ng-show="vm.showFeedback()">
+                <div class="ac-form">
+                  <color-ratings
+                    rating-label="How excited are you to work with {{participant.interviewer.name}}?"
+                    left-label="{{'interview.excitement-rating.rating-left-label'|translate}}"
+                    right-label="{{'interview.excitement-rating.rating-right-label'|translate}}"
+                    unique-id="excited-{{participant.id}}"
+                    rating="participant.excited">
+                  </color-ratings>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="participant-container" ng-show="!vm.showFeedback() && !vm.data.interaction.interviewers.length">
+          <header class="participant-header no-participants">
+            <h5>You didn't add any participants!</h5>
+          </header>
+        </div>
+<!-- 
+        <button class="button hollow tiny" data-modal-trigger data-modal="add-event-and-opportunity-fodal" ng-click="vm.openAccordionModal($event)">{{'interaction.add_participant'|translate}}</button>
+ -->
+      </fieldset>
+    </div>
+  </div>
+</div><!-- //accordion-content -->
+
+<script type="text/javascript">
+  window.setTimeout(function () {
+    var elems = jQuery('.accordion.needs-foundation-init');
+    if (elems.length > 0) {
+      elems.foundation('_init');
+      elems.removeClass('needs-foundation-init');
+    }
+//    tried this but it didn't work:
+//    $(document).foundation('accordion', 'reflow');
+  }, 100);
+</script>

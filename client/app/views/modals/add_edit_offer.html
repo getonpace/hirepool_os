@@ -1,0 +1,57 @@
+<div class="modal" id="offer-modal" ng-controller="ModalsAddEditOfferCtrl">
+  <div class="modal-dialog">
+    <header>
+      <h4 ng-show="!existingOffer">{{'modal.add-edit-offer.title-add'|translate}}</h4>
+      <h4 ng-show="existingOffer">{{'modal.add-edit-offer.title-edit'|translate}}</h4>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <form name="addOfferForm" role="form" novalidate>
+
+        <div class="ac-form" ng-class="{error: status_req}">
+          <label for="status">{{'modal.add-edit-offer.status'|translate}}</label>
+          <select class="input-sm" name="status" ng-model="data.statusFromDropdown" ng-change="hasClientValidationErrors()" required>
+            <option value="" disabled selected>Select</option>
+            <option ng-repeat="status in view.OfferStatusDropdownOptions" value="{{status}}">{{status}}</option>
+          </select>
+          <span ng-show="status_req" class='error-message'>{{'modal.add-edit-offer.error.no-status'|translate}}</span>
+        </div>
+        <div class="ac-form" ng-class="{error: source_enter_other_req}" ng-show="showOtherStatusInput()">
+          <label for="status_enter_other">{{'modal.add-edit-offer.status_enter_other'|translate}}</label>
+          <input class="input-sm" ng-model="data.statusFromText" ng-change="hasClientValidationErrors()" type="text" placeholder="{{'modal.add-edit-offer.status_placeholder'|translate}}" name="status_enter_other"/>
+        </div>
+
+        <div class="ac-form" ng-class="{error: base_salary_req || base_salary_too_high}">
+          <label for="base-salary">{{'modal.add-edit-offer.comp-base'|translate}}</label>
+          <input name="base-salary" ng-model="offer.base_salary" ng-change="hasClientValidationErrors()" type="text" format="number" number-symbol="$" mask-restrict="reject" class="input-sm" placeholder="{{'modal.add-edit-offer.comp-base-placeholder'|translate}}" required/>
+          <span ng-show="base_salary_req" class='error-message'>{{'modal.add-edit-offer.error.no-comp-base'|translate}}</span>
+          <span ng-show="base_salary_too_high" class='error-message'>{{'modal.add-edit-offer.error.base-too-high'|translate}}</span>
+        </div>
+
+        <div class="ac-form" ng-class="{error: add_comp_req}">
+          <label for="additional-compensation">{{'modal.add-edit-offer.comp-additional'|translate}}</label>
+          <input name="additional-compensation" ng-model="offer.additional_compensation" ng-change="hasClientValidationErrors()" type="text" class="input-sm" placeholder="{{'modal.add-edit-offer.comp-additional-placeholder'|translate}}"/>
+          <span ng-show="add_comp_req" class='error-message'>{{'modal.add-edit-offer.error.no-comp-additional'|translate}}</span>
+        </div>
+
+        <div class="ac-form" ng-class="{error: target_comp_req}">
+          <label for="total-target-compensation">{{'modal.add-edit-offer.comp-total'|translate}}</label>
+          <input name="total-target-compensation" ng-model="offer.total_target_compensation" format="number" number-symbol="$" ng-change="hasClientValidationErrors()" type="text" class="input-sm" placeholder="{{'modal.add-edit-offer.comp-total-placeholder'|translate}}"/>
+          <span ng-show="target_comp_req" class='error-message'>{{'modal.add-edit-offer.error.no-comp-total'|translate}}</span>
+        </div>
+        <div class="ac-form date" ng-class="{error: offer_date_req}">
+          <hp-date-form ng-model="offer.expiration_date" name="offer-date" unique-id="offer" date-label="Offer Expiration Date" input-size="sm"></hp-date-form>
+          <span ng-show="offer_date_req" class='error-message'>{{'modal.add-edit-offer.error.no-expiration'|translate}}</span>
+        </div>
+
+        <button ng-show="!changedSuccessfully && !existingOffer && !tryingToSubmit" ng-click="submitOffer()" class="button submit expanded" ng-disabled="tryingToDelete">{{'modal.add-edit-offer.add'|translate}}</button>
+        <button ng-show="!changedSuccessfully && existingOffer && !tryingToSubmit" ng-click="submitOffer()" class="button submit expanded" ng-disabled="tryingToDelete">{{'modal.add-edit-offer.change'|translate}}</button>
+        <button ng-show="tryingToSubmit" class="button submit expanded" disabled>{{'modal.add-edit-offer.trying_to_submit'|translate}}</button>
+        <button ng-show="changedSuccessfully" class="button submit expanded"><i class="fa fa-check"></i></button>
+        <button ng-show="existingOffer && !tryingToDelete && !deletedSuccessfully" ng-click="destroyOffer()" class="button delete submit expanded" ng-disabled="tryingToSubmit || changedSuccessfully">{{'modal.add-edit-offer.remove'|translate}}</button>
+        <button ng-show="tryingToDelete" class="button delete submit expanded" disabled>{{'modal.add-edit-offer.trying_to_remove'|translate}}</button>
+        <button ng-show="deletedSuccessfully" class="button delete submit expanded"><i class="fa fa-check"></i></button>
+      </form>
+    </section>
+  </div>
+</div>

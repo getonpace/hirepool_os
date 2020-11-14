@@ -1,0 +1,89 @@
+<header class="opportunity-select-header">
+  <select ng-model="vm.parentData.currentOpp" ng-options="opp as vm.getOppString(opp) for opp in vm.parentData.opportunities track by opp.id"></select>
+</header>
+<section class="opp-details-section opp-details-tab-container admin-column-container">
+  <div class="col1" ng-class="{stacked: vm.parentData.currentOpp.offer}">
+    <div class="inner-col">
+      <p ng-show="vm.parentData.currentOpp.company.location">{{vm.parentData.currentOpp.company.location}}</p>
+      <p ng-show="vm.parentData.currentOpp.role">Role: {{vm.parentData.currentOpp.role}}</p>
+      <p ng-show="vm.parentData.currentOpp.source">Source: vm.parentData.currentOpp.source}}</p>
+      <p ng-show="vm.parentData.currentOpp.job_url">URL: {{vm.parentData.currentOpp.job_url}}</p>
+    </div>
+    <div class="inner-col">
+      <p>Created: {{vm.getFullDate(vm.parentData.currentOpp.created_at)}}</p>
+      <p>Updated: {{vm.getFullDate(vm.parentData.currentOpp.updated_at)}}</p>
+      <p>Status: {{vm.getStatus(vm.parentData.currentOpp)}}</p>
+    </div>
+  </div>
+  <div class="col2" ng-show="vm.parentData.currentOpp.offer">
+    <div class="fit-adjacent">
+      <p>Offer:</p>
+    </div>
+    <div class="fit-adjacent">
+      <p>{{vm.parentData.currentOpp.offer.status}}, created {{vm.getShortestDateString(vm.parentData.currentOpp.offer.created_at)}}, updated {{vm.getShortestDateString(vm.parentData.currentOpp.offer.updated_at)}}</p>
+      <p ng-show="vm.parentData.currentOpp.offer.expiration_date">Expires: {{vm.getShortestDateString(vm.parentData.currentOpp.offer.expiration_date)}}</p>
+      <p ng-show="vm.parentData.currentOpp.offer.base_salary">Base salary: ${{vm.parentData.currentOpp.offer.base_salary}}</p>
+      <p ng-show="vm.parentData.currentOpp.offer.additional_compensation">Additional comp: {{vm.parentData.currentOpp.offer.additional_compensation}}</p>
+      <p ng-show="vm.parentData.currentOpp.offer.total_target_compensation">Total comp: ${{vm.parentData.currentOpp.offer.total_target_compensation}}</p>
+    </div>
+  </div>
+</section>
+<section class="opp-notes-section opp-details-tab-container" ng-show="vm.parentData.currentOpp.notes">
+  <h4>User's Notes</h4>
+  <div class="opp-details-subsection" ng-bind-html="vm.getSce(vm.parentData.currentOpp.notes)"></div>
+</section>
+<section class="opp-collaborators-section opp-details-tab-container" ng-show="vm.parentData.currentOpp.collaborator_feedbacks && vm.parentData.currentOpp.collaborator_feedbacks.length">
+  <h4>Collaborators</h4>
+  <div class="collaborators-container opp-details-subsection">
+    <div class="collaborator-container opp-details-subsection-item" ng-repeat="feedback in vm.parentData.currentOpp.collaborator_feedbacks">
+      <p>{{feedback.collaborator.name}} ({{feedback.collaborator.email}}), invited {{vm.getShortestDateString(feedback.date_asked)}}<span ng-hide="feedback.date_completed"> - no response</span></p>
+      <p ng-show="feedback.date_completed"><i ng-show="feedback.rating" class="fa" ng-class="{'fa-thumbs-up': feedback.rating === 10, 'fa-thumbs-down': feedback.rating === 1, 'fa-hand-stop-o': feedback.rating === 5}"></i><span ng-show="feedback.rating && feedback.feedback">: </span><span ng-show="feedback.feedback" class="collaborator-feedback">"{{feedback.feedback}}"</span></p>
+    </div>
+  </div>
+</section>
+<section class="opp-events-section opp-details-tab-container" ng-show="vm.parentData.currentOpp.events && vm.parentData.currentOpp.events.length">
+  <h4>Events</h4>
+  <div class="events-container opp-details-subsection">
+    <div class="event-container opp-details-subsection-item" ng-repeat="event in vm.parentData.currentOpp.events">
+      <p ng-click="vm.toggleExpanded(event)"><i class="fa" ng-class="{'fa-plus': !event.expanded, 'fa-minus': event.expanded}"></i> {{vm.getShortestDateString(event.date)}}: {{event.style}}<span ng-show="event.substyle"> - {{event.substyle}}</span><span ng-show="vm.getPoc(event)"> with {{vm.getPoc(event)}}</span><span ng-show="vm.feedbackText(event)"> - <span ng-class="{'has-feedback': event.hasFeedback, 'needs-feedback': vm.feedbackText(event) === 'Needs Feedback'}">{{vm.feedbackText(event)}}</span></span></p>
+      <div class="event-details-container" ng-show="event.expanded">
+        <div ng-show="event.culture_val || event.one_word">
+          <div class="fit-adjacent" ng-show="event.culture_val">Cultural value rating: {{event.culture_val}}</div>
+          <div class="fit-adjacent" ng-show="event.one_word">Event notes: {{event.one_word}}</div>
+        </div>
+        <p class="event-interviewers-header fit-adjacent" ng-show="event.interviewers.length">Interviewers:</p>
+        <div class="participants-container fit-adjacent" ng-show="event.interviewers.length">
+          <div class="participant-container" ng-repeat="participant in event.interviewers">
+            <div class="fit-adjacent" ng-show="participant.is_poc">POC:</div>
+            <div class="fit-adjacent">{{participant.interviewer.name}}</div>
+            <div class="fit-adjacent" ng-show="participant.interviewer.email">({{participant.interviewer.email}})</div>
+            <div class="fit-adjacent" ng-show="participant.interviewer.relationship">- {{participant.interviewer.relationship}}</div>
+            <div class="fit-adjacent" ng-show="participant.excited">Excited to work together rating: {{participant.excited}}</div>
+          </div>
+        </div>
+        <p class="event-interactions-header fit-adjacent" ng-show="event.interactions.length">Interactions:</p>
+        <div class="interactions-container fit-adjacent" ng-show="event.interactions.length">
+          <div class="interaction-container" ng-repeat="interaction in event.interactions">
+            <div>
+              <div class="fit-adjacent">{{interaction.style}}</div>
+              <div class="fit-adjacent" ng-show="interaction.culture_val || interaction.one_word">(
+                <div class="fit-adjacent" ng-show="interaction.culture_val">Cultural value rating: {{interaction.culture_val}}</div>
+                <div class="fit-adjacent" ng-show="interaction.culture_val && interaction.one_word">,</div>
+                <div class="fit-adjacent" ng-show="interaction.one_word">Interaction notes: {{interaction.one_word}}</div>
+              )</div>
+            </div>
+            <p class="interaction-interviewers-header fit-adjacent" ng-show="interaction.interviewers.length">Interviewers:</p>
+            <div class="participants-container fit-adjacent" ng-show="interaction.interviewers.length">
+              <div class="participant-container" ng-repeat="participant in interaction.interviewers">
+                <div class="fit-adjacent">{{participant.interviewer.name}}</div>
+                <div class="fit-adjacent" ng-show="participant.interviewer.email">({{participant.interviewer.email}})</div>
+                <div class="fit-adjacent" ng-show="participant.interviewer.relationship">- {{participant.interviewer.relationship}}</div>
+                <div class="fit-adjacent" ng-show="participant.excited">(Excited to work together rating: {{participant.excited}})</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,42 @@
+<div class="collaborator-form" ng-controller="CollaboratorProvideFeedbackIndexCtrl">
+  <h3 class='text-center'>{{'collaborator.intro'|translate:{ name: user_name } }}</h3>
+  <div class="form-card">
+    <header>
+      <div class="logo-chip">
+        <table>
+          <tr>
+             <td>
+               <img src="https://logo.clearbit.com/{{collab_interview.company.domain}}?size=200" on-error-src="images/company-placeholder.jpg" alt="">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="details">
+        <h4 class="name">{{collab_interview.job_title ? collab_interview.job_title : "A role at " + collab_interview.company.name}}</h4>
+        <p ng-show="collab_interview.location"><strong>{{collab_interview.location}}</strong></p>
+        <p ng-show="collab_interview.job_url"><a href="{{collab_interview.job_url}}" target="_blank">{{collab_interview.job_url}}</a></p>
+      </div>
+    </header>
+    <form name="addFeedbackForm" novalidate>
+      <div class="ac-form" ng-class="{error: comp_rating_req}">
+        <thumb-ratings name="feedback_rating"
+          rating-label="{{opportunityText}}"
+          low-label="{{'collaborator.rating-low'|translate}}"
+          medium-label="{{'collaborator.rating-medium'|translate}}"
+          high-label="{{'collaborator.rating-high'|translate}}"
+          unique-id="collab-{{collab_interview.id}}"
+          rating="feedback.rating" required>
+        </thumb-ratings>
+        <span ng-show="comp_rating_req" class='error-message'>{{'collaborator.error.no-rating'|translate}}</span>
+      </div>
+      <div class="ac-form" ng-class="{error: feedback_req}">
+        <label for="feedback_feedback">{{'collaborator.feedback'|translate:{ username: user_name } }}</label>
+        <textarea ng-change="hasClientValidationErrors()" id="notes" name="feedback_feedback" ng-model="feedback.feedback" placeholder="{{'collaborator.feedback-placeholder'|translate: {company: collab_interview.company.name} }}" required></textarea>
+        <span ng-show="feedback_req" class='error-message'>{{'collaborator.error.no-feedback'|translate}}</span>
+      </div>
+    </form>
+    <button ng-hide="sendingFeedback || feedbackSent" ng-click="submitFeedback()" class="button expanded">{{'collaborator.submit'|translate}}</button>
+    <button ng-show="sendingFeedback" class="button expanded" disabled>{{'collaborator.saving_feedback'|translate}}</button>
+    <button ng-show="feedbackSent" class="button expanded"><i class="fa fa-check"></i></button>
+  </div>
+</div> <!-- //collab form -->

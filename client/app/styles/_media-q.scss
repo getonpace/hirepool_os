@@ -1,0 +1,220 @@
+// ////////////////////////////////////////////
+// Media Queries
+// ////////////////////////////////////////////
+//Desktop
+@include breakpoint(medium){
+  .button.large{
+    font-size: 1.25rem !important;
+  }
+
+  // Intro Cards
+  .card-steps{
+    overflow: visible;
+    width: 580px;
+    height: 450px;
+    input[type='radio'] + label,
+    input[type='checkbox'] + label{
+      font-size: 16px;
+    }
+    .card-step{
+      margin: 0;
+      padding: 0 65px;
+      h2{
+        font-size: rem-calc(28px);
+        padding: 60px 0 0px;
+      }
+      .card-content{
+        p{
+          font-size: 1rem;
+        }
+        h6{
+          font-size: inherit;
+        }
+        img{
+          max-width: 160px;
+          &.nar-loader{
+            max-width: 280px;
+            margin-bottom: 40px;
+          }
+        }
+      }
+    }
+    input[type='radio'],
+    input[type='checkbox']{
+      $size: rem-calc(20px);
+      & + label{
+        line-height:  $size;
+        height:  $size;
+        margin-bottom: $size;
+        padding-left: $size + 1;
+        &:before,
+        &:after{
+          width: $size;
+          height: $size;
+        }
+        & + label:hover:after,
+        &:checked + label:after{
+          font-size: $size - .4 ;
+        }
+      }
+    }
+  }
+  header.sub-head{
+    margin-bottom: 30px !important;
+    .utilities{
+      display: flex;
+      .utility{
+        flex: 1;
+        width: auto !important;
+        margin-left: 10px !important;
+        &:first-child{
+          margin-left: 0 !important;
+        }
+        &.flex-spacer{
+          flex: 2 0;
+          margin-left: 0 !important;
+          display: block !important;
+        }
+        &.dropdown{
+          flex: 1 80px !important;
+        }
+        &.ac-form{
+          flex: 2 160px !important;
+        }
+        &.button{
+          flex: 1 120px !important;
+          &.compare, &.archived{
+            flex: 1 80px !important;
+          }
+        }
+      }
+    }
+  }
+  //opportunity Details
+  header.section-head{
+    margin-bottom: 0;
+  }
+  .opp-details >.columns,
+  .activity,
+  .collab{
+    margin-bottom: 0px !important;
+  }
+  .opp-details{
+    >div:not(.ratings){
+      display: flex;
+      overflow: hidden;
+    }
+    header.details{
+      text-align: left !important;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .logo-chip{
+      display: inline-block !important;
+
+      margin: 0 20px 0 0 !important;
+    }
+    h3{
+      line-height: 1;
+    }
+  }
+  .accordion.activity-feed{
+    >li.is-editing .actions{
+      height: 40.6px !important;
+    }
+    > li a.accordion-title{
+      h5{
+        line-height: 1.2 !important;
+      }
+      .interview-title{
+        @include clearfix;
+        margin-bottom: 0px !important;
+      }
+      .utils{
+        position: absolute;
+        padding-left: 50px;
+        top: 50%;
+        margin-top: -21px;
+        right: 15px;
+        font-size: 14px;
+        @include overflow-bg;
+        button:not(.button){
+          max-width: none !important;
+          padding:14px !important;
+          color: $midnight-blue !important;
+          width: 10px;
+          transition: all .2s ease;
+          text-align: left;
+          background: none !important;
+          opacity: .4;
+          border: none !important;
+          &:hover{
+            text-indent: 14px !important;
+            opacity: 1;
+          }
+          &:focus{
+            outline: none;
+          }
+          .fa{
+            left: 9px !important;
+            width: auto !important;
+          }
+          &.feedback{
+            color: $warning-color !important;
+            padding-left: 30px;
+            opacity: 1;
+            &:hover{
+              width: 136px;
+            }
+            &.warning:hover{
+              width: 140px;
+            }
+          }
+          &.edit{
+            &:hover{
+              width: 119px;
+            }
+          }
+          &.delete{
+            &:hover{
+              color: $alert-color !important;
+              width: 95px;
+            }
+          }
+        }
+        span.rating{
+          position: static !important;
+        }
+      }
+    }
+
+    footer.accordion-footer{
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      a{
+        height: 100%;
+        line-height: 2.5;
+        position: absolute;
+        top: 0;
+        right: 0px;
+        padding-left: 40px;
+        padding-right: 10px;
+        text-align: right;
+        border-radius: 0 0 3px 0;
+      }
+    }
+  }
+}//close media query
+
+//buttons to icon only in section headers
+@media screen and (max-width: 845px){
+  header.section-head .button{
+    min-width: 28px;
+    span{
+      display: none;
+    }
+  }
+}

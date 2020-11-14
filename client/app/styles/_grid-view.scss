@@ -1,0 +1,39 @@
+#opportunity_grid_view{
+  .sub-head > .utilities{
+    .add-opportunity {
+      margin-left: 0;
+    }
+  }
+  .table-container{
+    position: absolute;
+    top: 240px;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    @include breakpoint(medium){
+      top: 150px;
+    }
+    table{
+      border-width: 0;
+      .location-cell{
+        min-width: 300px;
+      }
+      .uid-string-cell{
+        min-width: 300px;
+      }
+      .actions-cell{
+        min-width: 208px;
+      }
+      tr{
+        border-bottom: 1px solid $light-gray;
+      }
+      th{
+        text-align: left;
+      }
+      th, td{
+        padding-right: 40px;
+        padding-left: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44 (41411) - http://www.bohemiancoding.com/sketch -->
+    <title>approved-circle</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Exports" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="approved-circle">
+            <g id="status-blob-/-tick">
+                <circle id="Oval-2" fill="#7DE56C" cx="12.5" cy="12.5" r="12.5"></circle>
+                <path d="M18.902537,10.3121813 L11.075548,17.9270605 C11.0055745,17.9756871 10.9406002,18 10.880623,18 C10.8206457,18 10.7556714,17.9756871 10.6856979,17.9270605 L6.09746299,13.4631658 C5.96751234,13.3367368 5.96751234,13.2103096 6.09746299,13.0838806 L7.98673621,11.2458063 C8.11668687,11.1193773 8.24663558,11.1193773 8.37658624,11.2458063 L10.880623,13.696572 L16.6234138,8.09482177 C16.7533644,7.96839274 16.8833131,7.96839274 17.0132638,8.09482177 L18.902537,9.93289608 C19.0324877,10.0593251 19.0324877,10.1857522 18.902537,10.3121813 Z" id="check" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

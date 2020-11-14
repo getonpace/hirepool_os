@@ -1,0 +1,14 @@
+<div class="billing-page welcome-screen content-page" ng-controller="BillingCtrl as vm">
+  <h1 class="welcome-header">Billing Details</h1>
+  <section class="welcome-text-container" ng-cloak>
+    <p>My account: {{vm.getAccountStatus()}} (<a ng-click="vm.upgradeOrDowngrade()">{{vm.getUpgradeLinkText()}}</a>)</p>
+    <p ng-show="vm.isPremium() && vm.data.currentSubscription">Next payment date: {{vm.getFormattedNextPaymentDate(vm.data.currentSubscription.next_charge_at)}}</p>
+    <p ng-show="vm.isPremium() && vm.data.card">My billing info: *** {{vm.data.card.last4}} ({{vm.data.card.brand}}) expires {{vm.data.card.exp_month}}/{{vm.data.card.exp_year}} (<a ng-click="vm.updatePaymentDetails()">update billing info</a>)</p>
+  </section>
+  <section class="welcome-text-container">
+    <h2>Account History</h2>
+    <div class="table-container no-border">
+      <hp-sortable-table table-data="vm.data.accountHistoryTableData" default-sort="actionDatetime"></hp-sortable-table>
+    </div>
+  </section>
+</div>

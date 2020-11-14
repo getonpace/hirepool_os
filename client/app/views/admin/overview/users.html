@@ -1,0 +1,27 @@
+<div id="admin_overview_users_tab_container" ng-controller="AdminOverviewUsersCtrl as vm">
+  <hp-timeframe-picker timeframe="vm.view.timeframe" disabled-marker="vm.view.fetchingData" unique-id="vm.view.pickerId"></hp-timeframe-picker>
+  <div class="controls-container">
+    <div class="ac-form form-for-header search-container">
+      <div class="search">
+        <input ng-change="vm.runDataFilter(vm.filter.val)" ng-disabled="vm.disableFilter()" ng-model="vm.filter.val" onfocus="" type="search" autocomplete="off" placeholder="Filter user list">
+        <i class="fa fa-search"></i>
+        <button class="reset" ng-click="vm.resetFilter()" ng-disabled="vm.disableFilter()"><i class="fa fa-times-circle"></i></button>
+      </div>
+    </div>
+    <hp-csv-downloader download-data="vm.data.users" file-name="vm.getCsvFileName('users', vm.view.timeframe)"></hp-csv-downloader>
+  </div>
+  <div class="filter-box-header">
+    <p>Aggregate Data On:</p>
+  </div>
+  <div class="filter-boxes">
+    <div class="filter-box" ng-repeat="filter in vm.view.filterOptions">
+      <input type="checkbox" id="admin_overview_collaborations_filter_box_{{filter.attr}}" name="{{filter.attr}}" ng-model="filter.set" ng-change="vm.setRows()">
+      <label for="admin_overview_collaborations_filter_box_{{filter.attr}}">{{filter.title}}</label>
+    </div>
+  </div>
+  <div ng-show="vm.showLoading()">Loading...</div>
+  <div ng-show="vm.view.hideTable === 'no_data'">No data is available for your timeframe.</div>
+  <div class="table-container" ng-show="!vm.view.hideTable && !vm.showLoading()">
+    <hp-sortable-table table-data="vm.data.usersTable"></hp-sortable-table>
+  </div>
+</div>

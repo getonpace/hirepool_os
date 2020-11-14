@@ -1,0 +1,19 @@
+<div class="modal" id="remove-interaction-modal" ng-controller="ModalsRemoveInteractionCtrl">
+  <div class="modal-dialog">
+    <header>
+      <h4 class="error"><i class="fa fa-exclamation-triangle"></i> {{'modal.remove_interaction.title'|translate}}</h4>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <h6>{{'modal.remove_interaction.confirm'|translate}}</h6>
+      <div class="row">
+        <div class="columns medium-6">
+          <button class="button submit expanded alert" ng-click="remove()">{{'modal.remove_interaction.remove'|translate}}</button>  
+        </div>
+        <div class="columns medium-6">
+          <button class="button submit secondary expanded hollow" ng-click="close()">{{'modal.remove_interaction.cancel'|translate}}</button>  
+        </div>
+      </div>
+    </section>
+  </div>
+</div><!-- //Remove Event Modal -->

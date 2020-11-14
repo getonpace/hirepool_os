@@ -1,0 +1,21 @@
+<div id="admin_overview_opportunities_tab_container" ng-controller="AdminOverviewOpportunitiesCtrl as vm">
+  <hp-timeframe-picker timeframe="vm.view.timeframe" disabled-marker="vm.view.fetchingData" unique-id="vm.view.pickerId"></hp-timeframe-picker>
+  <div class="controls-container">
+    <div class="filter-box-header">
+      <p>Aggregate Data On:</p>
+    </div>
+    <div class="filter-boxes">
+      <div class="filter-box" ng-repeat="filter in vm.view.filterOptions">
+        <input type="checkbox" id="admin_overview_opportunities_filter_box_{{filter.attr}}" name="{{filter.attr}}" ng-model="filter.set" ng-change="vm.setRows()">
+        <label for="admin_overview_opportunities_filter_box_{{filter.attr}}">{{filter.title}}</label>
+      </div>
+    </div>
+    <hp-csv-downloader download-data="vm.data.opportunities" file-name="vm.getCsvFileName('opportunities', vm.view.timeframe)"></hp-csv-downloader>
+  </div>
+  <div ng-show="vm.showLoading()">Loading...</div>
+  <div ng-show="vm.view.hideTable === 'no_filter'">Choose at least one dimension to filter on.</div>
+  <div ng-show="vm.view.hideTable === 'no_data'">No data is available for your timeframe.</div>
+  <div class="table-container" ng-show="!vm.view.hideTable && !vm.showLoading()">
+    <hp-sortable-table table-data="vm.data.opportunitiesTable"></hp-sortable-table>
+  </div>
+</div>

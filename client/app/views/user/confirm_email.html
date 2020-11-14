@@ -1,0 +1,32 @@
+<div class="content-page" ng-controller="ConfirmEmailCtrl as vm">
+  <h1>Welcome{{vm.data.name}}!</h1>
+  <section ng-show="vm.view.confirmationExpired">
+    <p>Your confirmation email has expired.</p>
+    <p>Have us <a ng-click="vm.showResendForm()">send you a new one</a> so you can confirm your email and access hirepool!</p>
+    <button class="button centered-button" ng-click="vm.showResendForm()" ng-hide="vm.view.showResendForm" hp-event-recorder="{action: 'resend-confirmation-email', page: 'confrim_email'}"><i class="fa fa-envelope"></i> Resend my confirmation email</button>
+  </section>
+  <section ng-show="vm.view.userAlreadyConfirmed">
+    <p>You've already confirmed your account. Go ahead and <a href="#/sign_in">sign in</a> to hirepool!</p>
+    <button class="button centered-button" ng-click="vm.goToSignIn()">Login</button>
+  </section>
+  <section ng-show="vm.view.welcomeAndResend">
+    <p>Thanks for signing up for hirepool.</p>
+    <p>You should have an account confirmation email in your inbox. Open that email and click the link to confirm your email address. Then you can get started in hirepool!</p>
+    <p>Can't find the email? We can <a ng-click="vm.showResendForm()">resend</a> it.</p>
+    <button class="button centered-button" ng-click="vm.showResendForm()" ng-hide="vm.view.showResendForm" hp-event-recorder="{action: 'resend-confirmation-email', page: 'confrim_email'}"><i class="fa fa-envelope"></i> Resend my confirmation email</button>
+  </section>
+  <section class="medium-6 medium-centered" ng-show="vm.view.showResendForm">
+    <form name="resendConfirmationEmailForm" novalidate>
+      <div class="ac-form" ng-class="{error: vm.view.errors.email_invalid || vm.view.errors.email_req || vm.view.errors.email_account_not_found || vm.view.errors.email_error}">
+        <input ng-change="vm.hasClientValidationErrors()" ng-model-options="{debounce: 250}" type="email" placeholder="{{'login.email-placeholder'|translate}}" name="email" id="email" ng-model="vm.data.email" autocapitalize="off" required focus-if/>
+        <i class="fa fa-envelope"></i>
+        <span ng-show="vm.view.errors.email_invalid" class='error-message'>{{'login.error.invalid-email'|translate}}</span>
+        <span ng-show="vm.view.errors.email_req" class='error-message'>{{'login.error.no-email'|translate}}</span>
+        <span ng-show="vm.view.errors.email_account_not_found" class='error-message'>Account not found</span>
+        <span ng-show="vm.view.errors.email_error" class='error-message'>Error sending confirmation email</span>
+      </div>
+      <button class="button expanded" ng-click="vm.resendConfirmationEmail()">Submit</button>
+      <p ng-show="vm.view.showSuccessMessage">Ok, email sent! Go check your inbox.</p>
+    </form>
+  </section>
+</div>

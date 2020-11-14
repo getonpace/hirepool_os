@@ -1,0 +1,10 @@
+<div class="notes-editor" ui-tinymce="vm.view.tinymceOptions"
+  ng-model="vm.notes" ng-model-options="{debounce: 500}"
+  ng-change="vm.saveNotes()" placeholder="Enter notes here">
+</div>
+<div class="notes-save-status" ng-switch="vm.view.notesSaveStatus">
+  <span ng-switch-when="saved">{{'opportunity-details.notes-saving-status.saved'|translate}}</span>
+  <span ng-switch-when="unsaved">{{'opportunity-details.notes-saving-status.saving'|translate}}</span>
+  <span ng-switch-when="saving">{{'opportunity-details.notes-saving-status.saving'|translate}}</span>
+  <span ng-switch-when="error">{{'opportunity-details.notes-saving-status.error'|translate}}</span>
+</div>

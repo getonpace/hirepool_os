@@ -1,0 +1,46 @@
+<div ng-controller="PremiumSurveyCtrl">
+  <!-- Cards -->
+  <div class="progress"></div>
+  <div class="card-container premium-survey">
+    <ul class="card-steps no-bullet">
+
+      <!-- card  -->
+      <li class="card-step card-active" id="where_are_you">
+        <h2>{{question1.title}}</h2>
+        <div class="subtitle"></div>
+        <div class="card-content">
+          <form action="">
+            <input type="radio" id="where_are_you_{{answer.id}}" name="premium_survey" ng-repeat-start="answer in question1.possible_answers" ng-model="question1.answer" ng-value="answer.answer_desc"/>
+            <label ng-repeat-end for="where_are_you_{{answer.id}}">{{answer.answer}}</label>
+          </form>
+        </div>
+        <footer>
+          <button ng-disabled="!question1.answer.length" class="button large" ng-click="nextButtonHandler($event)">Next</button>
+        </footer>
+      </li>
+
+      <!-- card  -->
+      <li class="card-step" id="job_title">
+        <h2>{{question2.title}}</h2>
+        <div class="subtitle"></div>
+        <div class="card-content">
+          <form class="ac-form" id="job_title_field">
+            <hp-autocomplete
+              ng-model="question2"
+              suggestions="getJobTitleAutoCompleteOptions"
+              value-key="job_title"
+              placeholder="Start typing your target job title"
+              uid="premium_survey_job_title_field"
+              input-name="premium_survey_job_title_field"
+              update-entire-model="false"
+            ></hp-autocomplete>
+          </form>
+        </div>
+        <footer>
+          <button ng-disabled="!question2.job_title.length || view.submittingSurvey" class="button large" ng-click="submitSurvey1($event)"><span ng-hide="view.submittingSurvey">Finish!</span><span ng-show="view.submittingSurvey"><i class="fa fa-spin fa-spinner"></i> Saving...</span></button>
+        </footer>
+      </li>
+
+    </ul>
+  </div> <!-- //card container -->
+</div>

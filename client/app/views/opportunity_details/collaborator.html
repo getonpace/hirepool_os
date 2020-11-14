@@ -1,0 +1,9 @@
+<h6>{{collaborator.collaborator.name}} {{getDescriptorWord()}} {{opportunity.company.name}} <i class="fa" ng-class="getClass()" ng-show="collaborator.rating > 0"></i></h6>
+<p ng-show="collaborator.rating > 0 && (collaborator.feedback.length < maxLength || showLongFeedback)">
+  {{collaborator.feedback}}
+  <a ng-click="setShowLongFeedback(false)" ng-hide="collaborator.feedback.length < maxLength">{{'collaborator.collapse'|translate}}</a>
+</p>
+<p ng-show="collaborator.rating > 0 && (collaborator.feedback.length >= maxLength && !showLongFeedback)">
+  {{shortFeedback()}}
+  <a ng-click="setShowLongFeedback(true)">{{'collaborator.expand'|translate}}</a>
+</p>

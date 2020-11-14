@@ -1,0 +1,76 @@
+<div class="top-info">
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <img ng-src="https://logo.clearbit.com/{{vm.data.opportunity.company.domain}}?size=200" on-error-src="images/company-placeholder.jpg" alt="product image">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>{{vm.data.opportunity.company.name}}</h3>
+</div> <!-- .top-info -->
+<ul class="cd-features-list no-bullet">
+  <li>
+    <span ng-show="vm.data.opportunity.job_title">{{vm.data.opportunity.job_title}}</span>
+    <span ng-show="vm.data.opportunity.job_title && vm.data.opportunity.role">{{'comparison_view.details.title_to_field_join'|translate}}</span>
+    <span ng-show="vm.data.opportunity.role">{{vm.data.opportunity.role}}</span>
+    <span ng-show="!vm.data.opportunity.job_title && !vm.data.opportunity.role">{{'comparison_view.details.no_role'|translate}}</span>
+  </li>
+  <li>
+    {{vm.data.location}}<br>
+    <span ng-show="vm.user.surveyAnswers.length > 0 && vm.data.commute">{{vm.data.commute}} {{'comparison_view.details.commute'|translate}}</span>
+    <span ng-show="vm.user.surveyAnswers.length > 0 && !vm.data.commute">&nbsp;</span>
+  </li>
+  <li>
+    <span ng-show="vm.data.opportunity.offer">{{vm.data.opportunity.offer.status}} {{'comparison_view.details.offer.offer'|translate}} ${{vm.data.opportunity.offer.base_salary}} {{'comparison_view.details.offer.salary'|translate}}</span>
+    <span ng-show="!vm.data.opportunity.offer"><a ng-click="vm.setCurrentOpportunity()" title="{{'comparison_view.details.add_offer.title'|translate}}" data-modal-trigger data-modal="offer-modal">{{'comparison_view.details.add_offer.text'|translate}}</a></span>
+  </li>
+  <li class="overall-rating-cell">
+    <span ng-show="vm.getOpportunityRating() === '-'">-</span>
+    <span ng-show="vm.getOpportunityRating() !== '-'" class="opportunity-rating"><hp-opportunity-rating-cell rating="vm.getOpportunityRating()"></hp-opportunity-rating-cell></span>
+  </li>
+  <li>{{vm.getInterviewScore()}}</li>
+  <li>{{vm.getValueFit()}}</li>
+  <li>{{vm.getPplFit()}}</li>
+  <li>
+    <span ng-show="vm.getCollabs().length" title="{{'comparison_view.details.collaborators.title'|translate}} {{vm.getCollabs().join(', ')}}">{{vm.getCollabScore()}} ({{vm.getCollabs().length}} {{'comparison_view.details.collaborators.text'|translate}})</span>
+    <span ng-show="!vm.getCollabs().length"><a ng-click="vm.setCurrentOpportunity()" title="{{'comparison_view.details.add_collaborator.title'|translate}}" data-modal-trigger data-modal="add-collaborator-modal">{{'comparison_view.details.add_collaborator.text'|translate}}</a></span>
+  </li>
+  <li>
+    <span ng-show="vm.getFoundedYear()">{{'comparison_view.details.founded'|translate}} {{vm.getFoundedYear()}}</span>
+    <span ng-show="!vm.getFoundedYear()">&nbsp;</span>
+    <br>
+    <span ng-show="vm.getEmployees()">{{'comparison_view.details.employees'|translate}} {{vm.getEmployees()}}</span>
+    <span ng-show="!vm.getEmployees()">&nbsp;</span>
+  </li>
+  <li>
+    <span ng-show="vm.data.cbData.twitter.handle"><a href="http://twitter.com/{{vm.data.cbData.twitter.handle}}" target="_blank">@{{vm.data.cbData.twitter.handle}}</a>, {{vm.getTwitterFollowers()}} {{'comparison_view.details.twitter.followers'|translate}}</span>
+    <span ng-show="!vm.data.cbData.twitter.handle">&nbsp;</span>
+  </li>
+  <li>
+    <span ng-show="vm.data.cbData.ticker">{{'comparison_view.details.stock_ticker'|translate}} {{vm.data.cbData.ticker}}</span>
+    <span ng-show="!vm.data.cbData.ticker && vm.data.cbData.metrics.raised">{{'comparison_view.details.funding_raised'|translate}} {{vm.getFunding()}}</span>
+    <span ng-show="!vm.data.cbData.ticker && !vm.data.cbData.metrics.raised">&nbsp;</span>
+    <span ng-show="vm.comparePublicCo()">
+      <br>
+      <span ng-show="!vm.data.cbData.metrics.marketCap">&nbsp;</span>
+      <span ng-show="vm.data.cbData.metrics.marketCap">{{'comparison_view.details.market_cap'|translate}} {{vm.getMarketCap()}}</span>
+      <br>
+      <span ng-show="!vm.data.cbData.metrics.annualRevenue">&nbsp;</span>
+      <span ng-show="vm.data.cbData.metrics.annualRevenue">{{'comparison_view.details.annual_revenue'|translate}} {{vm.getRevenue()}}</span>
+    </span>
+  </li>
+  <li ng-show="vm.compareHasInterviews()">
+    <span ng-show="vm.getNextInterview()">{{'comparison_view.details.interviews.next'|translate}} {{vm.dateHelper(vm.getNextInterview().date)}}<br></span>
+    <span ng-show="!vm.getNextInterview()">&nbsp;<br></span>
+    <span ng-show="vm.getLastInterview()">{{'comparison_view.details.interviews.last'|translate}} {{vm.dateHelper(vm.getLastInterview().date)}}</span>
+    <span ng-show="!vm.getLastInterview()">&nbsp;</span>
+  </li>
+  <li ng-show="vm.compareHasInterviews()">
+    <scope ng-show="vm.getInterviewCount()">{{vm.getInterviewCount()}} {{'comparison_view.details.interviews.interviews'|translate}}<br>
+    {{'comparison_view.details.interviews.first'|translate}} {{vm.dateHelper(vm.getFirstInterview().date)}}<br>
+    {{'comparison_view.details.interviews.total_time'|translate}} {{vm.getTimeInPipeline()}}</scope>
+    <scope ng-show="!vm.getInterviewCount()">&nbsp;<br>&nbsp;<br>&nbsp;</scope>
+  </li>
+</ul>

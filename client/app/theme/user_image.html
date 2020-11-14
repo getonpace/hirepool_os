@@ -1,0 +1,7 @@
+<div class="upload-wrap avatar" ng-controller="UserImageCtrl">
+  <i class="fa fa-pencil" ng-show="!uploading"></i>
+  <i class="pulse-loader" ng-show="uploading" ng-style="{ opacity: 1 }"></i>
+  <img src="{{user.image}}" ng-show="user.image" alt="avatar">
+  <img src="images/default_user_image.png" ng-show="!user.image" alt="avatar">
+  <input type="file" ng-show="false"/>
+</div>

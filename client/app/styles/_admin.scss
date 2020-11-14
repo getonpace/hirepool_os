@@ -1,0 +1,34 @@
+#admin_overview_old{
+  ul{
+    padding-left: 5px;
+  }
+  table{
+    margin: 5px 5px 10px 5px;
+    th{
+      font-weight: bold;
+    }
+    th, td{
+      padding: 3px 5px;
+    }
+
+    &.table{
+      thead{
+        background-color: lighten(#287AC2, 50%);
+      }
+      th, td{
+        border: 1px solid grey;
+        white-space: nowrap;
+      }
+      tr:nth-child(even){
+        background-color: lighten(#287AC2, 50%);
+      }
+    }
+
+    &.low-profile{
+      th{
+        text-align: left;
+        padding-top: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,495 @@
+<div class="modal" id="add-event-and-opportunity-fodal" ng-controller="ModalsAddEventAndOpportunityCtrl as vm">
+  <div class="modal-dialog row" ng-class="vm.view.mode">
+    <header>
+      <h4>{{vm.view.title}}</h4>
+      <h5>{{vm.view.subtitle}}</h5>
+      <div class="progress-tracker">
+        <div class="step" ng-class="vm.getActiveProgressClass('add_event_and_opportunity')" ng-hide="vm.view.mode !== 'add_event_and_opportunity'">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Add Event</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('opportunity_details')" ng-hide="vm.view.mode !== 'add_event_and_opportunity'">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Opportunity Details</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('event_details')">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Event Details</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('poc')">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">POC Details</div>
+        </div>
+        <div class="step" ng-class="vm.getActiveProgressClass('add_interaction')">
+          <div class="dot">&nbsp;</div>
+          <div class="tracker-label">Add Interactions</div>
+        </div>
+        <div class="bar"><span class="progress-tracker-bar" ng-class="vm.view.state">&nbsp;</span></div>
+      </div>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+
+    <div class="modal-content columns medium-8 medium-offset-2">
+      <section class="add-event-container" ng-show="vm.view.state === 'add_event_and_opportunity'">
+        <form name="addOpportunityAndEventForm" role="form" novalidate>
+          <div class="ac-form" ng-show="vm.oppsExist()" ng-class="{error: vm.view.errors.opportunity_req}">
+            <label for="add_event_and_opportunity_opportunity_select">{{'modal.add_event.choose_an_opportunity'|translate}}</label>
+            <select class="input-sm" name="add_event_and_opportunity_opportunity_select" ng-model="vm.data.opportunitySelected" ng-change="vm.opportunitySelectedFromDropdown()" required>
+              <option value="" disabled selected>{{'modal.add_event.select_opportunity'|translate}}</option>
+              <option value="new_opp">{{'modal.add_event.add_new_opportunity'|translate}}</option>
+              <option ng-repeat="opp in vm.data.allOpps" value="{{opp.data.id}}">{{vm.getOpportunityTextWithJobTitle(opp)}}</option>
+            </select>
+            <span ng-show="vm.view.errors.opportunity_req" class='error-message'>{{'modal.add_event.error.no_opportunity'|translate}}</span>
+          </div>
+          <div class="new-opportunity-data" ng-show="vm.showNewOpportunityOptions()">
+            <div class="ac-form" ng-class="{error: vm.view.errors.company_name_req}">
+              <company-auto-complete
+                ng-model="vm.data.opportunity.company"
+                value-key="name"
+                title-label="Company Name"
+                placeholder="Enter and search for a company"
+                uid="add_event_and_opportunity_company_name"
+                input-name="add_event_and_opportunity_company_name"
+                update-entire-model="true"
+                value-is-required="true"
+                handle-validations="vm.hasClientValidationErrors"
+              ></company-auto-complete>
+              <span ng-show="vm.view.errors.company_name_req" class='error-message'>{{'modal.add_event.error.no_company_name'|translate}}</span>
+            </div>
+            <div class="ac-form">
+              <label for="job_title">{{'modal.add_event.add_opportunity_event.job_title'|translate}}</label>
+              <input class="input-sm" ng-model="vm.data.opportunity.job_title" type="text" placeholder="{{'modal.add_event.add_opportunity_event.job_title'|translate}}" name="job_title"/>
+            </div>
+            <button class="button small hollow" ng-click="vm.skipToOpportunityDetails()">Add details</button>
+            <button class="button small hollow {{vm.view.savingOpportunityClass}}" ng-click="vm.addOpportunityOnly()">{{vm.view.savingOpportunityText}}</button>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.event_style_req}">
+            <label for="event-style">{{'modal.add_event.style'|translate}}</label>
+            <select class="input-sm" name="event-style" ng-model="vm.data.event.styleFromDropdown" ng-change="vm.hasClientValidationErrors()" required>
+              <option value="" disabled selected>{{'modal.add_event.select_event'|translate}}</option>
+              <option ng-repeat="style in vm.view.EventStyleDropdownOptions" value="{{style}}">{{style}}</option>
+            </select>
+            <span ng-show="vm.view.errors.event_style_req" class='error-message'>{{'modal.add_event.error.no_style'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.event_style_other_req}" ng-show="vm.showOtherStyleInput(vm.data.event)">
+            <label for="event_style_other">{{'modal.add_event.event.style_enter_other'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.event.styleFromText" ng-change="vm.hasClientValidationErrors()" type="text" placeholder="{{'modal.add_event.event.style_placeholder'|translate}}" name="event_style_other"/>
+          </div>
+          <div class="ac-form">
+            <!-- TODO: use angular-translate and variables for this, need to add partial loading -->
+            <!-- <label for="event-style">{{'modal.add_event.substyle'|translate:'{event_type: vm.data.event.style}'}}</label> -->
+            <label for="event-substyle">What will you be doing during the {{vm.data.event.styleFromDropdown ? vm.data.event.styleFromDropdown.toLowerCase() + ' ' : ''}}event?</label>
+            <select class="input-sm" name="event-substyle" ng-model="vm.data.event.substyleFromDropdown">
+              <option value="" disabled selected>{{'modal.add_event.select_event_substyle'|translate}}</option>
+              <option ng-repeat="substyle in vm.view.EventSubstyleDropdownOptions" value="{{substyle}}">{{substyle}}</option>
+            </select>
+          </div>
+          <div class="ac-form" ng-show="vm.showOtherSubstyleInput(vm.data.event)">
+            <label for="event_substyle_other">{{'modal.add_event.event.substyle_enter_other'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.event.substyleFromText" type="text" placeholder="{{'modal.add_event.event.substyle_placeholder'|translate}}" name="event_substyle_other"/>
+          </div>
+          <div class="ac-form date" ng-class="{error: vm.view.errors.event_date_req}">
+            <hp-date-form ng-model="vm.data.event.date" name="event-date" include-time="true" unique-id="event-date" date-label="{{vm.view.eventModalStrings.add_event_date}}" input-size="sm" required></hp-date-form>
+            <span ng-show="vm.view.errors.event_date_req" class='error-message'>{{'modal.add_event.error.no_date'|translate}}</span>
+          </div>
+        </form>
+      </section> <!-- end add_event -->
+
+      <section class="add-event-container" ng-show="vm.view.state === 'opportunity_details'">
+        <form name="opportunityDetailsForm" role="form" novalidate>
+          <div class="ac-form" ng-class="{error: vm.view.errors.company_name_req}">
+            <company-auto-complete
+              ng-model="vm.data.opportunity.company"
+              value-key="name"
+              title-label="Company Name"
+              placeholder="Company name"
+              uid="opportunity_details_company_name"
+              input-name="opportunity_details_company_name"
+              update-entire-model="true"
+              value-is-required="true"
+              handle-validations="vm.hasClientValidationErrors"
+            ></company-auto-complete>
+            <span ng-show="vm.view.errors.company_name_req" class='error-message'>{{'modal.add_event.error.no_company_name'|translate}}</span>
+          </div>
+          <div class="ac-form">
+            <location-auto-complete ng-model="vm.data.opportunityLocationFromAutocomplete" location-title-label="Company Location"></location-auto-complete>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.opportunity_source_req}">
+            <label for="opportunity_source">{{'modal.add_opportunity.source'|translate:{ opportunity: vm.getOpportunityTextWithoutJobTitle() } }}</label>
+            <select class="input-sm" name="opportunity_source" ng-model="vm.data.opportunitySourceFromDropdown" ng-change="vm.hasClientValidationErrors()" required>
+              <option value="" disabled selected>{{'modal.add_opportunity.select'|translate}}</option>
+              <optgroup ng-repeat-start="sourcesContainer in vm.view.OpportunitySourceDropdownOptions" ng-if="sourcesContainer.optgroup" label="{{sourcesContainer.optgroup}}">
+                <option ng-repeat="sourceOption in sourcesContainer.options" value="{{sourceOption}}">{{sourceOption}}</option>
+              </optgroup>
+              <option ng-repeat-end ng-repeat="sourceOption in sourcesContainer.options" ng-if="!sourcesContainer.optgroup" value="{{sourceOption}}">{{sourceOption}}</option>
+            </select>
+            <span ng-show="vm.view.errors.opportunity_source_req" class='error-message'>{{'modal.add_opportunity.error.no-source'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-show="vm.showOtherOpportunityInput()">
+            <label for="opportunity_source_enter_other">{{'modal.add_opportunity.source_enter_other'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.opportunitySourceFromText" type="text" placeholder="{{'modal.add_opportunity.source_placeholder'|translate}}" name="opportunity_source_enter_other"/>
+          </div>
+          <div class="ac-form" ng-show="vm.data.opportunitySourceFromDropdown && vm.data.opportunitySourceFromDropdown.toLowerCase() === 'referral'">
+            <label for="opportunity_referrer_name">{{'modal.add_opportunity.referrer-label'|translate:{ opportunity: vm.getOpportunityTextWithoutJobTitle() } }}</label>
+            <input class="input-sm" ng-model="vm.data.opportunity.referrer_name" type="text" placeholder="{{'modal.add_opportunity.referrer-name'|translate}}" name="opportunity_referrer_name"/>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.opportunity_ref_email_invalid}" ng-show="vm.data.opportunitySourceFromDropdown && vm.data.opportunitySourceFromDropdown.toLowerCase() === 'referral'">
+            <input class="input-sm" ng-change="vm.hasClientValidationErrors()" ng-model="vm.data.opportunity.referrer_email" type="text" placeholder="{{'modal.add_opportunity.referrer-email'|translate}}" name="opportunity_referrer_email"/>
+            <span ng-show="vm.view.errors.opportunity_ref_email_invalid" class='error-message'>{{'modal.add_opportunity.error.no-referrer-email'|translate}}</span>
+          </div>
+          <div class="ac-form">
+            <label for="opportunity_job_url">{{'modal.add_opportunity.job_posting'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.opportunity.job_url" type="text" placeholder="{{'modal.add_opportunity.job_posting_placeholder'|translate}}" name="opportunity_job_url"/>
+          </div>
+          <div class="ac-form">
+            <hp-autocomplete
+              ng-model="vm.data.opportunity"
+              title-label="{{'modal.add_opportunity.question1'|translate}}"
+              suggestions="vm.getOpportunityRoleAutoCompleteOptions"
+              value-key="role"
+              placeholder="Opportunity field"
+              uid="opportunity_role"
+              input-name="opportunity_role"
+              update-entire-model="false"
+            ></hp-autocomplete>
+          </div>
+          <div class="ac-form">
+            <label for="opportunity_job_title">{{'modal.add_opportunity.title-label'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.opportunity.job_title" type="text" placeholder="{{'modal.add_opportunity.title-placeholder'|translate}}" name="opportunity_job_title"/>
+          </div>
+          <div class="ac-form">
+            <label>{{'modal.add_opportunity.applied'|translate}}</label>
+            <input id="opportunity-add-applied-yes" type="radio" name="add-applied-yes" ng-model="vm.data.opportunity.applied" ng-value="true"/>
+            <label for="opportunity-add-applied-yes" class="first horizontal">Yes</label>
+            <input id="opportunity-add-applied-no" type="radio" name="add-applied-no" ng-model="vm.data.opportunity.applied" ng-value="false"/>
+            <label for="opportunity-add-applied-no" class="horizontal">No</label>
+          </div>
+          <div class="ac-form date" ng-show="vm.data.opportunity.applied">
+            <hp-date-form ng-model="vm.data.opportunity.applied_on" name="opportunity-applied-date" unique-id="opportunity_applied_date" date-label="Application Date" input-size="sm"></hp-date-form>
+          </div>
+          <button class="button small hollow {{vm.view.savingOpportunityClass}}" ng-click="vm.addOpportunityOnly()">{{vm.view.savingOpportunityText}}</button>
+        </form>
+      </section>
+
+      <section class="add-event-container" ng-show="vm.view.state === 'event_details'">
+        <form name="eventDetailsForm" role="form" novalidate>
+          <div class="ac-form" ng-class="{error: vm.view.errors.event_style_req}">
+            <label for="details-event-style">{{'modal.add_event.style'|translate}}</label>
+            <select class="input-sm" name="details-event-style" ng-model="vm.data.event.styleFromDropdown" ng-change="vm.hasClientValidationErrors()" required>
+              <option value="" disabled selected>{{'modal.add_event.select_event'|translate}}</option>
+              <option ng-repeat="style in vm.view.EventStyleDropdownOptions" value="{{style}}">{{style}}</option>
+            </select>
+            <span ng-show="vm.view.errors.event_style_req" class='error-message'>{{'modal.add_event.error.no_style'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-show="vm.showOtherStyleInput(vm.data.event)">
+            <label for="event_style_other">{{'modal.add_event.event.style_enter_other'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.event.styleFromText" type="text" placeholder="{{'modal.add_event.event.style_placeholder'|translate}}" name="event_style_other"/>
+          </div>
+          <div class="ac-form">
+            <!-- TODO: use angular-translate and variables for this, need to add partial loading -->
+            <!-- <label for="event-style">{{'modal.add_event.substyle'|translate:'{event_type: vm.data.event.style}'}}</label> -->
+            <label for="event-substyle">What will you be doing during the {{vm.data.event.styleFromDropdown ? vm.data.event.styleFromDropdown.toLowerCase() + ' ' : ''}}event?</label>
+            <select class="input-sm" name="event-substyle" ng-model="vm.data.event.substyleFromDropdown">
+              <option value="" disabled selected>{{'modal.add_event.select_event_substyle'|translate}}</option>
+              <option ng-repeat="substyle in vm.view.EventSubstyleDropdownOptions" value="{{substyle}}">{{substyle}}</option>
+            </select>
+          </div>
+          <div class="ac-form" ng-show="vm.showOtherSubstyleInput(vm.data.event)">
+            <label for="event_substyle_other">{{'modal.add_event.event.substyle_enter_other'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.event.substyleFromText" type="text" placeholder="{{'modal.add_event.event.substyle_placeholder'|translate}}" name="event_substyle_other"/>
+          </div>
+          <div class="ac-form date" ng-class="{error: vm.view.errors.event_date_req}">
+            <hp-date-form ng-model="vm.data.event.date" name="details-event-date" include-time="true" unique-id="details-event-date" date-label="{{vm.view.eventModalStrings.add_event_date}}" input-size="sm" required></hp-date-form>
+            <span ng-show="vm.view.errors.event_date_req" class='error-message'>{{'modal.add_event.error.no_date'|translate}}</span>
+          </div>
+        </form>
+      </section> <!-- end add_event -->
+
+      <section class="add-event-container" ng-show="vm.view.state === 'poc'">
+        <form name="addPocForm" role="form" novalidate>
+          <div class="ac-form" ng-class="{error: vm.view.errors.poc_name_req}">
+            <hp-autocomplete
+              ng-model="vm.data.event.poc"
+              title-label="{{'modal.add_event.poc.name'|translate}}"
+              suggestions="vm.getAllParticipants"
+              value-key="name"
+              placeholder="{{'modal.add_event.name_placeholder'|translate}}"
+              uid="add-event-poc-autocomplete"
+              input-name="poc-name"
+              handle-validations="vm.hasClientValidationErrors"
+              update-entire-model="true"
+              value-is-required="true"
+            ></hp-autocomplete>
+            <span ng-show="vm.view.errors.poc_name_req" class='error-message'>{{'modal.add_event.error.poc_no_name'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.poc_email_inv}">
+            <label for="poc-email">{{'modal.add_event.poc.email'|translate}}</label>
+            <input id="poc_email" name="poc-email" ng-model="vm.data.event.poc.email" ng-change="vm.hasClientValidationErrors()" type="text" class="input-sm" placeholder="{{'modal.add_event.email_placeholder'|translate}}"/>
+            <span ng-show="vm.view.errors.poc_email_inv" class='error-message'>{{'modal.add_event.error.poc_inv_email'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.poc_relationship_req}">
+            <label for="poc-relationship">{{'modal.add_event.poc.relationship'|translate}}</label>
+            <select class="input-sm" name="poc-relationship" ng-model="vm.data.event.poc.relationshipFromDropdown" ng-change="vm.hasClientValidationErrors()" required>
+              <option value="" disabled selected>{{'modal.add_event.select_relationship'|translate}}</option>
+              <option ng-repeat="relationship in vm.view.ParticipantRelationshipDropdownOptions" value="{{relationship}}">{{relationship}}</option>
+            </select>
+            <span ng-show="vm.view.errors.poc_relationship_req" class='error-message'>{{'modal.add_event.error.poc_no_relationship'|translate}}</span>
+          </div>
+          <div class="ac-form" ng-class="{error: vm.view.errors.poc_enter_other_req}" ng-show="vm.showOtherRelationshipInput(vm.data.event.poc)">
+            <label for="poc_relationship_enter_other">{{'modal.add_event.participant.relationship_enter_other'|translate}}</label>
+            <input class="input-sm" ng-model="vm.data.event.poc.relationshipFromText" ng-change="vm.hasClientValidationErrors()" type="text" placeholder="{{'modal.add_event.participant.relationship_placeholder'|translate}}" name="poc_relationship_enter_other"/>
+          </div>
+        </form>
+      </section> <!-- end poc -->
+
+      <section class="add-event-container" ng-show="vm.view.state === 'add_interaction'">
+        <div class="questions ac-form"><!-- ng-show="!vm.view.addInteractionDepth">-->
+          <!-- TODO: use angular-translate and variables for this, need to add partial loading -->
+          <!-- <p>{{'modal.add_event.interactions.question.add_more'|translate:'{event_type: vm.data.event.style}'}}</p> -->
+          <p>Do you want to enter more details about your {{vm.getEventStyleText(vm.data.event)}}?</p>
+          <!-- <input type="radio" ng-model="vm.view.addInteractionDepth" value="event_only" id="event_only_radio_btn"><label for="event_only_radio_btn">{{'modal.add_event.interactions.answer.event_only'|translate:'{event_type: vm.data.event.style, poc: vm.data.event.poc.name}'}}</label> -->
+          <input type="radio" ng-model="vm.view.addInteractionDepth" value="event_only" id="add_event_and_opportunity_fodal_event_only_radio_btn"><label for="add_event_and_opportunity_fodal_event_only_radio_btn">No thanks, it's one meeting, {{vm.prependWithA(vm.getEventStyleText(vm.data.event))}} with {{vm.data.event.poc.name}} and that’s it.</label>
+          <!-- <input type="radio" ng-model="vm.view.addInteractionDepth" value="more_data" id="more_data_radio_btn"><label for="more_data_radio_btn">{{'modal.add_event.interactions.answer.more_data'|translate:'{event_type: vm.data.event.style}'}}</label> -->
+          <!-- <input type="radio" ng-model="vm.view.addInteractionDepth" value="more_data" id="more_data_radio_btn"><label for="more_data_radio_btn">Yes, I want to add more meetings or participants to this {{vm.getEventStyleText(vm.data.event)}}.</label> -->
+          <!-- <input type="radio" ng-model="vm.view.addInteractionDepth" value="add_interactions" id="add_interactions_radio_btn"><label for="add_interactions_radio_btn">{{'modal.add_event.interactions.answer.add_interactions'|translate:'{event_type: vm.data.event.style}'}}</label> -->
+          <!-- <input type="radio" ng-model="vm.view.addInteractionDepth" value="add_participants" id="add_participants_radio_btn"><label for="add_participants_radio_btn">{{'modal.add_event.interactions.answer.add_participants'|translate:'{event_type: vm.data.event.style}'}}</label> -->
+          <input type="radio" ng-model="vm.view.addInteractionDepth" value="add_participants" id="add_event_and_opportunity_fodal_add_participants_radio_btn"><label for="add_event_and_opportunity_fodal_add_participants_radio_btn">The {{vm.getEventStyleText(vm.data.event)}} was only one meeting, but there were multiple participants I'd like to record.</label>
+          <input type="radio" ng-model="vm.view.addInteractionDepth" value="add_interactions" id="add_event_and_opportunity_fodal_add_interactions_radio_btn"><label for="add_event_and_opportunity_fodal_add_interactions_radio_btn">The {{vm.getEventStyleText(vm.data.event)}} consisted of multiple meetings I'd like to record individually.</label>
+        </div>
+<!-- 
+        <div class="questions ac-form" ng-show="vm.view.addInteractionDepth === 'more_data'">
+          <input type="radio" ng-model="vm.view.addInteractionDepth" value="add_interactions" id="add_interactions_radio_btn"><label for="add_interactions_radio_btn">The {{vm.getEventStyleText(vm.data.event)}} consisted of multiple meetings.</label>
+          <input type="radio" ng-model="vm.view.addInteractionDepth" value="add_participants" id="add_participants_radio_btn"><label for="add_participants_radio_btn">The {{vm.getEventStyleText(vm.data.event)}} was only one meeting, but there were multiple participants.</label>
+        </div>
+ -->
+        <ul class="accordion" data-accordion data-allow-all-closed="true" ng-show="vm.eventInPast() && (vm.view.addInteractionDepth === 'event_only' || vm.view.addInteractionDepth === 'add_participants')">
+          <li class="accordion-item interaction-container is-active" data-accordion-item>
+            <a class="accordion-title">
+              <h1>{{'modal.add_event.event_feedback'|translate}}</h1>
+              <div class="utilities">
+                <button class="button hollow"><i class="fa accordion-chevron"></i></button>
+              </div>
+            </a>
+            <div class="accordion-content" data-tab-content>
+              <section>
+                <form name="addEventInteractionFeedback" role="form" class="ac-form" novalidate>
+                  <div class="ac-form">
+                    <label for="one_word-{{$index}}">{{'interview.one_word.label'|translate}}</label>
+                    <input class="input-sm" ng-model="vm.data.event.one_word" type="text" placeholder="{{'interview.one_word.placeholder'|translate}}" name="one_word-{{$index}}"/>
+                  </div>
+                  <div class="ac-form">
+                    <color-ratings
+                      rating-label="{{'interview.cultural-rating.rating-label'|translate}}"
+                      left-label="{{'interview.cultural-rating.rating-left-label'|translate}}"
+                      right-label="{{'interview.cultural-rating.rating-right-label'|translate}}"
+                      unique-id="add_event_and_opportunity_event_feedback_culture_"
+                      rating="vm.data.event.culture_val">
+                    </color-ratings>
+                  </div>
+                  <div class="ac-form">
+<!-- 
+                    <color-ratings
+                      rating-label="{{'interview.excitement-rating.rating-label'|translate}}"
+                      left-label="{{'interview.excitement-rating.rating-left-label'|translate}}"
+                      right-label="{{'interview.excitement-rating.rating-right-label'|translate}}"
+                      unique-id="excited-{{$parent.$index}}-{{$index}}"
+                      rating="participant.excited">
+                    </color-ratings>
+ -->
+                    <color-ratings
+                      rating-label="How excited are you to work with {{vm.data.event.poc.name}}?"
+                      left-label="{{'interview.excitement-rating.rating-left-label'|translate}}"
+                      right-label="{{'interview.excitement-rating.rating-right-label'|translate}}"
+                      unique-id="add_event_and_opportunity_event_feedback_excited_"
+                      rating="vm.data.event.poc.excited">
+                    </color-ratings>
+                  </div>
+                </form>
+              </section>
+            </div>
+          </li>
+        </ul>
+        <ul class="accordion" data-accordion data-allow-all-closed="true" ng-show="vm.view.addInteractionDepth === 'add_participants'">
+          <li class="accordion-item interaction-container" ng-repeat="participant in vm.data.event.participants track by $index" data-accordion-item>
+            <a class="accordion-title" ng-click="vm.updateAddedParticipants()">
+              <h1>{{'modal.add_event.participant'|translate}} {{$index + 1}}</h1>
+              <p class="participant-name">{{participant.name}}</p>
+              <div class="utilities">
+                <button class="button hollow" ng-click="vm.deleteEventParticipant($index)"><i class="fa fa-trash-o"></i></button>
+                <button class="button hollow"><i class="fa accordion-chevron"></i></button>
+              </div>
+            </a>
+            <div class="accordion-content" data-tab-content>
+              <section class="participants-container">
+                <div class="participant-container">
+                  <section>
+                    <form role="form" novalidate>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.participants[$index].participant_name_req}">
+                        <hp-autocomplete
+                          ng-model="vm.data.event.participants[$index]"
+                          title-label="{{'modal.add_event.poc.name'|translate}}"
+                          suggestions="vm.getAllParticipants"
+                          value-key="name"
+                          placeholder="{{'modal.add_event.name_placeholder'|translate}}"
+                          uid="add-event-participant-autocomplete-{{$index}}"
+                          input-name="participant-name-{{$index}}"
+                          handle-validations="vm.hasClientValidationErrors"
+                          update-entire-model="true"
+                          value-is-required="true"
+                        ></hp-autocomplete>
+                        <span ng-show="vm.view.errors.participants[$index].participant_name_req" class='error-message'>{{'modal.add_event.error.participant_no_name'|translate}}</span>
+                      </div>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.participants[$index].participant_email_inv}">
+                        <label for="participant-email-{{$index}}">{{'modal.add_event.participant.email'|translate}}</label>
+                        <input id="participant-email-{{$index}}" name="participant-email-{{$index}}" ng-model="participant.email" ng-change="vm.hasClientValidationErrors()" type="text" class="input-sm" placeholder="{{'modal.add_event.email_placeholder'|translate}}"/>
+                        <span ng-show="vm.view.errors.participants[$index].participant_email_inv" class='error-message'>{{'modal.add_event.error.poc_inv_email'|translate}}</span>
+                      </div>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.participants[$index].participant_relationship_req}">
+                        <label for="participant-relationship-{{$index}}">{{'modal.add_event.participant.relationship'|translate}}</label>
+                        <select class="input-sm" name="participant-relationship-{{$index}}" ng-model="participant.relationshipFromDropdown" ng-change="vm.hasClientValidationErrors()" required>
+                          <option value="" disabled selected>{{'modal.add_event.select_relationship'|translate}}</option>
+                          <option ng-repeat="relationship in vm.view.ParticipantRelationshipDropdownOptions" value="{{relationship}}">{{relationship}}</option>
+                        </select>
+                        <span ng-show="vm.view.errors.participants[$index].participant_relationship_req" class='error-message'>{{'modal.add_event.error.participant_no_relationship'|translate}}</span>
+                      </div>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.poc_enter_other_req}" ng-show="vm.showOtherRelationshipInput(participant)">
+                        <label for="poc_relationship_enter_other_{{$index}}">{{'modal.add_event.participant.relationship_enter_other'|translate}}</label>
+                        <input class="input-sm" ng-model="participant.relationshipFromText" ng-change="vm.hasClientValidationErrors()" type="text" placeholder="{{'modal.add_event.participant.relationship_placeholder'|translate}}" name="poc_relationship_enter_other_{{$index}}"/>
+                      </div>
+                      <div class="ac-form" ng-show="vm.eventInPast()">
+                        <color-ratings
+                          rating-label="How excited are you to work with {{participant.name ? participant.name : 'the interviewer'}}?"
+                          left-label="{{'interview.excitement-rating.rating-left-label'|translate}}"
+                          right-label="{{'interview.excitement-rating.rating-right-label'|translate}}"
+                          unique-id="excited-{{$index}}"
+                          rating="participant.excited">
+                        </color-ratings>
+                      </div>
+                    </form>
+                  </section>
+                </div>
+              </section>
+            </div>
+          </li>
+        </ul>
+        <ul class="accordion" data-accordion data-allow-all-closed="true" ng-show="vm.view.addInteractionDepth === 'add_interactions'">
+          <li class="accordion-item interaction-container" ng-repeat="interaction in vm.data.event.interactions" data-accordion-item>
+            <a class="accordion-title" ng-click="vm.updateAddedParticipants()">
+              <h1>{{'modal.add_event.interaction'|translate}} {{$index + 1}}</h1>
+              <form name="addInteractionStyleForm{{$index}}" role="form" novalidate>
+                <div class="ac-form" ng-class="{error: vm.view.errors.interactions[$index].interaction_style_req}" data-error-text="{{'modal.add_event.error.inter_no_style'|translate}}">
+                  <select class="input-sm" name="interaction-style-{{$index}}" ng-model="interaction.styleFromDropdown" ng-change="vm.selectInteractionTypeChanged($index)" ng-click="vm.accordionTitleCancel($event)" required>
+                    <option value="" disabled selected>{{'modal.add_event.select_interaction'|translate}}</option>
+                    <option ng-repeat="style in vm.getInteractionStyles()" value="{{style}}">{{style}}</option>
+                  </select>
+                </div>
+              </form>
+              <div class="utilities">
+                <span class="participants-label">{{interaction.participants.length}} {{'modal.add_event.interaction.participants'|translate}}</span>
+                <button class="button hollow" ng-click="vm.deleteInteraction($index)"><i class="fa fa-trash-o"></i></button>
+                <button class="button hollow"><i class="fa accordion-chevron"></i></button>
+              </div>
+            </a>
+            <div class="accordion-content" data-tab-content>
+              <section ng-show="vm.showOtherStyleInput(interaction)">
+                <div class="ac-form" ng-class="{error: vm.view.errors.interactions[$index].interaction_style_other_req}">
+                  <label for="interaction-style-other-{{$index}}">{{'modal.add_event.event.style_enter_other'|translate}}</label>
+                  <input class="input-sm" ng-model="interaction.styleFromText" ng-change="vm.hasClientValidationErrors()" type="text" placeholder="{{'modal.add_event.event.style_placeholder'|translate}}" name="interaction-style-other-{{$index}}"/>
+                </div>
+              </section>
+              <section ng-show="vm.eventInPast()">
+                <form name="addEventInteractionFeedback" role="form" class="ac-form" novalidate>
+                  <div class="ac-form">
+                    <label for="one_word-{{$index}}">{{'interview.one_word.label'|translate}}</label>
+                    <input class="input-sm" ng-model="interaction.one_word" type="text" placeholder="{{'interview.one_word.placeholder'|translate}}" name="one_word-{{$index}}"/>
+                  </div>
+                  <div class="ac-form">
+                    <color-ratings
+                      rating-label="{{'interview.cultural-rating.rating-label'|translate}}"
+                      left-label="{{'interview.cultural-rating.rating-left-label'|translate}}"
+                      right-label="{{'interview.cultural-rating.rating-right-label'|translate}}"
+                      unique-id="culture-{{$index}}"
+                      rating="interaction.culture_val">
+                    </color-ratings>
+                  </div>
+                </form>
+              </section>
+              <section class="participants-container nested-participants-container">
+                <div class="participant-container" ng-repeat="participant in interaction.participants track by $index">
+                  <header>
+                    <h1>{{'modal.add_event.participant'|translate}} {{$index + 1}}</h1>
+                    <p class="participant-name">{{participant.name}}</p>
+                    <div class="utilities">
+                      <button class="button hollow" ng-click="vm.deleteParticipant($parent.$index, $index)"><i class="fa fa-trash-o"></i></button>
+                    </div>
+                  </header>
+                  <section>
+                    <form role="form" novalidate>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.interactions[$parent.$index].participants[$index].participant_name_req}">
+                        <hp-autocomplete
+                          ng-model="interaction.participants[$index]"
+                          title-label="{{'modal.add_event.poc.name'|translate}}"
+                          suggestions="vm.getAllParticipants"
+                          value-key="name"
+                          placeholder="{{'modal.add_event.name_placeholder'|translate}}"
+                          uid="add-event-interaction-participant-autocomplete-{{$index}}"
+                          input-name="participant-name-{{$parent.$index}}-{{$index}}"
+                          handle-validations="vm.hasClientValidationErrors"
+                          update-entire-model="true"
+                          value-is-required="true"
+                        ></hp-autocomplete>
+                        <span ng-show="vm.view.errors.interactions[$parent.$index].participants[$index].participant_name_req" class='error-message'>{{'modal.add_event.error.participant_no_name'|translate}}</span>
+                      </div>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.interactions[$parent.$index].participants[$index].participant_email_inv}">
+                        <label for="participant-email-{{$parent.$index}}-{{$index}}">{{'modal.add_event.participant.email'|translate}}</label>
+                        <input id="participant-email-{{$parent.$index}}-{{$index}}" name="participant-email-{{$parent.$index}}-{{$index}}" ng-model="interaction.participants[$index].email" ng-change="vm.hasClientValidationErrors()" type="text" class="input-sm" placeholder="{{'modal.add_event.email_placeholder'|translate}}"/>
+                        <span ng-show="vm.view.errors.interactions[$parent.$index].participants[$index].participant_email_inv" class='error-message'>{{'modal.add_event.error.poc_inv_email'|translate}}</span>
+                      </div>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.interactions[$parent.$index].participants[$index].participant_relationship_req}">
+                        <label for="participant-relationship-{{$parent.$index}}-{{$index}}">{{'modal.add_event.participant.relationship'|translate}}</label>
+                        <select class="input-sm" name="participant-relationship-{{$parent.$index}}-{{$index}}" ng-model="participant.relationshipFromDropdown" ng-change="vm.hasClientValidationErrors()" required>
+                          <option value="" disabled selected>{{'modal.add_event.select_relationship'|translate}}</option>
+                          <option ng-repeat="relationship in vm.view.ParticipantRelationshipDropdownOptions" value="{{relationship}}">{{relationship}}</option>
+                        </select>
+                        <span ng-show="vm.view.errors.interactions[$parent.$index].participants[$index].participant_relationship_req" class='error-message'>{{'modal.add_event.error.participant_no_relationship'|translate}}</span>
+                      </div>
+                      <div class="ac-form" ng-class="{error: vm.view.errors.poc_enter_other_req}" ng-show="vm.showOtherRelationshipInput(participant)">
+                        <label for="poc_relationship_enter_other_{{$parent.$index}}_{{$index}}">{{'modal.add_event.participant.relationship_enter_other'|translate}}</label>
+                        <input class="input-sm" ng-model="participant.relationshipFromText" ng-change="vm.hasClientValidationErrors()" type="text" placeholder="{{'modal.add_event.participant.relationship_placeholder'|translate}}" name="poc_relationship_enter_other_{{$parent.$index}}_{{$index}}"/>
+                      </div>
+                      <div class="ac-form" ng-show="vm.eventInPast()">
+                        <color-ratings
+                          rating-label="How excited are you to work with {{participant.name ? participant.name : 'the interviewer'}}?"
+                          left-label="{{'interview.excitement-rating.rating-left-label'|translate}}"
+                          right-label="{{'interview.excitement-rating.rating-right-label'|translate}}"
+                          unique-id="excited-{{$parent.$index}}-{{$index}}"
+                          rating="participant.excited">
+                        </color-ratings>
+                      </div>
+                    </form>
+                  </section>
+                </div>
+                <button class="button hollow nested-add-participant-button" ng-click="vm.addParticipant($index); vm.updateAddedParticipants()"><i class="fa fa-plus"></i>{{'modal.add_event.add_participant'|translate}}</button>
+              </section>
+            </div>
+          </li>
+        </ul>
+        <button class="button hollow add-interaction-button" ng-click="vm.addInteraction(); vm.updateAddedParticipants()" ng-show="vm.view.addInteractionDepth === 'add_interactions'"><i class="fa fa-plus"></i>{{'modal.add_event.add_interaction'|translate}}</button>
+        <button class="button hollow add-participant-button" ng-click="vm.addEventParticipant(); vm.updateAddedParticipants()" ng-show="vm.view.addInteractionDepth === 'add_participants'"><i class="fa fa-plus"></i>{{'modal.add_event.add_participant'|translate}}</button>
+      </section> <!-- end add_interaction -->
+    </div>
+
+    <footer>
+      <div class="button-container">
+        <button class="button hollow" ng-disabled="vm.getBackButtonDisabled()" ng-click="vm.stepBack()">{{'modal.add_event.back'|translate}}</button>
+        <button class="button" ng-class="vm.view.saveAndCloseClass" ng-show="vm.view.state !== 'add_interaction'" ng-click="vm.stepNext()">{{'modal.add_event.next'|translate}}</button>
+        <button class="button" ng-class="vm.view.saveAndCloseClass" ng-show="vm.view.state === 'add_interaction'" ng-click="vm.createEvent()">{{vm.view.saveAndCloseText}}</button>
+<!--
+        <button ng-hide="changedSuccessfully || tryingToSave" class="button submit expanded">{{'modal.add-interview.add'|translate}}</button>
+        <button ng-show="tryingToSave" class="button submit expanded" disabled>{{'modal.add-interview.trying_to_submit'|translate}}</button>
+        <button ng-show="changedSuccessfully" class="button submit expanded"><i class="fa fa-check"></i></button>
+-->
+      </div>
+    </footer>
+  </div>
+</div>

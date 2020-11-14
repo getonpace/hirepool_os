@@ -1,0 +1,60 @@
+.hp-sortable-table-container{
+  height: 100%;
+  md-virtual-repeat-container{
+    height: 100%;
+  }
+  table{
+    border: 1px solid $light-gray;
+    max-height: 100%;
+    overflow-x: scroll;
+    tr{
+      white-space: nowrap;
+      th{
+        cursor: pointer;
+        outline: none;
+        color: $dark-gray;
+      }
+      td{
+        max-width: 152px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        .clickable-cell{
+          cursor: pointer;
+          text-decoration: underline;
+          &.offer-salary-cell{
+            text-decoration: none;
+          }
+        }
+        .opportunity-grid-rating{
+          position: relative;
+        }
+        &:hover{
+          white-space: normal;
+          /* These are technically the same, but use both */
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+          -ms-word-break: break-all;
+          /* This is the dangerous one in WebKit, as it breaks things wherever */
+          word-break: break-all;
+          /* Instead use this non-standard one: */
+          word-break: break-word;
+          /* Adds a hyphen where the word breaks, if supported (No Blink) */
+          -ms-hyphens: auto;
+          -moz-hyphens: auto;
+          -webkit-hyphens: auto;
+          hyphens: auto;
+        }
+      }
+      .hp-sortable-table-left-border{
+        border-left: 1px solid $light-gray;
+      }
+    }
+  }
+}
+.table-container.no-border{
+  .hp-sortable-table-container{
+    table{
+      border-width: 0;
+    }
+  }
+}

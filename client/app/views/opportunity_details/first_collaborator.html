@@ -1,0 +1,33 @@
+<div class="notification-box collab-ftu" ng-show="opportunity.collaborator_feedbacks.length < 1" ng-controller="OpportunityDetailsFirstCollaboratorCtrl">
+  <strong>{{'collaborator-first.prompt'|translate}}</strong>
+  <p>{{'collaborator.description'|translate}} You can see exactly what they will <a href="#/help_library/collaborators" target="_blank">here</a>.</p>
+
+  <form name="firstCollaboratorForm" ng-submit="submitCollaborator()" role="form" novalidate>
+    <div class="ac-form" ng-class="{error: collab_name_req}">
+      <label for="collaborator-name">{{'add-collaborator.name'|translate}}</label>
+      <input id="collaborator-name" name="collaborator-name" ng-model="collaborator.name" ng-change="hasClientValidationErrors()" type="text" class="input-sm" placeholder="{{'add-collaborator.name-placeholder'|translate}}" required/>
+      <span ng-show="collab_name_req" class='error-message'>{{'add-collaborator.error.no-name'|translate}}</span>
+    </div>
+    <div class="ac-form" ng-class="{error: collab_email_req || collab_email_invalid}">
+      <label for="collaborator-email">{{'add-collaborator.email'|translate}}</label>
+      <input id="collaborator-email" name="collaborator-email" ng-model="collaborator.email" ng-change="hasClientValidationErrors()" type="email" autocapitalize="off" class="input-sm" placeholder="{{'add-collaborator.email-placeholder'|translate}}" required/>
+      <span ng-show="collab_email_req" class='error-message'>{{'add-collaborator.error.no-email'|translate}}</span>
+      <span ng-show="collab_email_invalid" class='error-message'>{{'add-collaborator.error.invalid-email'|translate}}</span>
+    </div>
+    <button ng-hide="changed_successfully || trying_to_send" class="button submit expanded">{{'add-collaborator.send'|translate}}</button>
+    <button ng-show="trying_to_send" class="button submit expanded" disabled>{{'add-collaborator.sending'|translate}}</button>
+    <button ng-show="changed_successfully" class="button submit expanded"><i class="fa fa-check"></i></button>
+  </form>
+</div>
+
+<!--
+<div class="ac-form">
+  <label for="name">Name</label>
+  <input type="text" class="input-sm" id="name" name="name" placeholder="Full name">
+</div>
+<div class="ac-form">
+  <label for="email">Email</label>
+  <input type="email" class="input-sm" id="email" name="email" placeholder="Email">
+</div>
+<button class="button expanded">Add collaborator</button>
+-->

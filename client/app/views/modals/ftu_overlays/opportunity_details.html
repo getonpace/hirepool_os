@@ -1,0 +1,17 @@
+<div class="modal ftu-overlay" ng-class="{ 'high-text' : vm.view.textPositionHigh }" id="opportunity_details_ftu_overlay" ng-controller="ModalsFtuOverlayCtrl as vm">
+  <canvas class="ftu-overlay-canvas" width="5000" height="5000"></canvas>
+  <div class="ftu-content-container">
+    <div class="ftu-step ftu-step-1" ng-show="vm.view.step === 1" data-target="opportunity_details_page_open_guide_button">
+      <p>Save time by looking at the Guide for each opportunity.</p>
+      <button class="button" ng-click="vm.nextStep()">Next</button>
+    </div>
+    <div class="ftu-step ftu-step-2" ng-show="vm.view.step === 2" data-target="opp_collab_ftu_target">
+      <p>Gain insight by asking your network for information about each opportunity.</p>
+      <button class="button" ng-click="vm.nextStep()">Next</button>
+    </div>
+    <div class="ftu-step ftu-step-3" ng-show="vm.view.step === 3" data-target="my-opportunities-header-link" data-target-type="class">
+      <p>Go to My Opportunities anytime to view your entire job search</p>
+      <button class="button close-ftu-overlay-button" ng-click="vm.closeOverlay($event)">Done</button>
+    </div>
+  </div>
+</div>

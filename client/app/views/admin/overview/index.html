@@ -1,0 +1,44 @@
+<div id="admin_view_overview" class="admin-view-page use-foundation-table" ng-controller="AdminOverviewIndexCtrl as vm">
+  <div ng-if="vm.userIsAdmin()">
+    <header>
+      <h1>All Activity Overview</h1>
+    </header>
+    <div class="collapsible-container" ng-class="{big: vm.view.graph === 'big', small: vm.view.graph === 'small'}">
+      <div id="admin_overview_highcharts_container"></div>
+      <div class="size-toggle up-down" ng-class="{minimize: vm.view.graph === 'big', maximize: vm.view.graph === 'small'}" ng-click="vm.toggleGraph()">
+        <i class="fa fa-chevron-up" ng-show="vm.view.graph === 'big'"></i>
+        <i class="fa fa-chevron-down" ng-show="vm.view.graph === 'small'"></i>
+      </div>
+    </div>
+    <div class="tab-control-container main-container">
+      <ul class="tab-control-header">
+        <li ng-class="{active: vm.view.tab === 'users', small: vm.userIsHirepoolAdmin()}" ng-click="vm.showTab('users')">Users</li>
+        <li ng-class="{active: vm.view.tab === 'opportunities', small: vm.userIsHirepoolAdmin()}" ng-click="vm.showTab('opportunities')">Opportunities</li>
+        <li ng-class="{active: vm.view.tab === 'events', small: vm.userIsHirepoolAdmin()}" ng-click="vm.showTab('events')">Events</li>
+        <li ng-class="{active: vm.view.tab === 'interviewers', small: vm.userIsHirepoolAdmin()}" ng-click="vm.showTab('interviewers')">Interviewers</li>
+        <li ng-class="{active: vm.view.tab === 'collaborations', small: vm.userIsHirepoolAdmin()}" ng-click="vm.showTab('collaborations')">Collaborations</li>
+        <li ng-class="{active: vm.view.tab === 'offers', small: vm.userIsHirepoolAdmin()}" ng-click="vm.showTab('offers')">Offers</li>
+      </ul>
+      <div class="tab-control-tab">
+        <div id="users_tab" class="tab-control-content" ng-show="vm.view.tab === 'users'">
+          <ng-include src="'views/admin/overview/users.html'"></ng-include>
+        </div>
+        <div id="opportunities_tab" class="tab-control-content" ng-show="vm.view.tab === 'opportunities'">
+          <ng-include src="'views/admin/overview/opportunities.html'"></ng-include>
+        </div>
+        <div id="events_tab" class="tab-control-content" ng-show="vm.view.tab === 'events'">
+          <ng-include src="'views/admin/overview/events.html'"></ng-include>
+        </div>
+        <div id="interviewers_tab" class="tab-control-content" ng-show="vm.view.tab === 'interviewers'">
+          <ng-include src="'views/admin/overview/interviewers.html'"></ng-include>
+        </div>
+        <div id="collaborations_tab" class="tab-control-content" ng-show="vm.view.tab === 'collaborations'">
+          <ng-include src="'views/admin/overview/collaborations.html'"></ng-include>
+        </div>
+        <div id="offers_tab" class="tab-control-content" ng-show="vm.view.tab === 'offers'">
+          <ng-include src="'views/admin/overview/offers.html'"></ng-include>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

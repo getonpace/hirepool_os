@@ -1,0 +1,70 @@
+<li class="dynamic-layout-card dynamic-layout-item needs-foundation-init" ng-controller="OpportunitiesCardCtrl">
+  <div class="card">
+    <span class="confirm-notification success" ng-class="{'show': justAddedInterview}"><i class="fa fa-check"></i> {{'opportunity-card.interview-added'|translate}}</span>
+    <div class="bubble-loader" ng-show="data.loading">
+      <ul><li></li><li></li><li></li></ul>
+    </div>
+    <header>
+      <ul class="status no-bullet">
+        <li class="rating">{{'opportunity-card.rating'|translate}}<strong>{{getCardScore()}}</strong></li>
+        <li ng-show="data.pinned" ng-class="{'active': data.pinned}"><i class="fa fa-thumb-tack"></i></li>
+        <li ng-show="data.offer" ng-class="{'active': data.offer}"><i class="fa fa-usd green"></i></li>
+        <li ng-show="getUpcomingInterviews().length" ng-class="{'active': getUpcomingInterviews().length}"><i class="fa fa-bullhorn warning"></i></li>
+        <li ng-show="data.archived" ng-class="{'active': data.archived}"><i class="fa fa-archive"></i></li>
+      </ul>
+      <ul class="dropdown menu" data-dropdown-menu data-click-open="true" data-disable-hover="true">
+        <li>
+          <a><i class="fa fa-2x fa-ellipsis-v"></i></a>
+          <ul class="menu">
+            <li ng-show="!data.pinned"><a ng-click="togglePinned($event)" hp-event-recorder="{action: 'pin-opportunity', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-thumb-tack"></i> {{'opportunity-card.pin'|translate}}</a></li>
+            <li ng-show="data.pinned"><a ng-click="togglePinned($event)" hp-event-recorder="{action: 'unpin-opportunity', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-thumb-tack"></i> {{'opportunity-card.unpin'|translate}}</a></li>
+            <li><a ng-click="openingGuideModal()" data-modal-trigger data-modal="guide-modal" hp-event-recorder="{action: 'open-modal', modal: 'guide-v1', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-book"></i> {{'opportunity-card.guide'|translate}}</a></li>
+            <li><a ng-click="openAddEventFodal()" hp-event-recorder="{action: 'open-modal', modal: 'add-event', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-microphone"></i> {{'opportunity-card.add-event'|translate}}</a></li>
+            <li ng-show="data.offer"><a ng-click="setCardData()" data-modal-trigger data-modal="offer-modal" hp-event-recorder="{action: 'open-modal', modal: 'edit-offer', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-usd"></i> {{'opportunity-card.edit-offer'|translate}}</a></li>
+            <li ng-show="!data.offer"><a ng-click="setCardData()" data-modal-trigger data-modal="offer-modal" hp-event-recorder="{action: 'open-modal', modal: 'add-offer', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-usd"></i> {{'opportunity-card.add-offer'|translate}}</a></li>
+            <li><a ng-click="setCardData()" data-modal-trigger data-modal="edit-opportunity-modal" hp-event-recorder="{action: 'open-modal', modal: 'edit-opportunity', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-pencil"></i> {{'opportunity-card.edit_opportunity'|translate}}</a></li>
+            <li ng-show="data.archived"><a ng-click="archive($event)" hp-event-recorder="{action: 'unarchive-opportunity', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-archive"></i> {{'opportunity-card.unarchive'|translate}}</a></li>
+            <li ng-show="!data.archived"><a ng-click="archive($event)" hp-event-recorder="{action: 'archive-opportunity', page: 'opportunities-index', interviews: [{{data.id}}]}"><i class="fa fa-archive"></i> {{'opportunity-card.archive'|translate}}</a></li>
+          </ul>
+        </li>
+      </ul>
+    </header>
+    <section>
+      <div class="logo-chip circle">
+        <table>
+          <tr>
+             <td>
+               <img ng-src="https://logo.clearbit.com/{{data.company.domain}}?size=200" on-error-src="images/company-placeholder.jpg" alt=""> 
+            </td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <h1 class="name">{{data.job_title}}</h1>
+      <p><strong>{{data.company.name}}<br/>{{data.location}}</strong></p>
+      <div class="company-compare-container">
+        <input id="compare_company_{{data.id}}" type="checkbox" name="compare_company_{{data.id}}" ng-hide="compareCompanyDisabled()" ng-model="data.compareCompany" ng-click="setCompareCompany()"/>
+        <label for="compare_company_{{data.id}}" ng-hide="compareCompanyDisabled()">{{'opportunity-card.add_compare_label'|translate}}</label>
+      </div>
+    </section>
+    <a href="#/opportunity/{{data.id}}" class="button details">{{'opportunity-card.view_details_label'|translate}}</a>
+  </div>
+</li>
+<script type="text/javascript">
+  // console.log('starting');
+  // console.log(Math.floor(Date.now() / 1000));
+  // $(document).foundation();
+  // console.log(Math.floor(Date.now() / 1000));
+  // console.log('done');
+
+  jQuery('.dynamic-layout-card.needs-foundation-init').removeClass('needs-foundation-init').foundation();
+  if (window.hpOppCardTimer) {
+    window.clearTimeout(window.hpOppCardTimer);
+  }
+  window.hpOppCardTimer = window.setTimeout(function () {
+    window.hpAllCardsLoaded = true;
+    // console.log('did it');
+    // console.log(Math.floor(Date.now() / 1000));
+  }, 50);
+  // console.log(Math.floor(Date.now() / 1000));
+</script>

@@ -1,0 +1,45 @@
+<div class="cd-container wrapper">
+  <section class="cd-products-comparison-table">
+    <button class="close fa" ng-click="vm.close()">&times;</button>
+    <div class="cd-products-table">
+      <div class="features" ng-show="!vm.showLoading()">
+        <div class="top-info"></div>
+        <ul class="cd-features-list no-bullet">
+          <li>{{'comparison_view.headers.role'|translate}}</li>
+          <li>{{'comparison_view.headers.location'|translate}}
+            <span ng-show="vm.surveyAnswers.length > 0"><br>&nbsp;</span>
+          </li>
+<!--           <li class="data-tooltip has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex=1 title="commute based on driving">Location</li> -->
+          <li>{{'comparison_view.headers.offer'|translate}}</li>
+          <li class="overall-rating-cell">{{'comparison_view.headers.overall_rating'|translate}}</li>
+          <li>{{'comparison_view.headers.interview_score'|translate}}</li>
+          <li>{{'comparison_view.headers.value_fit'|translate}}</li>
+          <li>{{'comparison_view.headers.people_fit'|translate}}</li>
+          <li>{{'comparison_view.headers.collab_score'|translate}}</li>
+          <li>{{'comparison_view.headers.company_details'|translate}}<br>&nbsp;</li>
+          <li>{{'comparison_view.headers.twitter'|translate}}</li>
+          <li>
+            {{'comparison_view.headers.finances'|translate}}
+            <span ng-show="vm.comparePublicCo()"><br>&nbsp;<br>&nbsp;</span>
+          </li>
+          <li ng-show="vm.compareHasInterviews()">{{'comparison_view.headers.recent_action'|translate}}<br>&nbsp;</li>
+          <li ng-show="vm.compareHasInterviews()">{{'comparison_view.headers.your_progress'|translate}}<br>&nbsp;<br>&nbsp;</li>
+        </ul>
+      </div> <!-- .features -->
+      <div class="cd-products-wrapper">
+        <ul class="cd-products-columns no-bullet">
+          <li class="product" ng-repeat="opportunity in vm.opportunitiesToCompare">
+            <comparison-view-item opportunity="opportunity"></comparison-view-item>
+          </li> <!-- .product -->
+        </ul> <!-- .cd-products-columns -->
+      </div> <!-- .cd-products-wrapper -->
+
+    </div> <!-- .cd-products-table -->
+  </section> <!-- .cd-products-comparison-table -->
+
+</div><!-- //wrapper -->
+<section class="loading comparison-view-loading" ng-show="vm.showLoading()">
+  <div class="loading-ui">
+    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+  </div>
+</section>

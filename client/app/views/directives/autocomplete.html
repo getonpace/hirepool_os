@@ -1,0 +1,8 @@
+<label for="{{inputName}}">{{titleLabel}}</label>
+<div class="search search-sm no-search-icon">
+  <input placeholder="{{placeholder}}" ng-change="handleInputChange()" ng-keydown="autocompleteKeyDown($event)" ng-model="currentVal[valueKey]" ng-model-options="{ debounce: 200 }" id="autocomplete-{{uid}}" type="search" autocomplete="off" name="{{inputName}}" ng-required="valueIsRequired"/>
+  <button class="reset" ng-click="currentVal[valueKey] = ''"><i class="fa fa-times-circle"></i></button>
+  <div class="search-results hdpi" ng-show='currentVal.predictions.length !== 0'>
+    <div class="pac-item" ng-click="setCurrentValue(prediction)" ng-repeat="prediction in currentVal.predictions" ng-class="{active : $index === currentVal.selectedIndex}"><span ng-bind-html="prediction[valueKey] | highlight:prediction.valueSplitStringArray"></span></div>
+  </div>
+</div>

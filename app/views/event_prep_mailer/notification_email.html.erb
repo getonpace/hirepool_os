@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hi <%= @user.name %>,</p>
+    <p></p>
+    <p>You have an event coming up on <%= @date %> at <%= @company.name %> and we're here to help you prepare. You'll get a couple emails over the next few days with that intention in mind.</p>
+    <p>For now, you can see notes on your event at <a href="<%= @url %>opportunity/<%= @interview.id %>?event_notes=<%= @event.id %>">hirepool</a>.</p>
+    <p></p>
+    <p>Good luck!</p>
+    <p>- Nari from hirepool</p>
+    <p></p>
+    <p>PS: If you'd like to turn off your personalized event preparation reminder emails please contact us at: <a href="mailto:support@hirepool.io">support@hirepool.io</a></p>
+  </body>
+</html>

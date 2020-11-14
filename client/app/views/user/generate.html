@@ -1,0 +1,104 @@
+<div ng-controller="UserGenerateCtrl as vm" class="use-foundation-table">
+  <div class="row login tab-content">
+    <div class="medium-10 medium-centered columns">
+      <ul class="tabs" data-tabs id="generator-tabs">
+        <li class="tabs-title is-active"><a href="#email_access_keys" aria-selected="true">{{'generate.email_access_keys'|translate}}</a></li>
+        <li class="tabs-title"><a href="#access_groups">{{'generate.access_groups'|translate}}</a></li>
+      </ul>
+      <div class="tabs-content" data-tabs-content="generator-tabs">
+
+        <div class="tabs-panel is-active" id="email_access_keys">
+          <form name="emailKeysForm" role="form" ng-submit="vm.submitEmails()" novalidate>
+            <div class="ac-form" ng-class="{error: vm.errors.emailKeys.emailsReq}">
+              <label for="emails-input">{{'generate.email_keys.emails_title'|translate}}</label>
+              <input id="emails-input" name="emails" ng-model="vm.data.emails" ng-change="vm.hasEmailKeysValidationErrors()" type="text" class="input" placeholder="{{'generate.email_keys.emails_placeholder'|translate}}" required/>
+              <span ng-show="vm.errors.emailKeys.emailsReq" class='error-message'>{{'generate.email_keys.error.no_emails'|translate}}</span>
+            </div>
+            <button class="button large expanded" type="submit">{{'generate.email_keys.generate'|translate}}</button>
+            <button ng-click="vm.getAllEmailKeys()" class="button large expanded" type="button">{{'generate.email_keys.show_all'|translate}}</button>
+          </form>
+
+          <table ng-show="vm.data.emailAccessKeys.length">
+            <thead>
+              <tr>
+                <th>Created Email</th>
+                <th>Access Key</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="keys in vm.data.emailAccessKeys">
+                <td>{{keys.email}}</td>
+                <td>{{keys.access_key}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table ng-show="vm.data.oldEmailAccessKeys.length">
+            <thead>
+              <tr>
+                <th>Existing Email</th>
+                <th>Access Key</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="keys in vm.data.oldEmailAccessKeys">
+                <td>{{keys.email}}</td>
+                <td>{{keys.access_key}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tabs-panel" id="access_groups">
+          <form name="accessGroupForm" ng-submit="vm.submitAccessGroup()" role="form" novalidate>
+            <div class="ac-form" ng-class="{error: vm.errors.accessGroups.keyRootReq}">
+              <label for="key-root-input">{{'generate.access_groups.key_root'|translate}}</label>
+              <input id="key-root-input" name="key-root" ng-model="vm.data.access_group.key_root" ng-change="vm.hasAccessGroupsValidationErrors()" type="text" class="input" placeholder="{{'generate.access_groups.key_root_placeholder'|translate}}" required/>
+              <span ng-show="vm.errors.accessGroups.keyRootReq" class='error-message'>{{'generate.access_groups.error.no_key_root'|translate}}</span>
+            </div>
+            <div class="ac-form" ng-class="{error: vm.errors.accessGroups.titleReq}">
+              <label for="title-input">{{'generate.access_groups.title'|translate}}</label>
+              <input id="title-input" name="title" ng-model="vm.data.access_group.title" ng-change="vm.hasAccessGroupsValidationErrors()" type="text" class="input" placeholder="{{'generate.access_groups.title_placeholder'|translate}}" required/>
+              <span ng-show="vm.errors.accessGroups.titleReq" class='error-message'>{{'generate.access_groups.error.no_title'|translate}}</span>
+            </div>
+            <div class="ac-form"">
+              <label for="description-input">{{'generate.access_groups.description'|translate}}</label>
+              <input id="description-input" name="description" ng-model="vm.data.access_group.description" type="text" class="input" placeholder="{{'generate.access_groups.description_placeholder'|translate}}"/>
+            </div>
+            <div class="ac-form"">
+              <label for="tags-input">{{'generate.access_groups.tags'|translate}}</label>
+              <input id="tags-input" name="tags" ng-model="vm.data.access_group.tags" type="text" class="input" placeholder="{{'generate.access_groups.tags_placeholder'|translate}}"/>
+            </div>
+            <button class="button large expanded" type="submit">{{'generate.access_groups.generate'|translate}}</button>
+            <button ng-click="vm.getAllGroups()" class="button large expanded" type="button">{{'generate.access_groups.show_all'|translate}}</button>
+          </form>
+
+          <table>
+            <thead>
+              <th>Title</th>
+              <th>Key</th>
+              <th>URL</th>
+              <th>Description</th>
+              <th>Tags</th>
+              <th>Disabled Date</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="group in vm.data.access_groups">
+                <td>{{group.title}}</td>
+                <td>{{group.key}}</td>
+                <td>https://hirepool.io/app/#/invited/{{group.key}}</td>
+                <td>{{group.description}}</td>
+                <td><span ng-repeat="tag in group.user_tracking_tags">{{tag.tag}} </span></td>
+                <td>{{group.disabled}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).foundation();
+</script>

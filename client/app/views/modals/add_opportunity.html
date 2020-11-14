@@ -1,0 +1,92 @@
+<div class="modal" id="add-opportunity-modal" ng-controller="ModalsAddOpportunityCtrl">
+  <div class="modal-dialog">
+    <header>
+      <h4>{{'modal.add_opportunity.title'|translate}}</h4>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <form name="addOpportunityForm" novalidate>
+        <div class="ac-form" ng-class="{error: company_name_req}">
+          <company-auto-complete
+            ng-model="data.opportunity.company"
+            value-key="name"
+            title-label="Company Name"
+            placeholder="Search"
+            uid="add_opportunity_company_name"
+            input-name="add_opportunity_company_name"
+            update-entire-model="true"
+          ></company-auto-complete>
+          <span ng-show="company_name_req" class='error-message'>{{'modal.add_opportunity.error.no-name'|translate}}</span>
+        </div>
+
+        <div class="ac-form" ng-class="{error: company_location_req}">
+          <location-auto-complete ng-model="data.opportunity.companyLocation" location-title-label="Company Location"></location-auto-complete>
+        </div>
+
+        <div class="ac-form" ng-class="{error: source_req}">
+          <label for="source">{{'modal.add_opportunity.source'|translate:{ opportunity: getOpportunityText() } }}</label>
+          <select class="input-sm" name="source" ng-model="data.sourceFromDropdown" ng-change="hasClientValidationErrors()" required>
+            <option value="" disabled selected>{{'modal.add_opportunity.select'|translate}}</option>
+            <optgroup ng-repeat-start="sourcesContainer in view.sourceDropdownOptions" ng-if="sourcesContainer.optgroup" label="{{sourcesContainer.optgroup}}">
+              <option ng-repeat="sourceOption in sourcesContainer.options" value="{{sourceOption}}">{{sourceOption}}</option>
+            </optgroup>
+            <option ng-repeat-end ng-repeat="sourceOption in sourcesContainer.options" ng-if="!sourcesContainer.optgroup" value="{{sourceOption}}">{{sourceOption}}</option>
+          </select>
+          <span ng-show="source_req" class='error-message'>{{'modal.add_opportunity.error.no-source'|translate}}</span>
+        </div>
+        <div class="ac-form" ng-class="{error: source_enter_other_req}" ng-show="showOtherOpportunityInput()">
+          <label for="source_enter_other">{{'modal.add_opportunity.source_enter_other'|translate}}</label>
+          <input class="input-sm" ng-model="data.sourceFromText" ng-change="hasClientValidationErrors()" type="text" placeholder="{{'modal.add_opportunity.source_placeholder'|translate}}" name="source_enter_other"/>
+        </div>
+
+        <div class="ac-form" ng-show="data.sourceFromDropdown && data.sourceFromDropdown.toLowerCase() === 'referral'">
+          <label for="referrer_name">{{'modal.add_opportunity.referrer-label'|translate:{ opportunity: getOpportunityText() } }}</label>
+          <input class="input-sm" ng-model="data.opportunity.referrerName" type="text" placeholder="{{'modal.add_opportunity.referrer-name'|translate}}" name="referrer_name"/>
+        </div>
+        <div class="ac-form" ng-class="{error: ref_email_invalid}" ng-show="data.sourceFromDropdown && data.sourceFromDropdown.toLowerCase() === 'referral'">
+          <input class="input-sm" ng-change="hasClientValidationErrors()" ng-model="data.opportunity.referrerEmail" type="text" placeholder="{{'modal.add_opportunity.referrer-email'|translate}}" name="referrer_email"/>
+          <span ng-show="ref_email_invalid" class='error-message'>{{'modal.add_opportunity.error.no-referrer-email'|translate}}</span>
+        </div>
+
+        <div class="ac-form" ng-class="{error: job_url_req}">
+          <label for="job_url">{{'modal.add_opportunity.job_posting'|translate}}</label>
+          <input class="input-sm" ng-model="data.opportunity.jobUrl" ng-change="hasClientValidationErrors()" type="text" placeholder="{{'modal.add_opportunity.job_posting_placeholder'|translate}}" name="job_url"/>
+        </div>
+
+        <div class="ac-form" ng-class="{error: role_req}">
+          <hp-autocomplete
+            ng-model="data.opportunity"
+            title-label="{{'modal.add_opportunity.question1'|translate}}"
+            suggestions="getOpportunityRoleAutoCompleteOptions"
+            value-key="role"
+            placeholder="Opportunity field"
+            uid="role"
+            input-name="role"
+            update-entire-model="false"
+          ></hp-autocomplete>
+        </div>
+
+        <div class="ac-form" ng-class="{error: job_title_req}">
+          <label for="job_title">{{'modal.add_opportunity.title-label'|translate}}</label>
+          <input class="input-sm" ng-model="data.opportunity.jobTitle" ng-change="hasClientValidationErrors()" type="text" placeholder="{{'modal.add_opportunity.title-placeholder'|translate}}" name="job_title"/>
+        </div>
+
+        <div class="ac-form">
+          <label>{{'modal.add_opportunity.applied'|translate}}</label>
+          <input id="add-applied-yes" type="radio" name="add-applied-yes" ng-model="data.opportunity.applied" ng-value="true"/>
+          <label for="add-applied-yes" class="first horizontal">Yes</label>
+          <input id="add-applied-no" type="radio" name="add-applied-no" ng-model="data.opportunity.applied" ng-value="false"/>
+          <label for="add-applied-no" class="horizontal">No</label>
+        </div>
+
+        <div class="ac-form date" ng-show="data.opportunity.applied">
+          <hp-date-form ng-model="data.opportunity.applied_on" name="applied-date" unique-id="applied_date" date-label="Application Date" input-size="sm"></hp-date-form>
+        </div>
+
+        <button ng-hide="changedSuccessfully || tryingToSave" class="button expanded submit" type="button" ng-click="submitAndClose($event)">{{'modal.add_opportunity.add'|translate}}</button>
+        <button ng-show="tryingToSave" class="button expanded submit" type="button" disabled>{{'modal.add_opportunity.trying_to_submit'|translate}}</button>
+        <button ng-show="changedSuccessfully" class="button submit expanded"><i class="fa fa-check"></i></button>
+      </form>
+    </section>
+  </div><!-- //modal -->
+</div><!-- //add opportunity modal -->

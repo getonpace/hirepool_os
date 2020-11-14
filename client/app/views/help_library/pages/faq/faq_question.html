@@ -1,0 +1,8 @@
+<h4>{{vm.question.question_text}}</h4>
+<p ng-bind-html="vm.question.answer_text"></p>
+<div class="faq-help">
+  <p>{{'faq.helpful'|translate}}
+    <button class="button secondary hollow small yes" ng-click="vm.vote(true)"><span class="fa fa-thumbs-o-up"></span></button>
+    <button class="button secondary hollow small no" ng-click="vm.vote(false)"><span class="fa fa-thumbs-o-down"></span></button>
+  </p>
+</div>

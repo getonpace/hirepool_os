@@ -1,0 +1,657 @@
+comparison-view{
+
+  // products table from https://codyhouse.co/gem/products-comparison-table/
+
+  // Table
+  $products-number: 3;
+  $products-column-width-mobile: 150px;
+  $products-column-width: 310px;
+  $features-column-width-mobile: 120px;
+  $features-column-width: 250px;
+
+  // center vertically and/or horizontally an absolute positioned element
+
+  @mixin center($xy:xy) {
+    @if $xy == xy {
+      left: 50%;
+      top: 50%;
+      bottom: auto;
+      right: auto;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    @else if $xy == x {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+    @else if $xy == y {
+      top: 50%;
+      bottom: auto;
+      transform: translateY(-50%);
+    }
+  }
+
+  // breakpoints   
+  $S:     480px;   
+  $M:     768px;     
+  $L:     1170px;     
+
+  // media queries
+  @mixin MQ($canvas) {
+    @if $canvas == S {
+     @media only screen and (min-width: $S) { @content; } 
+    }
+    @else if $canvas == M {
+     @media only screen and (min-width: $M) { @content; } 
+    }
+    @else if $canvas == L {
+     @media only screen and (min-width: $L) { @content; } 
+    }
+  }
+
+  // super light grid - it works with the .cd-container class inside style.scss
+
+  @mixin column($percentage, $float-direction:left) {
+    width: 100% * $percentage;
+    float: $float-direction;
+  }
+  .cd-products-comparison-table {
+    color: $black-70;
+    background-color: $white;
+    // margin-bottom: 6em;
+    div, ol, ul, li{
+      border: 0;
+    }
+    ul{
+      margin-bottom:0;
+    }
+  }
+  /* -------------------------------- 
+
+  Primary style
+
+  -------------------------------- */
+  .cd-container{ // GINGER-MOD to scope these changes
+
+    // GINGER-MOD to make this overlay the header
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1001;
+    // end GINGER-MOD
+
+    *, *::after, *::before {
+      box-sizing: border-box;
+    }
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  /* -------------------------------- 
+
+  Main Components 
+
+  -------------------------------- */
+
+  .cd-products-comparison-table {
+    // margin-bottom: 6em;
+    h1 {
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 4em 5%;
+
+      @include MQ(L) {
+        font-size: 2rem;
+        font-weight: 300;
+        padding: 3em 5%;
+      }
+    }
+    .close{
+      position: fixed;
+      right: 40px;
+      top: 40px;
+      font-size: 3rem;
+      opacity: .5;
+      transition: opacity .15s linear;
+      z-index: 2;
+      &:hover{
+        opacity: .9;
+      }
+    }
+    &::after {
+      /* never visible - this is used in jQuery to check the current MQ */ 
+      display: none;
+      content: 'mobile';
+    }
+
+    header {
+      @include clearfix;
+      padding: 0 5% 25px;
+    }
+
+    h2 {
+      float: left;
+      font-weight: bold;
+    }
+
+    @include MQ(L) {
+      // margin-bottom: 8em;
+
+      &::after {
+        /* never visible - this is used in jQuery to check the current MQ */ 
+        content: 'desktop';
+      }
+
+      header {
+        padding: 0 5% 40px;
+      }
+
+      h2 {
+        font-size: 2.4rem;
+      }
+    }
+  }
+
+  .cd-products-table {
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid $border-color !important;
+    border-bottom: 1px solid $border-color !important;
+  }
+
+  .cd-products-table .features {
+    /* fixed left column - product properties list */
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: $features-column-width-mobile;
+    border-style: solid;
+    border-color: $border-color;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: $cloud-blue;
+    opacity: .95;
+    border-top: none;
+
+    &::after {
+      /* color gradient on the right of .features -  visible while scrolling inside the .cd-products-table */
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 4px;
+      height: 100%;
+      background-image: linear-gradient(to right,rgba(0, 0, 0, 0.06), transparent);
+      opacity: 0;
+    }
+
+    @include MQ(L) {
+      width: $features-column-width;
+    }
+  }
+
+  .cd-products-table.scrolling .features::after {
+    opacity: 1;
+  }
+
+  .cd-products-wrapper {
+    overflow-x: auto;
+    /* this fixes the buggy scrolling on webkit browsers - mobile devices only - when overflow property is applied */
+    -webkit-overflow-scrolling: touch;
+    border-style: solid;
+    border-color: $border-color;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  .cd-products-columns {
+    /* products list wrapper */
+    @include clearfix;
+    width: $products-number*$products-column-width-mobile;
+    margin-left: $features-column-width-mobile;
+
+    @include MQ(L) {
+      width: $products-number*$products-column-width;
+      margin-left: $features-column-width;
+    }
+  }
+
+  .cd-products-columns .product {
+    position: relative;
+    float: left;
+    width: $products-column-width-mobile;
+    text-align: center;
+    transition: opacity .3s, visibility .3s, transform .3s;
+
+    .filtering &:not(.selected) {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0);
+    }
+
+    .no-product-transition &.selected {
+      transition: opacity .3s, visibility .3s;
+    }
+
+    .filtered &:not(.selected) {
+      position: absolute;
+    }
+
+    @include MQ(L) {
+      width: $products-column-width;
+    }
+  }
+
+  .cd-features-list li {
+    font-size: .5rem;
+    line-height: 1rem;
+    font-weight: bold;
+    padding: 20px 30px;
+    border-color: $border-color;
+    border-style: solid;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.rate {
+      /* rating stars */
+      padding: 21px 0;
+
+      span {
+        display: inline-block;
+        height: 22px;
+        width: 110px;
+        background: url(../img/cd-star.svg);
+        color: transparent;
+      }
+    }
+
+    &.overall-rating-cell{
+      height: 67px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .opportunity-rating{
+        position: relative;
+        span{
+          top: 7px;
+          left: 12px;
+          &.opp-rating-10{
+            left: 8px;
+          }
+        }
+      }
+    }
+
+    @include MQ(L) {
+      font-size: .75rem;
+      line-height: 1rem;
+      padding: 25px 20px;
+      &.rate {
+        //padding: 22px 0;
+      }
+    }
+  }
+
+  .features .cd-features-list li,
+  .cd-products-table .features .top-info {
+    /* fixed left column - items */
+    font-size: .5rem;
+    font-weight: bold;
+    /* set line-height value equal to font-size of text inside product cells */
+    line-height: 1rem;
+    padding: 20px 10px;
+    text-align: left;
+
+    @include MQ(L) {
+      font-size: .75rem;
+      line-height: 1rem;
+      padding: 25px 20px;
+      //letter-spacing: 1px;
+    }
+  }
+
+  .features .cd-features-list li {
+    /* truncate text with dots */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    &.overall-rating-cell{
+      justify-content: left;
+    }
+  }
+
+  .cd-products-table .top-info {
+    position: relative;
+    height: 177px;
+    width: $products-column-width-mobile;
+    text-align: center;
+    padding: 1.25em 2em;
+    border-color: $border-color;
+    border-style: solid;
+    border-right-width: 1px;
+    transition: height .3s;
+    cursor: pointer;
+    background: white;
+    z-index: 1;
+
+    &::after {
+      /* color gradient below .top-info -  visible when .top-info is fixed */
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 100%;
+      height: 4px;
+      width: 100%;
+      background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0.06), transparent);
+      opacity: 0;
+    }
+
+    h3 {
+      padding: 1.25em 0 0.625em;
+      font-weight: bold;
+      font-size: 1rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    table { // all of table is GINGER-MOD to fix centering of images
+      height: 85px;
+      width: 85px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    img {
+      max-height: 200px; // GINGER-MOD to fix images too big
+      margin: 0 auto;
+      display: block;
+      backface-visibility: hidden;
+    }
+
+    h3, img {
+      transition: transform 0.3s;
+    }
+
+    .check {
+      position: relative;
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+      margin: 0 auto 1em;
+
+      &::after, &::before {
+        /* used to create the check icon and green circle dot - visible when product is selected */
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        height: 100%;
+        width: 100%;
+      }
+
+      &::before {
+        /* green circle dot */
+        border-radius: 50%;
+        border: 1px solid $border-color;
+        background: white;
+        transition: background-color .3s, transform .3s, border-color .3s;
+      }
+
+      &::after {
+        /* check icon */
+        background: url(../img/cd-check.svg) no-repeat center center;
+        background-size: 24px 24px;
+        opacity: 0;
+        transition: opacity .3s;
+      }
+    }
+
+    @include MQ(L) {
+      height: 280px;
+      width: $products-column-width;
+
+      h3 {
+        padding-top: 1.4em;
+        font-size: 1.2rem;
+      }
+
+      table { // all of table is GINGER-MOD to fix centering of images
+        height: 200px;
+        width: 200px;
+      }
+
+      .check {
+        margin-bottom: 1.5em;
+      }
+    }
+  }
+
+  .cd-products-table .features .top-info {
+    /* models */
+    width: $features-column-width-mobile;
+    cursor: auto;
+    background: darken(white, 2%);
+
+    @include MQ(L) {
+      width: $features-column-width;
+    }
+  }
+
+  .cd-products-table .selected .top-info .check::before {
+    /* green circle dot */
+    background: $primary-color;
+    border-color: $primary-color;
+    transform: scale(1.5);
+    animation: cd-bounce .3s;
+  }
+
+  // keyframes cd-bounce {
+  //   0% {
+  //     transform: scale(1);
+  //   }
+
+  //   60% {
+  //     transform: scale(1.6);
+  //   }
+
+  //   100% {
+  //     transform: scale(1.5);
+  //   }
+  // }
+
+  .cd-products-table .selected .top-info .check::after {
+    /* check icon */
+    opacity: 1;
+  }
+
+  @include MQ(L) {
+    .cd-products-table.top-fixed .cd-products-columns > li,
+    .cd-products-table.top-scrolling .cd-products-columns > li, 
+    .cd-products-table.top-fixed .features,
+    .cd-products-table.top-scrolling .features {
+      padding-top: 160px;
+    }
+
+    .cd-products-table.top-fixed .top-info,
+    .cd-products-table.top-scrolling .top-info {
+      height: 160px;
+      position: fixed;
+      top: 0;
+
+      .no-cssgradients & {
+        border-bottom: 1px solid $border-color;
+      }
+
+      &::after {
+        opacity: 1;
+      }
+
+      h3 {
+        transform: translateY(-116px);
+      }
+
+      img {
+        transform: translateY(-62px) scale(.4);
+      }
+    }
+
+    .cd-products-table.top-scrolling .top-info {
+      position: absolute;
+    }
+  }
+
+  .cd-table-navigation a {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 15px;
+    transform: translateY(55px);
+    /* replace text with image */
+    overflow: hidden;
+    text-indent: 100%;
+    white-space: nowrap;
+    color: transparent;
+
+    height: 60px;
+    width: 40px;
+    background: rgba($black-70, .8) url('../img/cd-arrow.svg') no-repeat center center;
+    border-radius: 3px;
+    transition: background-color .3s, opacity .3s, visibility .3s, transform .3s;
+
+    &.inactive {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &.prev {
+      left: $features-column-width-mobile;
+      right: auto;
+      transform: translateY(55px) translateX(15px) rotate(180deg);
+    }
+
+    .no-touch &:hover {
+      background-color: $black-70;
+    }
+
+    @include MQ(L) {
+      transform: translateY(100px);
+
+      &.prev {
+        left: $features-column-width;
+        transform: translateY(100px) translateX(15px) rotate(180deg);
+      }
+
+      .top-fixed & {
+        position: fixed;
+      }
+
+      .top-fixed &, .top-scrolling & {
+        transform: translateY(45px);
+      }
+
+      .top-fixed &.prev, .top-scrolling &.prev {
+        transform: translateY(45px) translateX(15px) rotate(180deg);
+      }
+    }
+  }
+
+  /* -------------------------------- 
+
+  No JS
+
+  -------------------------------- */
+
+  .no-js .actions {
+    display: none;
+  }
+
+  .no-js .cd-products-table .top-info {
+    height: 145px;
+
+    @include MQ(L) {
+      height: 248px;
+    }
+  }
+
+  .no-js .cd-products-columns .check {
+    display: none;
+  }
+
+  // over-ride other functionality to stretch to full width on desktop
+  .cd-products-comparison-table {
+    @include MQ(L) {
+      .cd-products-wrapper > ul {
+        width: calc(100% - 250px) !important;
+      }
+      .cd-products-wrapper .cd-products-columns .product .top-info{
+        width: 100%;
+      }
+      .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(2),
+      .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(2) ~ .product {
+        width: 50%;
+      }
+      .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(3),
+      .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(3) ~ .product {
+        width: 33%;
+      }
+      .cd-products-table.top-fixed .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(2),
+      .cd-products-table.top-fixed .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(2) ~ .product {
+        .top-info {
+          width: calc(50% - 125px);
+        }
+      }
+      .cd-products-table.top-fixed .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(3),
+      .cd-products-table.top-fixed .cd-products-wrapper .cd-products-columns .product:first-child:nth-last-child(3) ~ .product {
+        .top-info {
+          width: calc(33% - 83.33px);
+        }
+      }
+    }
+  }
+
+  // end products table css, start custom css
+  .cd-products-comparison-table{
+    .cd-products-wrapper{
+      .top-info{
+        overflow: hidden;
+      }
+    }
+  }
+
+  .loading {
+    &.comparison-view-loading{
+      position: absolute;
+      top: 179px;
+      @include MQ(L){
+        top: 282px;
+      }
+      bottom: 0;
+      width: 100%;
+      padding-top: 50px;
+      background-color: $white;
+      z-index: 1002;
+      .loading-ui{
+        width: 200px;
+        height: 200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+
+}

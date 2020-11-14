@@ -1,0 +1,261 @@
+/*
+theme: shoreditch
+https://wordpress.com/design/hirepool.blog?s=shoreditch
+*/
+
+$header-color: #3C4B5E;
+$body-color: #8a8a8a;
+$darker-blue-color: #287AC2;
+$main-blue-color: #4C9DE6;
+$base-white-color: #fefefe;
+
+.wf-active body, .wf-active button, .wf-active input, .wf-active select, .wf-active textarea{
+  font-family: "Open Sans","Helvetica Neue",Helvetica,sans-serif;
+}
+
+body{
+  background-color: $darker-blue-color;
+}
+
+.site-header{
+  padding: 0;
+  padding-bottom: 0 !important;
+  background-color: $darker-blue-color;
+  border-width: 0;
+  button.menu-toggle{
+    background-color: $base-white-color;
+    color: $main-blue-color;
+    margin-top: 0;
+    font-weight: normal;
+    text-transform: none;
+    margin-top: 15px;
+    margin-bottom: 19px;
+  }
+  .site-header-wrapper{
+    height: 70px;
+  }
+  .site-branding{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    .site-title{
+      display: none;
+    }
+    .custom-logo{
+      width: 100px;
+    }
+  }
+  .main-navigation{
+    margin-top: 0;
+  }
+  .site-menu.toggled-on{
+    .primary-menu{
+      background-color: $darker-blue-color;
+    }
+  }
+  .primary-menu{
+    .current-menu-item{
+      a{
+        border-color: $base-white-color;
+      }
+    }
+    a{
+      color: $base-white-color;
+      font-weight: normal;
+    }
+  }
+}
+
+.site-content{
+  .site-content-wrapper{
+    max-width: 100%;
+    width: 100% !important;
+    margin: 0;
+    display: block;
+    background-color: $base-white-color;
+    .site-main{
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .content-area{
+      padding-right: 0;
+      padding-bottom: 0;
+      margin: 0 auto;
+      .site-main{
+        padding-bottom: 40px;
+        .page-header{
+          margin-bottom: 0;
+        }
+      }
+    }
+    article.post{
+      padding-top: 0;
+      position: relative;
+      padding-top: 40px !important;
+      padding-bottom: 40px;
+      margin-bottom: 60px;
+      border-bottom: 1.5px solid $main-blue-color;
+      &:last-child{
+        border-width: 0;
+        margin-bottom: 0;
+      }
+      .hentry-wrapper{
+        width: 100%;
+        max-width: 100%;
+      }
+      .entry-title{
+        a{
+          color: $header-color;
+          text-shadow: none;
+          font-size: 40px;
+        }
+      }
+      .entry-content{
+        p,ul,ol{
+          color: $body-color;
+          margin-bottom: 10px;
+          font-size: 17px;
+        }
+      }
+      .entry-footer{
+        position: absolute;
+        top: 20px;
+        width: 100%;
+        span{
+          &:after{
+            display: none;
+          }
+        }
+        a{
+          color: $body-color;
+          font-size: 10px;
+        }
+        .comments-link,.edit-link{
+          display: none;
+        }
+        .tags-links{
+          float: right;
+          color: $base-white-color;
+          a{
+            padding: 5px 10px;
+            background: $main-blue-color;
+            color: $base-white-color;
+            margin-left: 10px;
+          }
+        }
+      }
+      &.has-post-thumbnail{
+        padding-top: 60px !important;
+        .entry-header{
+          margin-bottom: 90px;
+          margin-left: 0;
+          width: 100%;
+          margin-top: 0;
+        }
+        .entry-header-wrapper{
+          padding: 0;
+          position: absolute;
+          bottom: -70px;
+          .entry-meta{
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  .header-image{
+    background-color: $darker-blue-color;
+    border-width: 0;
+    font-size: 1.8em;
+    img{
+      height: 130px;
+      width: 130px;
+    }
+    :after{
+      content: "Welcome to the hirepool blog";
+      display: block;
+      color: $base-white-color;
+      padding: 20px 0;
+    }
+  }
+  .widget-footer-area{
+    padding: 0;
+    background-color: $darker-blue-color;
+    .widget_text{
+      padding: 40px 0 20px;
+      .textwidget{
+        text-align: center;
+        a.button{
+          background-color: $base-white-color;
+          color: $darker-blue-color;
+          text-transform: none;
+          font-weight: normal;
+          font-size: 2em;
+          padding: 0.5em 1.75em;
+        }
+      }
+    }
+  }
+}
+
+.site-footer{
+  background-color: $darker-blue-color;
+  padding: 0 0 20px 0;
+  border-width: 0;
+  .site-info{
+    margin: 0 auto;
+    text-align: center;
+    a{
+      color: $base-white-color;
+    }
+  }
+}
+
+#primary{
+  #main{
+    article.post{
+      .hentry-wrapper{
+        .entry-author{
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        .entry-content{
+          #jp-post-flair{
+            margin-top: 25px;
+            .sharedaddy{
+              border-bottom-width: 0;
+              padding-bottom: 0;
+            }
+          }
+          li{
+            margin-bottom: 4px;
+          }
+          h2,h3{
+            margin-bottom: 1.6rem;
+            margin-top: 2rem;
+          }
+          h4,h5{
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+          }
+          h6{
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+            margin-left: 20px;
+            font-size: 1.5625rem;
+            line-height: 1.2;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .site-content{
+    .site-content-wrapper{
+      .content-area{
+        width: 55%;
+      }
+    }
+  }
+}

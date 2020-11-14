@@ -1,0 +1,16 @@
+en:
+  errors:
+    messages:
+      taken_in_past: "CANNOT_BE_TAKEN_IN_PAST"
+      equal_to_current_password: "CANNOT_EQUAL_TO_CURRENT_PASSWORD"
+      password_format: "CANNOT_BE_TOO_SIMPLE"
+  devise:
+    invalid_captcha: "INVALID_CAPTCHA"
+    paranoid_verify:
+      code_required: "CODE_REQUIRED"
+    password_expired:
+      updated: "PASSWORD_UPDATED"
+      change_required: "PASSWORD_CHANGE_REQUIRED"
+    failure:
+      session_limited: 'SESSION_LIMITED'
+      expired: 'SESSION_EXPIRED'

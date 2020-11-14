@@ -1,0 +1,22 @@
+<div ng-controller="OpportunityDetailsNotesCtrl" class="opp-detail-notes accordion" data-accordion data-allow-all-closed="true">
+  <div id="opp_note_accordion" class="accordion-item is-active" data-accordion-item>
+    <a class="accordion-title">
+      <header class="section-head">
+        <h6><span class="fa" ng-class="{'fa-caret-down': accordionOpen, 'fa-caret-right': !accordionOpen}"></span> {{'opportunity-notes.notes-title'|translate}}</h6>
+        <div id="notes-toolbar"></div>
+      </header>
+    </a>
+    <div class="accordion-content" data-tab-content>
+      <div class="notes-editor" ui-tinymce="tinymceOptions"
+        ng-model="interviewNotes" ng-model-options="{debounce: 500}"
+        ng-change="saveNotes()" placeholder="Enter notes here">
+      </div>
+      <div class="notes-save-status" ng-switch="notesSaveStatus">
+        <span ng-switch-when="saved">{{'opportunity-details.notes-saving-status.saved'|translate}}</span>
+        <span ng-switch-when="unsaved">{{'opportunity-details.notes-saving-status.saving'|translate}}</span>
+        <span ng-switch-when="saving">{{'opportunity-details.notes-saving-status.saving'|translate}}</span>
+        <span ng-switch-when="error">{{'opportunity-details.notes-saving-status.error'|translate}}</span>
+      </div>
+    </div>
+  </div>
+</div>

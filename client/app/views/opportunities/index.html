@@ -1,0 +1,32 @@
+<div ng-controller="OpportunitiesIndexCtrl as vm" class="opportunity-cards-index" ng-cloak>
+  <div ng-hide="vm.view.showComparisonView">
+    <hp-opportunities-subheader visible-opportunities="vm.data.cards" container-type="cards" opportunity-setup-func="vm.setupOppForCards"></hp-opportunities-subheader>
+    <div class="loading" ng-hide="vm.hideLoading()">
+      <div class="loading-ui">
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      </div>
+    </div>
+    <ul dynamic-layout items="vm.data.cards" class="row cards column container-fluid no-bullet" filters="filters"></ul>
+  </div><!-- //Wrapper  -->
+  <div ng-show="vm.view.showComparisonView">
+    <comparison-view opportunities="vm.data.cards"></comparison-view>
+  </div>
+  <div ng-show="vm.data.opportunitiesLoaded && vm.data.opportunitiesLoadedCount === 0" class="no-cards-view" ng-cloak>
+    <h2>Organize your job search.</h2>
+    <div class="row">
+      <div class="columns medium-4 small-centered">
+        <p>Add opportunities using the options below</p>
+      </div>
+      <div class="columns medium-4 large-3 small-centered">
+        <button class="button utility" ng-click="vm.openAddEventFodal()" hp-event-recorder="{action: 'open-modal', modal: 'add-event-and-opportunity', page: 'opportunities-index'}"><i class="fa fa-plus"></i> Add Event</button>
+      </div>
+      <div class="columns medium-4 large-3 small-centered">
+        <button ng-if="!isMobile" class="button utility hollow csv-upload" data-modal-trigger data-modal="add-opportunites-fodal" hp-event-recorder="{action: 'open-modal', modal: 'add-desktop-opportunities', page: 'opportunities-index'}"><i class="fa fa-upload"></i> {{'opportunities.csv'|translate}}</button>
+        <button ng-if="isMobile" class="button utility hollow mobile-csv" data-modal-trigger data-modal="add-opportunites-mobile-fodal" hp-event-recorder="{action: 'open-modal', modal: 'add-mobile-opportunities', page: 'opportunities-index'}"><i class="fa fa-upload"></i> {{'opportunities.csv'|translate}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(document).foundation();
+</script>

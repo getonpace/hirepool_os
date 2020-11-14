@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hi <%= @user.name %>,</p>
+    <p><%= @collaborator.name %> just left feedback for you on your job opportunity, <%= @interview.job_title %> at <%= @company.name %>. Check it out in <a href="<%= @generated_url %>">hirepool</a>.</p>
+    <p>Thanks!</p>
+    <p>- Nari from hirepool</p>
+  </body>
+</html>

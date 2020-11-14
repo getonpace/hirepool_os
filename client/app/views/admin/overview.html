@@ -1,0 +1,338 @@
+<div id="admin_overview_old" ng-controller="AdminOverviewCtrl">
+  <div ng-if="userIsAdmin()">
+    <ul class="menu">
+      <li ng-class="{active : tab === 'overview'}" ng-click="show('overview')"><a>Overview</a></li>
+      <li ng-class="{active : tab === 'users'}" ng-click="show('users')"><a>Users</a></li>
+      <li ng-class="{active : tab === 'opportunities'}" ng-click="show('opportunities')"><a>Opportunities</a></li>
+      <li ng-class="{active : tab === 'events'}" ng-click="show('events')"><a>Events</a></li>
+      <li ng-class="{active : tab === 'collaborations'}" ng-click="show('collaborations')"><a>Collaborations</a></li>
+      <li ng-class="{active : tab === 'offers'}" ng-click="show('offers')"><a>Offers</a></li>
+      <li ng-if="userIsHirepoolAdmin()" ng-class="{active : tab === 'companies'}" ng-click="show('companies')"><a>Companies</a></li>
+    </ul>
+    <div ng-show="tab === 'overview'">
+      <table class="low-profile">
+        <tr>
+          <th>Users</th>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{data.users ? data.users.length : 'loading'}}</td>
+        </tr>
+        <tr>
+          <td title="at least one opportunity">Active:</td>
+          <td>{{getActiveUserCount()}}</td>
+        </tr>
+
+        <tr>
+          <th>Opportunities</th>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{data.opportunities ? data.opportunities.length : 'loading'}}</td>
+        </tr>
+        <tr>
+          <td>Avg opps per active user:</td>
+          <td>{{getPerActiveUser(data.opportunities)}}</td>
+        </tr>
+
+        <tr>
+          <th>Events</th>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{data.events ? data.events.length : 'loading'}}</td>
+        </tr>
+        <tr>
+          <td>Avg events per active user:</td>
+          <td>{{getPerActiveUser(data.events)}}</td>
+        </tr>
+
+        <tr>
+          <th>Collaborations</th>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{data.collaborations ? data.collaborations.length : 'loading'}}</td>
+        </tr>
+        <tr>
+          <td>Avg collab per active user:</td>
+          <td>{{getPerActiveUser(data.collaborations)}}</td>
+        </tr>
+
+        <tr>
+          <th>Offers</th>
+        </tr>
+        <tr>
+          <td>Total:</td>
+          <td>{{data.offers ? data.offers.length : 'loading'}}</td>
+        </tr>
+        <tr>
+          <td>Avg offers per active user:</td>
+          <td>{{getPerActiveUser(data.offers)}}</td>
+        </tr>
+      </table>
+    </div>
+    <div ng-show="tab === 'users'">
+      <div class="medium-centered">
+        <label>Filter users: <input ng-model="userSearch"></label>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>email</th>
+              <th>provider</th>
+              <th>created at</th>
+              <th>last update</th>
+              <th>opportunities</th>
+              <th>events</th>
+              <th>feedback entered</th>
+              <th>collaboration requested</th>
+              <th>offers</th>
+              <th>tags</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in data.users | filter:userFilter">
+              <td><a href="#/admin/user_profile/{{user.id}}">{{user.name}}</a></td>
+              <td>{{user.email}}</td>
+              <td>{{user.provider}}</td>
+              <td>{{getDate(user.created_at)}}</td>
+              <td>{{getLastUserUpdate(user)}}</td>
+              <td>{{getUserOppCount(user.id)}}</td>
+              <td>{{getUserEventCount(user.id)}}</td>
+              <td>{{getUserFeedbackCount(user.id)}}</td>
+              <td>{{getUserCollabCount(user.id)}}</td>
+              <td>{{getUserOfferCount(user.id)}}</td>
+              <td>{{getUserTrackingTags(user)}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Test Users:</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>email</th>
+              <th>created at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="user in data.testUsers">
+              <td>{{user.name}}</td>
+              <td>{{user.email}}</td>
+              <td>{{getDate(user.created_at)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div ng-show="tab === 'opportunities'">
+      <div class="medium-centered">
+        <label>Filter opportunities: <input ng-model="opportunitySearch"></label>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>email</th>
+              <th>created at</th>
+              <th>company</th>
+              <th>title</th>
+              <th>field</th>
+              <th>events</th>
+              <th>collabs</th>
+              <th>offer</th>
+              <th>source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="opp in data.opportunities | filter:opportunityFilter">
+              <td>{{getUser(opp.user_id).name}}</td>
+              <td>{{getUser(opp.user_id).email}}</td>
+              <td>{{getDate(opp.created_at)}}</td>
+              <td>{{opp.company.name}}</td>
+              <td>{{opp.job_title}}</td>
+              <td>{{opp.role}}</td>
+              <td>{{opp.events.length}}</td>
+              <td>{{opp.collaborator_feedbacks.length}}</td>
+              <td>{{opp.offer ? opp.offer.status : 'none'}}</td>
+              <td>{{opp.source}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div ng-show="tab === 'events'">
+      <div class="medium-centered">
+        <label>Filter events: <input ng-model="eventSearch"></label>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>email</th>
+              <th>company</th>
+              <th>time</th>
+              <th>style</th>
+              <th>poc</th>
+              <th>email</th>
+              <th>relationship</th>
+              <th>feedback given</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="event in data.events | filter:eventFilter">
+              <td>{{getEventUserName(event)}}</td>
+              <td>{{getEventEmail(event)}}</td>
+              <td>{{getEventCompany(event)}}</td>
+              <td>{{getDate(event.date)}}</td>
+              <td>{{event.style}}</td>
+              <td>{{getPoc(event).name}}</td>
+              <td>{{getPoc(event).email}}</td>
+              <td>{{getPoc(event).relationship}}</td>
+              <td>{{getEventFeedbackGiven(event)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div ng-show="tab === 'offers'">
+      <div class="medium-centered">
+        <label>Filter offers: <input ng-model="offerSearch"></label>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>email</th>
+              <th>company</th>
+              <th>status</th>
+              <th>base salary</th>
+              <th>additional comp</th>
+              <th>total comp</th>
+              <th>expiration date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="offer in data.offers | filter:offerFilter">
+              <td>{{getEventUserName(offer)}}</td>
+              <td>{{getEventEmail(offer)}}</td>
+              <td>{{getEventCompany(offer)}}</td>
+              <td>{{offer.status}}</td>
+              <td>${{offer.base_salary}}</td>
+              <td>{{offer.additional_compensation}}</td>
+              <td>${{offer.total_target_compensation}}</td>
+              <td>{{getDate(offer.expiration_date)}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div ng-show="tab === 'collaborations'">
+      <div class="medium-centered">
+        <label>Filter collaborations: <input ng-model="collaborationSearch"></label>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>username</th>
+              <th>email</th>
+              <th>company</th>
+              <th>collaborator</th>
+              <th>email</th>
+              <th>date asked</th>
+              <th>date completed</th>
+              <th>rating</th>
+              <th>notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="collab in data.collaborations | filter:collaborationFilter">
+              <td>{{getEventUserName(collab)}}</td>
+              <td>{{getEventEmail(collab)}}</td>
+              <td>{{getEventCompany(collab)}}</td>
+              <td>{{collab.collaborator.name}}</td>
+              <td>{{collab.collaborator.email}}</td>
+              <td>{{getDate(collab.date_asked)}}</td>
+              <td>{{getDate(collab.date_completed)}}</td>
+              <td>{{collab.rating}}</td>
+              <td>{{collab.feedback}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div ng-show="tab === 'companies'">
+      <div class="medium-centered">
+        <label>Filter companies list: <input ng-model="companiesSearch"></label>
+        <table class="table">
+          <thead>
+            <th>name</th>
+            <th>gd name</th>
+            <th>cb name</th>
+            <th>domain</th>
+            <th>gd url</th>
+            <th>cb url</th>
+            <th>gd options</th>
+            <th>reviews last processed</th>
+            <th>recent reviews count</th>
+            <th>reviews: difficulty</th>
+            <th>reviews: negative</th>
+            <th>reviews: neutral</th>
+            <th>reviews: positive</th>
+            <th>reviews: no offer</th>
+            <th>reviews: offer declined</th>
+            <th>reviews: offer accepted</th>
+            <th>reviews: process duration</th>
+            <th>gd rating count</th>
+            <th>gd overall</th>
+            <th>gd career opp</th>
+            <th>gd comp</th>
+            <th>gd culture</th>
+            <th>gd recommend</th>
+            <th>gd leadership</th>
+            <th>gd work-life</th>
+            <th>cb twitter</th>
+            <th>cb fb</th>
+            <th>cb li</th>
+            <th>cb stock</th>
+            <th>cb location</th>
+            <th>cb description</th>
+          </thead>
+          <tbody>
+            <tr ng-repeat="company in data.companies | filter:companiesFilter">
+              <td>{{company.name}}</td>
+              <td>{{company.gdData.company_ratings.name}}</td>
+              <td>{{company.cbData.name}}</td>
+              <td>{{company.domain}}</td>
+              <td>{{company.gdData.company_ratings.website}}</td>
+              <td>{{company.cbData.url}}</td>
+              <td>{{company.gdData.full_response.response.employers.length}}</td>
+              <td>{{getDate(company.reviews_last_processed)}}</td>
+              <td>{{company.interview_recent_reviews}}</td>
+              <td>{{company.interview_difficulty}}</td>
+              <td>{{company.interview_experiences_negative}}</td>
+              <td>{{company.interview_experiences_neutral}}</td>
+              <td>{{company.interview_experiences_positive}}</td>
+              <td>{{company.interview_no_offers}}</td>
+              <td>{{company.interview_offers_declined}}</td>
+              <td>{{company.interview_offers_accepted}}</td>
+              <td>{{company.interview_process_duration}}</td>
+              <td>{{company.gdData.company_ratings.numberOfRatings}}</td>
+              <td>{{company.gdData.company_ratings.overallRating}}</td>
+              <td>{{company.gdData.company_ratings.careerOpportunitiesRating}}</td>
+              <td>{{company.gdData.company_ratings.compensationAndBenefitsRating}}</td>
+              <td>{{company.gdData.company_ratings.cultureAndValuesRating}}</td>
+              <td>{{company.gdData.company_ratings.recommendToFriendRating}}</td>
+              <td>{{company.gdData.company_ratings.seniorLeadershipRating}}</td>
+              <td>{{company.gdData.company_ratings.workLifeBalanceRating}}</td>
+              <td>{{company.cbData.twitter.handle}}</td>
+              <td>{{company.cbData.facebook.handle}}</td>
+              <td>{{company.cbData.linkedin.handle}}</td>
+              <td>{{company.cbData.ticker}}</td>
+              <td>{{company.cbData.geo.city}}, {{company.cbData.geo.stateCode}}, {{company.cbData.geo.country}}</td>
+              <td>{{company.cbData.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

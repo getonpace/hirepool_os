@@ -1,0 +1,24 @@
+<div id="resume_upload" class="row" ng-controller="ResumeUploadCtrl as vm">
+  <div class="columns medium-3 small-2 large-3">&nbsp;</div>
+  <div class="columns medium-6 small-8 large-6">
+    <header class="text-center">
+      <h1>Resume Upload</h1>
+    </header>
+    <section class="upload-explanation" ng-cloak>
+      <p ng-if="vm.view.inProfileSetup">Upload your resume to complete your profile.</p>
+      <p ng-if="!vm.view.inProfileSetup">Upload your resume here.</p>
+      <button class="button primary large expanded" ng-disabled="vm.view.uploading" ng-hide="vm.view.upload_error || vm.view.upload_success" ngf-select="vm.upload($file)"><span ng-hide="vm.view.uploading">Upload</span><span ng-show="vm.view.uploading"><i class="fa fa-spinner fa-spin"></i> Uploading...</span></button>
+    </section>
+    <section class="error-message" ng-show="vm.view.upload_error">
+      <h3>Upload error!</h3>
+      <p>Something went wrong uploading your resume. Please contact us through the support channel located in the lower right or via email at <a href="mailto:support@hirepool.io">support@hirepool.io</a> and we'll work to sort out any problems.</p>
+      <a class="button primary large expanded" href="#/" hp-event-recorder="{action: 'resume_upload_error_back_to_hirepool', page: 'resume_upload'}">Take me to my dashboard</a>
+    </section>
+    <section class="success-message" ng-show="vm.view.upload_success">
+      <h3>Upload complete!</h3>
+      <p>Great! We’ll return feedback within 72 business hours. In the meantime, please don’t hesitate to reach out through the support channel located in the lower right or via email at <a href="mailto:support@hirepool.io">support@hirepool.io</a>.</p>
+      <a class="button primary large expanded" href="#/" hp-event-recorder="{action: 'resume_upload_success_back_to_hirepool', page: 'resume_upload'}">Take me to my dashboard</a>
+    </section>
+  </div>
+  <div class="columns medium-3 small-2 large-3">&nbsp;</div>
+</div>

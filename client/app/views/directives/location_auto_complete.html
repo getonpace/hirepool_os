@@ -1,0 +1,12 @@
+<label for="autocomplete_location">{{locationTitleLabel}}</label>
+<div class="{{divClass}}">
+  <input placeholder="{{'location-autocomplete.search'|translate}}" ng-change="getAddressSuggestions(); hasClientValidationErrors()" ng-keydown="location_key($event)" ng-model="location.location" ng-model-options="{ debounce: 200 }" id="autocomplete" type="search" autocomplete="off" name="autocomplete_location">
+  <i class="fa fa-search"></i>
+  <button class="reset" ng-click="doLocationReset()"><i class="fa fa-times-circle"></i></button>
+  <div class="search-results hdpi" ng-show='location.predictions.length !== 0'>
+    <div class="pac-item" ng-click="setDirectiveAddress(prediction)" ng-repeat="prediction in location.predictions" ng-class="{active : $index === location.selectedIndex}">
+      <i class="fa fa-map-marker"></i>
+      <span ng-bind-html="prediction.description | highlight:prediction.descriptionMatchedArr"></span>
+    </div>
+  </div>
+</div>

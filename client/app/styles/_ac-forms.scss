@@ -1,0 +1,627 @@
+$form-size: 65px;
+$form-sm: 40px;
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='number'],
+input[type='search'],
+input[type='date'],
+input[type='password'],
+select,
+textarea{
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  border: 1px solid $light-gray;
+  border-radius: 3px;
+  font-size: 16px;
+  margin: 0;
+  padding: 12px;
+  width: 100%;
+  text-align: left;
+  color: lighten($midnight-blue, 10%);
+  transition: all .15s linear;
+  &:hover{
+    border-color: lighten($primary-color, 30%);
+  }
+  &:focus{
+    border-color: $primary-color;
+    outline: none;
+    box-shadow: 0 0 5px rgba(57,162,255,0.25),0 1px 1px rgba(0,0,0,0.1) inset;
+    ~ .fa{
+      color: $primary-color;
+    }
+  }
+  //Forms small
+  // ////////////////////////////////////////////
+  &.input-sm{
+    border-radius: 2px !important;
+    padding: 10px !important;
+  }
+}
+// removing transition from select to fix chrome bug with flickering
+// https://hirepool.atlassian.net/browse/HP-138
+// TODO: fixed in canary, will be able to revert this change soon
+select{
+  transition: none;
+}
+// end bugfix for https://hirepool.atlassian.net/browse/HP-138
+textarea{
+  line-height: 1.5;
+  padding: 10px;
+  resize: none;
+}
+select{
+  cursor: pointer;
+  background:#fff url("../images/caret-bottom-sm.svg");
+  background-size: 10px 10px;
+  background-position: right .6rem center;
+  background-repeat: no-repeat;
+}
+label{
+  font-size: 12px;
+  font-weight:600;
+  padding-bottom: 2px;
+  display: inline-block;
+  color: $midnight-blue;
+}
+
+// radios & checkboxes
+input[type='radio'],
+input[type='checkbox']{
+  $size: rem-calc(15px);
+  display:none;
+  cursor:pointer;
+  &:focus,
+  &:active{
+    outline:none;
+  }
+  & + label{
+    cursor:pointer;
+    font-size: rem-calc(10px);
+    line-height:  $size;
+    height:  $size;
+    margin-bottom: $size - .2;
+    display:block;
+    position: relative;
+    padding-left: $size + .5;
+    color: $dark-gray;
+    &:before,
+    &:after{
+      content:'';
+      font-family: helvetica;
+      display:inline-block;
+      width: $size;
+      height: $size;
+      left:0;
+      top: 0;
+      text-align:center;
+      position: absolute;
+    }
+    &:before{
+      background-color:$light-gray;
+      transition: all .3s ease-in-out;
+      border-radius: 2px;
+    }
+    &:after{
+      color:#fff;
+    }
+    &.horizontal{
+      display: inline-block;
+    }
+  }
+  & +label:hover,
+  &:checked + label{
+    color: darken($primary-color, 10%);
+  }
+  &:checked + label:before{
+    box-shadow: inset 0 0 0 20px $primary-color;
+  }
+  & + label:hover:after,
+  &:checked + label:after{
+    font-family: FontAwesome;
+    content: "\f00c";
+    vertical-align: middle;
+    font-size: $size - .4 ;
+  }
+  & + label:hover:after{
+    color: $dark-gray;
+  }
+  &:checked + label:after,
+  &:checked + label:hover:after{
+    color:#fff;
+  }
+  &:disabled{ // &:disabled is all GINGER-MOD
+    & +label{
+      cursor: not-allowed;
+    }
+    & +label:hover{
+      color: $dark-gray !important;
+    }
+    & +label:hover:after{
+      content: "";
+      color: $dark-gray;
+    }
+  }
+}
+//radio specific
+input[type='radio']{
+  + label:before{
+    border-radius: 100px;
+  }
+  & + label:hover:after,
+  &:checked + label:after{
+    content: "\f111";
+  }
+}
+.ac-form .search input,
+input{
+  padding: 12px;
+  font-size: 12px;
+}
+.ac-form{
+  padding-bottom: 16px;
+  .search input{
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .search > .fa,
+  .search button[type='reset']{
+    top: 15px;
+  }
+}
+
+//Advanced forms - for use with icons & validation
+// ////////////////////////////////////////////
+.ac-form{
+  position: relative;
+  padding: 10px 0;
+  width: 100%;
+  @include clearfix;
+  input{
+    padding-right: 40px;
+  }
+  .fa{
+    color: lighten($dark-gray, 15%);
+    transition: all .15s linear;
+  }
+  >.fa{
+    z-index:50;
+    position: absolute;
+    right: $form-size/4;
+    top: 27px;
+  }
+  .search{
+    position: relative;
+    input{
+      padding:12px 40px;
+    }
+    //GINGER-MOD
+    >.fa,
+    button.reset{
+      position: absolute;
+      top: 15px;
+    }
+    >.fa{
+      left: 15px;
+    }
+    //GINGER-MOD
+    button.reset{
+      right: $form-size/4;
+      .fa{
+        color: $light-gray;
+      }
+      &:hover .fa{
+        color: $medium-gray;
+      }
+    }
+    .search-results{
+      // GINGER-MOD
+      // display: none;
+      max-height: 223px;
+      overflow-y: auto;
+      background-color: $white;
+      z-index: 1000;
+      position: absolute;
+      left:0; right: 0;
+      margin-top: -1px;
+      border-top: none;
+      border-radius: 3px;
+      border: 1px solid $light-gray;
+      box-shadow:0 5px 10px rgba(0,0,0,0.05);
+      .pac-item{
+        cursor: pointer;
+        padding: 15px 20px;
+        border-bottom: 1px solid $light-gray;
+        .iconic-map-marker{
+          fill: $dark-gray;
+          position: relative;
+          top: 2px;
+        }
+        .pac-matched{
+          font-weight: 600;
+        }
+        &:last-child{
+          border: none;
+        }
+        // GINGER-MOD
+        &.active {
+          background-color: #FAFBFC;
+        }
+        &:hover {
+          background-color: #FAFBFC;
+        }
+      }
+    }
+    &.search-sm{
+      >input{
+        padding: 10px 32px 10px 32px !important;
+      }
+      &.no-search-icon{
+        >input{
+          padding: 10px 32px 10px 10px !important;
+        }
+      }
+      .search-results{
+        .pac-item{
+          cursor: pointer;
+          padding: 8px;
+          font-size: 14px;
+        }
+      }
+      >.fa{
+        position: absolute;
+        top: 15px !important;
+      }
+      // GINGER-MOD
+      button.reset{
+        right: $form-sm/4;
+        top: 14px !important;
+        &:hover .iconic{
+          color: $dark-gray;
+        }
+      }
+      >.fa{
+        font-size: 13px;
+        top: 16px;
+      }
+    }
+  }
+  .error-message{
+    position: absolute;
+    display: block;
+    color: $alert-color;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity .2s ease;
+    &.error-ok{
+      opacity: 1;
+      color: $midnight-blue;
+      .pw-bad{
+        color: $alert-color;
+      }
+      .pw-good{
+        color: $success-color;
+      }
+    }
+  }
+  &.password-field{
+    .error-message{
+      position: static;
+    }
+  }
+  &.error{
+    input,
+    select{
+      border-color: $alert-color;
+      box-shadow: none;
+      &:focus ~.fa{
+        color: $alert-color;
+      }
+    }
+    .error-message{
+      opacity: 1;
+    }
+  }
+  //custom date field
+  // ////////////////////////////////////////////
+  &.date .date-fields{
+    display:flex;
+    align-items: center;
+    >span{
+      display: inline-block;
+      padding: 1px;
+      font-size: 24px;
+      color: $dark-gray;
+    }
+    input{
+      padding:12px 8px;
+      text-overflow: ellipsis;
+    }
+    input, span{
+      text-align: center;
+      min-width: 30px;
+    }
+    span{
+      flex: 2;
+      min-width: 20px;
+    }
+    span.time-span{
+      flex: 1;
+      min-width: 10px;
+    }
+    #day-input, #month-input{
+      flex: 4;
+    }
+    #year-input{
+      flex: 9;
+    }
+    #time-input{
+      flex: 14;
+    }
+  }
+  //slider
+  // ////////////////////////////////////////////
+  &.slider-container{
+    .slider{
+      margin-bottom: 0;
+      &, .slider-fill{
+        border-radius: 10px;
+      }
+      .slider-fill{
+        background-color: lighten($primary-color, 10%);
+      }
+      .slider-handle{
+        border-radius: 100px;
+      }
+    }
+    .small-10{
+      padding-left: 0;
+    }
+    .small-2{
+      padding-right: 0;
+    }
+  }
+  &.social-logins {
+    display: flex;
+    justify-content: center;
+
+    a {
+      margin: auto 1em;
+    }
+
+    .fa {
+      font-size: 1.7em;
+
+      &:hover {
+        color: #2199e8;
+      }
+    }
+  }
+} // end ac-form
+
+//rating
+// ////////////////////////////////////////////
+color-ratings{ // all of color-ratings is GINGER-MOD
+  .rating{
+    height: 54px;
+  }
+}
+
+.rating{
+  padding-top: 1px;
+  > input[type="radio"]{
+    display: none;
+    &[value="10"] + label:before{
+      background-color: #FF5700;
+    }
+    &[value="9"] + label:before{
+      background-color: #FF6F04;
+    }
+    &[value="8"] + label:before{
+      background-color: #FF7E06;
+    }
+    &[value="7"] + label:before{
+      background-color: #FF8F09;
+    }
+    &[value="6"] + label:before{
+      background-color: #FFB20E;
+    }
+    &[value="5"] + label:before{
+      background-color: #FFB20E;
+    }
+    &[value="4"] + label:before{
+      background-color: #FFC311;
+    }
+    &[value="3"] + label:before{
+      background-color: #FFD313;
+    }
+    &[value="2"] + label:before{
+      background-color: #FFE315;
+    }
+    &[value="1"] + label:before{
+      background-color: #FFF317;
+    }
+  }
+  > input[type="radio"]{
+    & + label{
+      display: block;
+      float: right;
+      width: 10%;
+      position: relative;
+      height: 35px;
+      flex: 1;
+      text-align: center;
+      line-height: 35px;
+      font-weight: bold;
+      color: lighten($midnight-blue, 10%);;
+      background-color: #fff;
+      box-shadow: 1px 0 0 $light-gray, 0 1px 0 $light-gray, 0 -1px 0 $light-gray;
+      border-right: none;
+      cursor: pointer;
+      z-index: 2;
+      margin: 0;
+      padding:0;
+      font-size: .75rem;
+      &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 35px;
+        background-color: red;
+        z-index: -1;
+        opacity: 0;
+        width: auto;
+        border-radius: 0;
+      }
+      &:after{
+        display: none !important;
+      }
+      &:last-of-type,
+      &:last-of-type:before,{
+        border-radius: 3px 0 0 3px;
+        box-shadow: 0 0 0 1px $light-gray;
+      }
+      &:first-of-type,
+      &:first-of-type:before,{
+        border-radius: 0 3px 3px 0;
+      }
+    }// & + label
+  }// > input[type="radio"]
+
+  > input[type="radio"]{
+    & + label:hover:before,
+    & + label:hover ~ label:before,
+    &:checked +label:before,
+    &:checked +label ~ label:before{
+      opacity: 1;
+      box-shadow: none;
+    }
+    & + label:hover,
+    & + label:hover ~ label,
+    &:checked + label,
+    &:checked + label ~ label{
+      color: $white;
+    }
+  }
+  @include breakpoint(medium){
+    input:checked ~ label:hover,
+    label:hover ~ input:checked ~ label,
+    input:checked ~ label:hover ~ label{
+      opacity: .75;
+    }
+  }
+  span.chart-label{
+    font-size: 11px;
+    padding-top: 2px;
+    color: $black-55;
+  }
+}
+//form overrides
+// ////////////////////////////////////////////
+.modal{
+  .ac-form{
+    padding: 0;
+    padding-bottom: 13px;
+  }
+  .submit{
+    margin:0;
+    margin-top:12px;
+  }
+}
+
+@include breakpoint(medium){
+  input[type='text'],
+  input[type='email'],
+  input[type='tel'],
+  input[type='number'],
+  input[type='search'],
+  input[type='date'],
+  input[type='password'],
+  select{
+    font-size: 16px !important;
+    margin: 0;
+    padding: 20px !important;
+    width: 100%;
+  }
+  .ac-form.date .date-fields input{
+    padding: 5px 10px !important;
+  }
+  .ac-form{
+    padding: 2px 0 13px 0;
+    .search{
+      input{
+        padding:20px 40px !important;
+      }
+      // GINGER-MOD
+      >.fa,
+      button.reset{
+        position: absolute;
+        top: 25px !important;
+      }
+      >.fa{
+        left: 15px;
+      }
+    }
+  }
+  .login{
+    margin-top: 2rem;
+    .mascot{
+      max-width: 125px;
+    }
+    .logo{
+      margin-top: 2rem;
+      max-width: 260px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// GINGER-MOD
+.button.delete{
+  background-color: $alert-color;
+}
+
+// custom ac-form for headers
+.ac-form{
+  &.form-for-header{
+    padding: 0;
+    width: auto;
+    input{
+      font-size: 12px !important;
+      padding: 7px 30px !important;
+    }
+    .search{
+      button.reset,
+      > .fa{
+        top: 10px !important;
+      }
+      >.fa{
+        font-size: 12px;
+        left: 10px;
+      }
+      button.reset{
+        right: 10px;
+        font-size: 14px;
+      }
+      input:focus{
+        padding-left: 30px;
+        +.fa{
+          left: 8px;
+          top: 8px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

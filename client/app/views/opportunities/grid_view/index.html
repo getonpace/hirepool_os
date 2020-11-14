@@ -1,0 +1,14 @@
+<div ng-controller="GridViewIndexCtrl as vm" id="opportunity_grid_view">
+
+  <div ng-hide="vm.view.showComparisonView">
+    <hp-opportunities-subheader visible-opportunities="vm.data.gridData.rows" container-type="grid" opportunity-setup-func="vm.setupOppForGrid"></hp-opportunities-subheader>
+    <div class="table-container row columns" ng-show="vm.data.gridData && vm.data.gridData.rows.length">
+      <hp-sortable-table table-data="vm.data.gridData" default-sort="actions"></hp-sortable-table>
+    </div>
+  </div>
+
+  <div ng-show="vm.view.showComparisonView">
+    <comparison-view opportunities="vm.data.gridData.rows"></comparison-view>
+  </div>
+
+</div>

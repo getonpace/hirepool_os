@@ -1,0 +1,11 @@
+Hey Erin!
+===============================================
+
+<%= @user.name %> updated an event. It's a <%= @event.style %> <%= @event.substyle %> on <%= @event.date %> for <%= @interview.job_title %> at <%= @company.name %>.
+
+Check it out at:
+<%= @url %>/app/#/admin/user_profile/<%= @user.id %>
+
+<%= @user.name %> signed up via <%= @signup_method %><% if @method_is_access_group %>: <%= @user.access_group.title %><% end %>.<% if @user_has_sponsor %> Sponsor: <%= @user.sponsor %><% end %>
+
+You're cool. Keep up the good work.

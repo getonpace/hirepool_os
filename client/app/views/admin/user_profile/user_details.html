@@ -1,0 +1,50 @@
+<div class="user-details-container admin-column-container" ng-show="vm.data.user">
+  <div class="col1" ng-class="{stacked: vm.data.user.user_tracking_tags && vm.data.user.user_tracking_tags.length > 0}">
+    <div class="inner-col">
+      <p>{{vm.data.user.email}}</p>
+      <p>Login via: {{vm.data.user.provider}}</p>
+    </div>
+    <div class="inner-col">
+      <p>Registered: {{vm.getFullDate(vm.data.user.created_at)}}</p>
+      <p>Last login: {{vm.getFullDate(vm.data.user.updated_at)}}</p>
+    </div>
+  </div>
+  <div class="col2" ng-show="vm.data.user.user_tracking_tags && vm.data.user.user_tracking_tags.length > 0">
+    <h4>User tracking tags:</h4>
+    <ul>
+      <li ng-repeat="tag in vm.data.user.user_tracking_tags">{{tag.tag}}</li>
+    </ul>
+  </div>
+</div>
+<div class="resumes-container admin-column-container" ng-if="vm.isHirepoolAdmin()" ng-show="vm.view.hasUploadedResumes">
+  <div class="col1">
+    <h2>Resumes</h2>
+    <ul class="resume-export-links"></ul>
+  </div>
+</div>
+<div class="survey-responses-container admin-column-container" ng-if="vm.isHirepoolAdmin()">
+  <div class="col1">
+    <h2>Premium Status and Invoices</h2>
+    <p>Account type: {{vm.getAccountStatus()}}</p>
+    <p>Premium cost group: {{vm.getCostGroup()}}</p>
+    <p>Next invoice date: {{vm.data.nextInvoiceDate}}</p>
+    <p>Account activity:</p>
+    <div class="table-container">
+      <hp-sortable-table table-data="vm.data.accountHistoryTableData" default-sort="actionDatetime"></hp-sortable-table>
+    </div>
+  </div>
+</div>
+<div class="survey-responses-container">
+  <h2>Premium Survey Responses</h2>
+  <div class="survey-answer-container" ng-repeat="answer in vm.data.premium_survey.answers">
+    <p class="survey-question">{{answer.question_text}}</p>
+    <p class="survey-answer" ng-repeat="selection in answer.answers">{{selection.answer_text}}</p>
+  </div>
+</div>
+<div class="survey-responses-container">
+  <h2>Survey Responses</h2>
+  <div class="survey-answer-container" ng-repeat="answer in vm.data.survey.answers">
+    <p class="survey-question">{{answer.question_text}}</p>
+    <p class="survey-answer" ng-repeat="selection in answer.answers">{{selection.answer_text}}</p>
+  </div>
+</div>

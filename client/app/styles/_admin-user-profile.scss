@@ -1,0 +1,274 @@
+.admin-view-page{
+  .fit-adjacent{
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 5px;
+    &:last-child{
+      padding-right: 0;
+    }
+  }
+}
+.admin-column-container{
+  p{
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    &:hover{
+      white-space: normal;
+      /* These are technically the same, but use both */
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      -ms-word-break: break-all;
+      /* This is the dangerous one in WebKit, as it breaks things wherever */
+      word-break: break-all;
+      /* Instead use this non-standard one: */
+      word-break: break-word;
+      /* Adds a hyphen where the word breaks, if supported (No Blink) */
+      -ms-hyphens: auto;
+      -moz-hyphens: auto;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+    }
+  }
+  .col1{
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    .inner-col{
+      vertical-align: top;
+      width: 49%;
+      display: inline-block;
+    }
+    &.stacked{
+      width: 49%;
+      .inner-col{
+        width: 100%;
+      }
+    }
+  }
+  .col2{
+    width: 49%;
+    display: inline-block;
+    vertical-align: top;
+    h4{
+      font-size: 17px;
+    }
+    ul{
+      margin-left: 50px;
+    }
+  }
+}
+#admin_view_user_profile{
+  height: 100%;
+  h2{
+    font-size: 20px;
+  }
+  .main-container{
+    height: calc(100% - 100px);
+    margin-bottom: 15px;
+    overflow-y: scroll;
+  }
+  .activity-feed-container{
+    display: inline-block;
+    width: 500px;
+    border: 1px solid $light-gray;
+    padding: 16px 20px;
+    margin-right: 20px;
+    &.small{
+      width: 62px;
+    }
+    .size-toggle{
+      &.maximize{
+        position: relative;
+        top: 0;
+        right: 0;
+      }
+      &.up-down{
+        display: none;
+      }
+    }
+    header{
+      h2{
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+    @media screen and (max-width: 1000px){
+      width: 100%;
+      &.small{
+        width: 100%;
+        height: 58px;
+      }
+      .size-toggle{
+        &.maximize{
+          position: absolute;
+          top: 16px;
+          right: 20px;
+        }
+        &.left-right{
+          display: none;
+        }
+        &.up-down{
+          display: block;
+        }
+      }
+    }
+  }
+  .tab-control-container{
+    width: calc(100% - 525px);
+    height: calc(100% - 100px);
+    &.big{
+      width: calc(100% - 87px);
+    }
+    @media screen and (max-width: 1000px){
+      width: 100%;
+      &.big{
+        width: 100%;
+      }
+    }
+    .tab-control-tab{
+      .table-container{
+        height: 525px;
+      }
+      .survey-responses-container{
+        border-top: 1px solid $light-gray;
+        padding-top: 8px;
+        .survey-answer-container{
+          display: inline-block;
+          min-width: 49%;
+          padding-bottom: 15px;
+          padding-right: 20px;
+          vertical-align: top;
+          .survey-question{
+            font-weight: bold;
+            margin-bottom: 4px;
+          }
+          .survey-answer{
+            margin-bottom: 2px;
+          }
+        }
+      }
+    }
+  }
+  #user_details_tab{
+    .admin-column-container{
+      .table-container{
+        height: 200px;
+        margin-bottom: 20px;
+        th{
+          text-align: left;
+        }
+        th,td{
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+  #opp_details_tab{
+    font-size: 14px;
+    header{
+      select{
+        width: auto;
+        font-size: 24px !important;
+        padding: 0px 6px !important;
+      }
+    }
+    .opp-details-tab-container{
+      margin-top: 10px;
+      p{
+        margin-bottom: 3px;
+      }
+      h4{
+        font-size: 18px;
+      }
+      &.opp-details-section{
+        margin-left: 10px;
+      }
+      .opp-details-subsection{
+        border: 1px solid $light-gray;
+        padding: 10px;
+        margin: 0 10px;
+        .opp-details-subsection-item{
+          border-top: 1px solid $light-gray;
+          margin-top: 10px;
+          padding-top: 6px;
+          &:first-child{
+            border-top-width: 0;
+            margin-top: 0;
+            padding-top: 0;
+          }
+        }
+      }
+      &.opp-notes-section{
+        padding-top: 8px;
+        border-top: 1px solid $light-gray;
+      }
+      &.opp-collaborators-section{
+        .collaborators-container{
+          .collaborator-container{
+            p{
+              margin-left: 6px;
+              &:first-child{
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
+      &.opp-events-section{
+        padding-bottom: 16px;
+        .events-container{
+          .event-container{
+            .fa-plus, .fa-minus{
+              margin-right: 10px;
+            }
+            >p{
+              cursor: pointer;
+            }
+            .event-interviewers-header, .event-interactions-header{
+              width: 95px;
+              font-weight: bold;
+            }
+            .participants-container, .interactions-container{
+              width: calc(100% - 100px);
+              .fit-adjacent{
+                margin-left: -3px;
+                margin-right: -3px;
+              }
+              .participant-container, .interaction-container{
+                margin-bottom: 6px;
+                .interaction-interviewers-header{
+                  width: 100px;
+                  font-weight: bold;
+                }
+                .participants-container{
+                  width: calc(100% - 105px);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  #timeline_tab{
+    #admin_timeline_highcharts_container{
+      width: 100%;
+      height: 100%;
+      input{
+        // override fixes for date inputs on chart
+        &.highcharts-range-selector{
+          margin-left: 1px;
+          margin-top: 1px;
+          padding: 0 !important;
+          font-size: 12px !important;
+          transition: none;
+          border-radius: 0;
+          border-width: 0 !important;
+          box-shadow: 0 0 0 black;
+          color: #333333;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+#resume_upload{
+  .success-message{
+    h3{
+      color: $success-color;
+    }
+  }
+  .error-message{
+    h3{
+      color: $alert-color;
+    }
+  }
+}

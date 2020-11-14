@@ -1,0 +1,22 @@
+<div class="modal user-agreement-modal" id="user-agreement-tomco-123-modal" ng-controller="ModalsSponsorUserAgreementCtrl as vm">
+  <div class="modal-dialog" ng-if="vm.matchSponsor('tomco-123')">
+    <header>
+      <h4>Welcom TOMCO-123 Graduate!</h4>
+      <button ng-show="false" class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <div class="row">
+        <div class="columns medium-12">
+          <p>Welcome to hirepool.</p>
+          <p>By clicking below you agree to share your data with administrators from TOMCO-123.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="columns medium-12">
+          <button class="button primary accept-button" ng-click="vm.accept()">Thanks! Take me to hirepool</button>
+          <a class="decline-link" ng-click="vm.decline()">Please don't share my data with TOMCO-123.</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<header class="opportunities-subheader hp-header">
+  <div class="header-left">
+    <div class="view-toggle button hollow hide-on-mobile opportunities-index-ftu-target-toggle-view">
+      <a href="#/"><i class="fa fa-th"></i></a>
+      <a href="#/grid_view"><i class="fa fa-list-ul"></i></a>
+    </div>
+    <ul class="header-dropdown dropdown menu utility my-opportunities-dropdown" data-menu-right data-dropdown-menu data-click-open="true" data-disable-hover="true">
+      <li class="is-dropdown-submenu-parent">
+        <a class="small button hollow">My Opportunities</a>
+        <ul class="menu">
+          <li><a ng-click="vm.showActiveOpportunities()" ng-class="{ 'active': vm.view.nowShowing === 'active' }">Active Opportunities ({{vm.data.activeOpportunities.length}})</a></li>
+          <li><a ng-click="vm.showArchivedOpportunities()" ng-class="{ 'active': vm.view.nowShowing === 'archived' }">Archived Opportunities ({{vm.data.archivedOpportunities.length}})</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="header-center">
+    <button class="button small hollow" ng-disabled="vm.disableCompareButton()" ng-click="vm.showComparisonView()">Compare</button>
+  </div>
+  <div class="header-right">
+    <div class="ac-form form-for-header">
+      <div class="search">
+        <input ng-change="vm.runDataFilter(vm.data.filterValue)" ng-disabled="vm.disableFilter()" ng-model="vm.data.filterValue" onfocus="" type="search" autocomplete="off" placeholder="Filter my opportunities">
+        <i class="fa fa-search"></i>
+        <button class="reset" ng-click="vm.resetFilter()" ng-disabled="vm.disableFilter()"><i class="fa fa-times-circle"></i></button>
+      </div>
+    </div>
+  </div>
+</header>
+<script type="text/javascript">
+  $('.my-opportunities-dropdown').foundation();
+</script>

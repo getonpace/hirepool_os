@@ -1,0 +1,90 @@
+.docs-page p{
+  margin: 0 0 2em 0;
+}
+.docs-page h1{
+  margin-bottom: 50px;
+  text-align: center;
+}
+.docs-page .docs-container{
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.docs-page .image-caption{
+  margin-top: 0px;
+  font-size: 1.5em;
+  font-style: italic;
+  text-align: center;
+}
+.docs-page .docs-heading{
+  padding-top: 150px;
+}
+.docs-page img{
+  max-width: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.docs-page .docs-footer{
+  position: relative;
+  text-align: center;
+  margin-top: 100px;
+}
+.docs-page .waves{
+  width: 100%;
+  background-color: #287AC2;
+  height: 30em;
+}
+.docs-page .waves:before{
+  content: "";
+  display: block;
+  position: absolute;
+  top: -18px;
+  width: 100%;
+  height: 21px;
+  background-size: cover;
+  background-repeat: repeat-x;
+  background-position: center center;
+  background-image: url('../assets/waves_big.svg');
+  animation: waves 2s linear infinite;
+}
+.docs-page .waves h4{
+  padding-top: 1.66em;
+  margin-bottom: 1em;
+  color: #fefefe;
+}
+.docs-page .waves .button{
+  border: 2px solid #fefefe;
+}
+.docs-page footer{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 9em;
+  background-color: #0E1A35;
+  width: 100%;
+}
+.docs-page footer .social-buttons{
+  margin-top: 2em;
+}
+.docs-page footer .social-buttons li{
+  display: inline-block;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.docs-page footer .social-buttons li img{
+  height: 5em;
+  width: 5em;
+}
+
+
+/* collaborators.html */
+.docs-page #email-in-inbox{
+  width: 800px;
+}
+.docs-page #full-email{
+  width: 800px;
+}
+.docs-page #collaborator-feedback{
+  width: 600px;
+}

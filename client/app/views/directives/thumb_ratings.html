@@ -1,0 +1,9 @@
+<label for="{{uniqueId}}-rating">{{ratingLabel}}</label>
+<div class="thumb-rating">
+  <input type="radio" name="{{uniqueId}}-rating-10" id="{{uniqueId}}-rating-10" value="10" ng-model="rating" ng-change="triggerEvent()">
+  <label for="{{uniqueId}}-rating-10"><span class="fa fa-thumbs-o-up" ng-click="setRatingHack(10)"></span><br>{{highLabel}}</label>
+  <input type="radio" name="{{uniqueId}}-rating-1" id="{{uniqueId}}-rating-1" value="1" ng-model="rating" ng-change="triggerEvent()">
+  <label for="{{uniqueId}}-rating-1"><span class="fa fa-thumbs-o-down" ng-click="setRatingHack(1)"></span><br>{{lowLabel}}</label>
+  <input type="radio" name="{{uniqueId}}-rating-5" id="{{uniqueId}}-rating-5" value="5" ng-model="rating" ng-change="triggerEvent()">
+  <label for="{{uniqueId}}-rating-5"><span class="fa fa-hand-stop-o" ng-click="setRatingHack(5)"></span><br>{{mediumLabel}}</label>
+</div>

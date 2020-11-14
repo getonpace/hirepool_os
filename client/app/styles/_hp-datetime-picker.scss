@@ -1,0 +1,122 @@
+hp-date-form{
+  .date-fields{
+    width: calc(100% - 51px);
+    display: inline-flex !important;
+  }
+  .hp-diy-dd{
+    float: right;
+    margin-top: 5px;
+    margin-bottom: 0;
+    .hp-diy-dd-button{
+      padding: 0.85em 1em;
+      .fa{
+        color: #fff;
+      }
+    }
+    .hp-diy-dd-close-button-container{
+      height: 40px;
+      @include breakpoint(medium){
+        display: none;
+      }
+    }
+  }
+  .datetimepicker{
+    .minute,
+    .hour,
+    .day,
+    .switch,
+    .left,
+    .right{
+      &:hover{
+        background-color: $light-gray;
+      }
+    }
+    .active,
+    .active.disabled,
+    .active.active,
+    .active.active.disabled{
+      background-color: $primary-color;
+      background-image: none;
+      background-repeat: inital;
+      border-color: transparent;
+      color: $white;
+      -webkit-filter: none;
+      filter: none;
+      text-shadow: none;
+    }
+    .active:hover,
+    .active.disabled:hover,
+    .active.active:hover,
+    .active.active.disabled:hover{
+      background-color: $button-background-hover;
+    }
+    .past,
+    .future{
+      color: $mid-dark-gray;
+    }
+    &.table-responsive{
+      min-height: .01%;
+      overflow-x: auto;
+      width: 100%;
+      @include breakpoint(medium){
+        width: 320px;
+      }
+    }
+    .table{
+      width: 100%;
+      max-width: 100%;
+      tbody>tr>td,
+      tbody>tr>th,
+      tfoot>tr>td,
+      tfoot>tr>th,
+      thead>tr>td,
+      thead>tr>th{
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        outline: none;
+        &:focus{
+          outline: none;
+        }
+        span:focus{
+          outline: none;
+        }
+        .fa{
+          color: #3C4B5E;
+        }
+      }
+      thead{
+        tr{
+          th{
+            vertical-align: bottom;
+          }
+        }
+      }
+    }
+    table{
+      background-color: transparent;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    .table-condensed{
+      tbody>tr>td,
+      tbody>tr>th,
+      tfoot>tr>td,
+      tfoot>tr>th,
+      thead>tr>td,
+      thead>tr>th{
+        padding: 5px;
+      }
+    }
+    .sr-only{
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
+}

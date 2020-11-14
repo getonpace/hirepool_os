@@ -1,0 +1,75 @@
+.collaborator-form{
+  .form-card{
+    height: auto;
+    border: none;
+    box-shadow: none !important;
+    padding: 30px;
+    background: $white;
+    border-radius: 4px;
+    h4,h2,p{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    h4{
+      font-weight: 700;
+      line-height: 1;
+      margin: 0;
+      padding-bottom: 4px;
+    }
+    h2{
+      color: $primary-color;
+    }
+    .logo-chip,
+    .logo-chip table{
+      width: 57px;
+      height: 57px;
+    }
+    .logo-chip{
+      margin-right: 10px;
+      display: inline-block;
+      margin-bottom: 30px;
+      td{
+        padding:10px;
+        img{
+          max-height: 38px;
+        }
+      }
+    }
+    .ac-form{
+      padding: 0;
+      padding-bottom: 8px;
+      textarea{
+        height: 150px;
+      }
+    }
+    .details{
+      vertical-align: top;
+      width: calc(100% - 72px);
+      display: inline-block;
+      margin-bottom: 30px;
+      p{
+        margin-bottom: 4px;
+        overflow-x: ellipsis;
+        word-break: keep-all;
+      }
+    }
+    .button{
+      margin: 0;
+    }
+  }
+}
+
+.previously-completed{
+  margin-top: 1rem;
+  .mascot{
+    display: block;
+    margin: 0 auto;
+    max-width: 90px;
+    animation: fade_in 2s ease-in, bob 2s ease-in-out infinite alternate;
+  }
+  .previously-completed-text{
+    margin-top: 1rem;
+    text-align: center;
+  }
+}

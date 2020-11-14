@@ -1,0 +1,74 @@
+<div id="admin_view_user_profile" class="admin-view-page" ng-controller="AdminUserProfileCtrl as vm">
+  <div ng-if="vm.userIsAdmin()">
+    <header>
+      <h1>User Profile: {{vm.data.user.name}}</h1>
+    </header>
+    <div class="activity-feed-container main-container collapsible-container" ng-class="{big: vm.view.feed === 'big', small: vm.view.feed === 'small'}">
+      <div class="size-toggle left-right" ng-class="{minimize: vm.view.feed === 'big', maximize: vm.view.feed === 'small'}" ng-click="vm.toggleFeed()">
+        <i class="fa fa-chevron-left" ng-show="vm.view.feed === 'big'"></i>
+        <i class="fa fa-chevron-right" ng-show="vm.view.feed === 'small'"></i>
+      </div>
+      <div class="size-toggle up-down" ng-class="{minimize: vm.view.feed === 'big', maximize: vm.view.feed === 'small'}" ng-click="vm.toggleFeed()">
+        <i class="fa fa-chevron-up" ng-show="vm.view.feed === 'big'"></i>
+        <i class="fa fa-chevron-down" ng-show="vm.view.feed === 'small'"></i>
+      </div>
+      <header>
+        <h2>Activity Feed</h2>
+      </header>
+      <hp-activity-feed user-id="vm.data.user_id"></hp-activity-feed>
+    </div>
+    <div class="tab-control-container main-container" ng-class="{big: vm.view.feed === 'small', small: vm.view.feed === 'big'}">
+      <ul class="tab-control-header">
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'user_details'}" ng-click="vm.setTab('user_details')">User Details</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'timeline'}" ng-click="vm.setTab('timeline')">Timeline</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'opps'}" ng-click="vm.setTab('opps')">Opportunities</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'events'}" ng-click="vm.setTab('events')">Events</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'interviewers'}" ng-click="vm.setTab('interviewers')">Interviewers</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'collaborators'}" ng-click="vm.setTab('collaborators')">Collaborators</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'offers'}" ng-click="vm.setTab('offers')">Offers</li>
+        <li ng-class="{small: vm.isHirepoolAdmin(), active: vm.view.tab === 'opp_details'}" ng-click="vm.setTab('opp_details')">Opp. Details</li>
+      </ul>
+      <div class="tab-control-tab">
+        <div id="user_details_tab" class="tab-control-content" ng-show="vm.view.tab === 'user_details'">
+          <ng-include src="'views/admin/user_profile/user_details.html'"></ng-include>
+        </div>
+        <div id="timeline_tab" class="tab-control-content" ng-show="vm.view.tab === 'timeline'">
+          <div id="admin_timeline_highcharts_container"></div>
+        </div>
+        <div id="opps_tab" class="tab-control-content" ng-show="vm.view.tab === 'opps'">
+          <hp-csv-downloader download-data="vm.tables.opportunities.rows" file-name="vm.getCsvFileName('opportunities')"></hp-csv-downloader>
+          <div class="table-container">
+            <hp-sortable-table table-data="vm.tables.opportunities"></hp-sortable-table>
+          </div>
+        </div>
+        <div id="events_tab" class="tab-control-content" ng-show="vm.view.tab === 'events'">
+          <hp-csv-downloader download-data="vm.tables.events.rows" file-name="vm.getCsvFileName('events')"></hp-csv-downloader>
+          <div class="table-container">
+            <hp-sortable-table table-data="vm.tables.events"></hp-sortable-table>
+          </div>
+        </div>
+        <div id="interviewers_tab" class="tab-control-content" ng-show="vm.view.tab === 'interviewers'">
+          <hp-csv-downloader download-data="vm.tables.interviewers.rows" file-name="vm.getCsvFileName('interviewers')"></hp-csv-downloader>
+          <div class="table-container">
+            <hp-sortable-table table-data="vm.tables.interviewers"></hp-sortable-table>
+          </div>
+        </div>
+        <div id="collaborators_tab" class="tab-control-content" ng-show="vm.view.tab === 'collaborators'">
+          <hp-csv-downloader download-data="vm.tables.collaborations.rows" file-name="vm.getCsvFileName('collaborations')"></hp-csv-downloader>
+          <div class="table-container">
+            <hp-sortable-table table-data="vm.tables.collaborations"></hp-sortable-table>
+          </div>
+        </div>
+        <div id="offers_tab" class="tab-control-content" ng-show="vm.view.tab === 'offers'">
+          <hp-csv-downloader download-data="vm.tables.offers.rows" file-name="vm.getCsvFileName('offers')"></hp-csv-downloader>
+          <div class="table-container">
+            <hp-sortable-table table-data="vm.tables.offers"></hp-sortable-table>
+          </div>
+        </div>
+        <div id="opp_details_tab" class="tab-control-content" ng-show="vm.view.tab === 'opp_details'" ng-if="vm.isHirepoolAdmin()">
+          <ng-include src="'views/admin/user_profile/opp_details.html'" ng-controller="AdminOppDetailsCtrl as vm"></ng-include>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

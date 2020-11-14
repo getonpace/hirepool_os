@@ -1,0 +1,62 @@
+html.ftu-overlay-modal-open{
+  height: auto;
+  min-height: 100vh;
+}
+body.ftu-overlay-modal-open{
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: visible;
+}
+.modal.ftu-overlay{
+  height: 100%;
+  width: 100%;
+  overflow-y: hidden;
+  position: absolute;
+  background-color: $ftu-overlay;
+  .ftu-overlay-canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .ftu-content-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    .ftu-step{
+      max-width: 400px;
+      margin: 300px auto 0 auto;
+      p,.button{
+        color: $white;
+        font-family: 'Architects Daughter', cursive;
+        font-weight: bold;
+        font-size: large;
+        letter-spacing: 0.1em;
+      }
+      .button{
+        display: block;
+        float: right;
+        margin-right: 30px;
+        background-color: transparent;
+      }
+      .arrow-head{
+        display: none;
+        position: absolute;
+        height: 30px;
+        width: 30px;
+        background-color: green;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+  &.high-text{
+    .ftu-content-container{
+      .ftu-step{
+        margin-top: 110px;
+      }
+    }
+  }
+}

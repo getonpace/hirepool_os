@@ -1,0 +1,21 @@
+hp-opportunity-actions-cell{
+  .action-item{
+    outline: none;
+    margin-right: 10px;
+    color: $body-font-color;
+    &.disabled{
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+    &:last-child{
+      margin-right: 0;
+    }
+    &.check-select-box{
+      width: 13px;
+    }
+    &.pinned{
+      color: $success-color;
+      transform: rotate(45deg);
+    }
+  }
+}

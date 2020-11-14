@@ -1,0 +1,8 @@
+<ul class="hp-timeframe-picker">
+  <li ng-class="{ 'active': vm.timeframe === 1, 'disabled': vm.disabledMarker === true }" ng-click="vm.setTimeframe(1)">Last day</li>
+  <li ng-class="{ 'active': vm.timeframe === 7, 'disabled': vm.disabledMarker === true }" ng-click="vm.setTimeframe(7)">Last week</li>
+  <li ng-class="{ 'active': vm.timeframe === 30, 'disabled': vm.disabledMarker === true }" ng-click="vm.setTimeframe(30)">Last month</li>
+  <li ng-class="{ 'active': vm.timeframe === 90, 'disabled': vm.disabledMarker === true }" ng-click="vm.setTimeframe(90)">Three months</li>
+  <li ng-class="{ 'active': vm.timeframe === 180, 'disabled': vm.disabledMarker === true }" ng-click="vm.setTimeframe(180)">Six months</li>
+  <li ng-class="{ 'active': vm.timeframe === 'all', 'disabled': vm.disabledMarker === true }" ng-click="vm.setTimeframe('all')">All</li>
+</ul>

@@ -1,0 +1,36 @@
+<div class="hp-sortable-table-container">
+<!--   <md-virtual-repeat-container md-top-index="vm.topIndex" fix-head> -->
+  <md-virtual-repeat-container md-top-index="vm.topIndex">
+    <md-table-container>
+      <table md-table class="table">
+        <thead md-head>
+          <tr md-row>
+            <th md-column ng-repeat="field in vm.tableData.fields" ng-click="vm.sortRows(field)" ng-hide="field.hide" class="{{field.thClasses ? field.thClasses.join(', ') : ''}}">
+              <span ng-show="field.headerFormat === 'font-awesome'" title="{{field.hover}}"><i class="fa fa-{{field.icon}}"></i></span>
+              <span ng-show="!field.headerFormat" title="{{field.hover}}">{{field.title}}</span>
+              <i ng-show="vm.view.sortState.field === field.name" class="fa" ng-class="{'fa-chevron-down': vm.view.sortState.descending, 'fa-chevron-up': !vm.view.sortState.descending}"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody md-body>
+          <tr md-row md-virtual-repeat="row in vm.tableData.rows">
+            <td ng-repeat="field in vm.tableData.fields" ng-hide="field.hide" class="{{field.tdClasses ? field.tdClasses.join(', ') : ''}}">
+              <span ng-show="field.type === 'boolean' && row[field.name]"><i class="fa fa-check"></i></span>
+              <span ng-show="field.type === 'show_opp_details'" class="clickable-cell" ng-click="vm.showOppDetails(row._opp_id)">{{row[field.name]}}</span>
+              <span ng-show="field.type === 'user_profile_link'" class="clickable-cell"><a href="#/admin/user_profile/{{row.id}}">{{row[field.name]}}</a></span>
+              <span ng-show="field.type === 'user_profile_link_foreign_key'" class="clickable-cell"><a href="#/admin/user_profile/{{row.user_id}}">{{row[field.name]}}</a></span>
+              <span ng-show="field.type === 'link'" class="clickable-cell"><a href="{{row[field.link_key]}}">{{row[field.name]}}</a></span>
+              <span ng-show="field.type === 'external_link'" class="clickable-cell"><a href="{{row[field.link_key]}}" target="_blank">{{row[field.name]}}</a></span>
+              <span ng-show="field.type === 'opportunity_actions'" class="clickable-cell"><hp-opportunity-actions-cell opportunity="row"></hp-opportunity-actions-cell></span>
+              <span ng-show="field.type === 'opportunity_grid_offer'" class="clickable-cell"><i ng-hide="row.offer_salary" class="fa fa-plus" ng-click="vm.setCardData(row.id)" data-modal-trigger data-modal="offer-modal"></i><a ng-show="row.offer_salary" ng-click="vm.setCardData(row.id)" data-modal-trigger data-modal="offer-modal">{{row.offer_salary | currency:"$":0}}</a></span>
+              <span ng-show="field.type === 'opportunity_grid_rating' && row[field.name]" class="opportunity-grid-rating"><hp-opportunity-rating-cell rating="row[field.name]"></hp-opportunity-rating-cell></span>
+              <span ng-if="field.type === 'thumbs' && vm.getThumbClass(row[field.name])"><i class="fa {{vm.getThumbClass(row[field.name])}}"></i></span>
+              <span ng-show="!field.parser && !field.displayParser && field.type !== 'boolean' && field.type !== 'thumbs' && field.type !== 'show_opp_details' && field.type !== 'user_profile_link' && field.type !== 'opportunity_actions' && field.type !== 'opportunity_grid_offer' && field.type !== 'opportunity_grid_rating' && field.type !== 'link' && field.type !== 'external_link' && field.type !== 'user_profile_link_foreign_key'">{{row[field.name]}}</span>
+              <span ng-show="(field.parser || field.displayParser) && field.type !== 'boolean' && field.type !== 'thumbs' && field.type !== 'show_opp_details' && field.type !== 'user_profile_link' && field.type !== 'opportunity_actions' && field.type !== 'opportunity_grid_offer' && field.type !== 'opportunity_grid_rating' && field.type !== 'link' && field.type !== 'external_link' && field.type !== 'user_profile_link_foreign_key'">{{vm.parse(row[field.name], field, row)}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+  </md-virtual-repeat-container>
+</div>

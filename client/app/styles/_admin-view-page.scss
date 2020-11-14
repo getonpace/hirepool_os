@@ -1,0 +1,179 @@
+.admin-view-page{
+  padding: 0 20px;
+  header{
+    h1{
+      text-align: center;
+    }
+  }
+  .filter-box-header{
+    display: inline-block;
+    p{
+      display: inline-block;
+      margin-bottom: 8px;
+      margin-right: 10px;
+    }
+  }
+  .filter-boxes{
+    display: inline-block;
+    margin-bottom: 12px;
+    .filter-box{
+      display: inline-block;
+      margin-right: 15px;
+      input[type='checkbox']{
+        $size: rem-calc(18px);
+        + label{
+          font-size: rem-calc(14px);
+          display: inline-block;
+          line-height:  $size;
+          &:before,
+          &:after{
+            width: $size;
+            height: $size;
+            border-radius: 100px;
+          }
+          &:before{
+            background-color:$white;
+            transition: all .3s ease-in-out;
+            box-shadow: inset 0 0 0 1px $border-color;
+          }
+        }
+        & + label:hover,
+        & + label:hover:after,
+        &:checked + label{
+          color: $primary-color;
+        }
+        &:checked + label:hover:after{
+          color: $white;
+        }
+        &:checked + label:before{
+          box-shadow: inset 0 0 0 20px $primary-color;
+        }
+      }
+    }
+  }
+  .controls-container{
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .search-container{
+      flex-grow: 1;
+      .search{
+        max-width: 300px;
+        position: relative;
+        margin-right: 5px;
+      }
+    }
+    .filter-box-header{
+      margin-bottom: 0;
+      p{
+        margin-bottom: 0;
+      }
+    }
+    .filter-boxes{
+      margin-bottom: 0;
+      flex-grow: 1;
+      label{
+        margin-bottom: 0;
+      }
+    }
+    button{
+      margin-bottom: 0;
+    }
+  }
+  .tab-control-container{
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    border: 1px solid $light-gray;
+    border-top-width: 0;
+    .tab-control-header{
+      position: relative;
+      width: 100%;
+      height: 30px;
+      margin-left: 0;
+      margin-bottom: 0;
+      list-style-type: none;
+      background-color: $light-gray;
+      white-space: nowrap;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      li{
+        display: inline-block;
+        margin-left: -5px;
+        padding: 2px 4px;
+        border-left: 1px solid $medium-gray;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        cursor: pointer;
+        width: calc(12.4% + 1px);
+        text-align: center;
+        &:first-child{
+          margin-left: 0;
+          border-left-width: 0;
+        }
+        &.active{
+          background-color: $medium-gray;
+        }
+        &:hover{
+          min-width: calc(12.4% + 1px);
+          width: auto;
+          &:last-child{
+            position: absolute;
+            right: 0;
+            background-color: $light-gray;
+            &.active{
+              background-color: $medium-gray;
+            }
+          }
+        }
+        &.small{
+          width: calc(12.4% + 1px);
+          &:hover{
+            min-width: calc(12.4% + 1px);
+            width: auto;
+          }
+        }
+      }
+    }
+    .tab-control-tab{
+      padding: 16px 20px;
+      height: calc(100% - 30px);
+      overflow-y: scroll;
+      .tab-control-content{
+        height: 100%;
+      }
+    }
+  }
+  .table-container{
+    height: 400px;
+  }
+  .size-toggle{
+    position: absolute;
+    width: 22px;
+    top: 16px;
+    right: 20px;
+    border: 1px solid $light-gray;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: $white;
+    text-align: center;
+    &.up-down{
+      .fa{
+        line-height: 1.5;
+        vertical-align: top;
+      }
+    }
+  }
+  .collapsible-container{
+    position: relative;
+    border: 1px solid $light-gray;
+    overflow: hidden;
+    margin-bottom: 20px;
+    &.small{
+      height: 58px;
+    }
+  }
+}

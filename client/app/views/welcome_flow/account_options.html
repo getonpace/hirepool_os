@@ -1,0 +1,109 @@
+<div class="welcome-screen content-page account-options-page" ng-controller="AccountOptionsCtrl as vm">
+  <header>
+    <h1 class="welcome-header">Welcome, {{vm.getFirstName()}}!</h1>
+  </header>
+  <section class="account-options-description" ng-hide="vm.view.premiumOptedIn" ng-cloak>
+    <h3 class="welcome-subheader">Which type of hirepool account is right for you?</h3>
+  </section>
+  <section class="account-options-container row" ng-hide="vm.view.premiumOptedIn" ng-cloak>
+    <div class="option-basic option-container columns medium-6">
+      <div class="option-panel panel">
+        <h3>Basic</h3>
+        <p class="subheader">Organize your job search.</p>
+        <div class="option-benefits-container">
+          <div class="option-benefit">
+            <div class="option-benefit-flex-fixer">
+              <p><strong>Get focused</strong></p>
+              <p>One place to store your entire job search.</p>
+            </div>
+          </div>
+          <div class="option-benefit">
+            <div class="option-benefit-flex-fixer">
+              <p><strong>Save time</strong></p>
+              <p>We bring the information you need to you.</p>
+            </div>
+          </div>
+          <div class="option-benefit">
+            <div class="option-benefit-flex-fixer">
+              <p><strong>Stay objective</strong></p>
+              <p>Compare opportunities side-by-side as you go.</p>
+            </div>
+          </div>
+          <div class="option-benefit">
+          </div>
+        </div>
+        <div class="payment-details" ng-if="vm.data.user.payment_amount > 0">
+          <h3>FREE</h3>
+        </div>
+        <a class="button secondary large expanded" href="#/" ng-disabled="vm.view.paying" hp-event-recorder="{action: 'choose_basic', page: 'account_options', sort_param: '{{vm.data.user.payment_amount}}'}">Choose Basic</a>
+      </div>
+    </div>
+    <div class="option-premium option-container columns medium-6">
+      <div class="option-panel panel">
+        <h3>Premium</h3>
+        <p class="subheader">Impact your job search.</p>
+        <div class="option-benefits-container">
+          <div class="option-benefit">
+            <p>Everything from Basic plus...</p>
+          </div>
+          <div class="option-benefit">
+            <div class="option-benefit-flex-fixer">
+              <p><strong>Develop your story</strong></p>
+              <p>We provide actionable resume feedback so your applications turn into interviews.</p>
+            </div>
+          </div>
+          <div class="option-benefit">
+            <div class="option-benefit-flex-fixer">
+              <p><strong>Navigate the network</strong></p>
+              <p>Turn by turn networking and application techniques to get ahead.</p>
+            </div>
+          </div>
+          <div class="option-benefit">
+            <div class="option-benefit-flex-fixer">
+              <p><strong>Learn new skills and tactics</strong></p>
+              <p>Tailored interview prep and coaching to level up your job search and career.</p>
+            </div>
+          </div>
+        </div>
+        <div class="payment-details" ng-if="vm.data.user.payment_amount > 0">
+          <h3>${{vm.view.amount}} / {{vm.data.user.payment_period}}</h3>
+        </div>
+        <button class="button primary large expanded" ng-click="vm.checkout()" ng-disabled="vm.view.paying"><span ng-hide="vm.view.paying">Choose Premium</span><span ng-show="vm.view.paying"><i class="fa fa-spinner fa-spin"></i> Checking out...</span></button>
+      </div>
+    </div>
+  </section>
+  <section ng-show="vm.view.premiumOptedIn">
+    <div class="columns medium-3 small-2 large-3">&nbsp;</div>
+    <div class="columns medium-6 small-8 large-6">
+      <div class="error-message" ng-show="vm.view.payment_error">
+        <h3>Payment error!</h3>
+        <p>Something went wrong processing your payment. Please contact us through the support channel located in the lower right or via email at <a href="mailto:support@hirepool.io">support@hirepool.io</a> and we'll work to sort out any problems.</p>
+        <p>In the meantime let's get started with these two easy steps:</p>
+        <ol>
+          <li>Answer two survey questions</li>
+          <li>Upload your resume</li>
+        </ol>
+        <a class="button centered-button" href="#/premium_survey?upload_resume=true" hp-event-recorder="{action: 'premium_payment_error_goto_survey', page: 'account_options', sort_param: '{{vm.data.user.payment_amount}}'}">Complete my profile</a>
+      </div>
+      <div class="success-message" ng-show="vm.view.payment_success">
+        <h3>Payment complete!</h3>
+        <p>You're in. Let's get started with these two easy steps:</p>
+        <ol>
+          <li>Answer two survey questions</li>
+          <li>Upload your resume</li>
+        </ol>
+        <a class="button centered-button" href="#/premium_survey?upload_resume=true" hp-event-recorder="{action: 'premium_payment_success_goto_survey', page: 'account_options', sort_param: '{{vm.data.user.payment_amount}}'}">Complete my profile</a>
+      </div>
+      <div ng-hide="vm.view.payment_success || vm.view.payment_error">
+        <h3>Welcome to Premium!</h3>
+        <p>You're in. Let's get started with these two easy steps:</p>
+        <ol>
+          <li>Answer two survey questions</li>
+          <li>Upload your resume</li>
+        </ol>
+        <a class="button centered-button" href="#/premium_survey?upload_resume=true" hp-event-recorder="{action: 'premium_payment_success_goto_survey', page: 'account_options', sort_param: '{{vm.data.user.payment_amount}}'}">Complete my profile</a>
+      </div>
+    </div>
+    <div class="columns medium-3 small-2 large-3">&nbsp;</div>
+  </section>
+</div>

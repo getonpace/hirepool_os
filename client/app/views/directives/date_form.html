@@ -1,0 +1,22 @@
+<label for="month-{{uniqueId}}">{{dateLabel}}</label>
+<div class="date-fields">
+<!--   <input name="month" id="day" class="date-form-month-{{uniqueId}}" ng-blur="checkBlurForMonth()" ng-model="date.month" auto-tab-to="date-form-day-{{uniqueId}}" onkeypress="return isNumberKey(event);" type="text" ng-class="inputClass" maxlength="2" placeholder="mm" ng-change="clientValidationErrorDelegator()" /> -->
+  <input name="month-{{uniqueId}}" id="month-input-{{uniqueId}}" class="date-form-month-{{uniqueId}}" ng-blur="checkBlurForMonth()" ng-model="date.month" onkeypress="return isNumberKey(event);" type="text" ng-class="inputClass" maxlength="2" placeholder="MM" ng-change="clientValidationErrorDelegator()" />
+  <span>/</span>
+<!--   <input name="day" id="day" class="date-form-day-{{uniqueId}}" ng-blur="checkBlurForDay()" ng-model="date.day" auto-tab-to="date-form-year-{{uniqueId}}" onkeypress="return isNumberKey(event);" type="text" ng-class="inputClass" maxlength="2" placeholder="dd" ng-change="clientValidationErrorDelegator()" /> -->
+  <input name="day-{{uniqueId}}" id="day-input-{{uniqueId}}" class="date-form-day-{{uniqueId}}" ng-blur="checkBlurForDay()" ng-model="date.day" onkeypress="return isNumberKey(event);" type="text" ng-class="inputClass" maxlength="2" placeholder="DD" ng-change="clientValidationErrorDelegator()" />
+  <span>/</span>
+<!--   <input name="year" id="year" class="date-form-year-{{uniqueId}}" ng-model="date.year" auto-tab-to="date-form-time-{{uniqueId}}" onkeypress="return isNumberKey(event);" type="text" ng-class="inputClass" maxlength="4" placeholder="yyyy" ng-change="clientValidationErrorDelegator()" /> -->
+  <input name="year-{{uniqueId}}" id="year-input-{{uniqueId}}" class="date-form-year-{{uniqueId}}" ng-model="date.year" onkeypress="return isNumberKey(event);" type="text" ng-class="inputClass" maxlength="4" placeholder="YYYY" ng-change="clientValidationErrorDelegator()" />
+  <span ng-show="includeTime" class="time-span"></span>
+  <input name="time-{{uniqueId}}" id="time-input-{{uniqueId}}" class="date-form-time-{{uniqueId}}" ng-model="date.time" ng-show="includeTime" type="text" ng-class="inputClass" maxlength="7" placeholder="HH:MMpm" ng-change="clientValidationErrorDelegator()" />
+</div>
+<div class="hp-diy-dd">
+  <button class="button secondary tiny hp-diy-dd-button" ng-click="dropdown.toggleDropdown($event)"><i class="fa fa-calendar"></i></button>
+  <div class="hp-diy-dd-dd" ng-class="{show: dropdown.show}">
+    <div class="hp-diy-dd-close-button-container">
+      <a role="button" tabindex="0" class="close-button" ng-click="dropdown.toggleDropdown('force-close')"><span aria-hidden="true">&times;</span></a>
+    </div>
+    <datetimepicker data-ng-model="pickerDate" data-datetimepicker-config="datetimepickerConfig" data-on-set-time="onTimeSet(newDate, oldDate)"></datetimepicker>
+  </div>
+</div>

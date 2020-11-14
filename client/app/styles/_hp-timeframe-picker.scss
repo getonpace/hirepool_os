@@ -1,0 +1,27 @@
+.hp-timeframe-picker{
+  list-style-type: none;
+  margin-left: 0;
+  margin-bottom: 8px;
+  li{
+    display: inline-block;
+    width: 120px;
+    margin-right: 6px;
+    margin-bottom: 8px;
+    padding: 4px 0;
+    text-align: center;
+    border-radius: 4px;
+    background-color: $primary-color;
+    color: $white;
+    cursor: pointer;
+    &.active{
+      background-color: $dark-primary;
+    }
+    &:hover{
+      background-color: $dark-primary;
+    }
+    &.disabled{
+      background-color: $light-gray;
+      cursor: not-allowed;
+    }
+  }
+}

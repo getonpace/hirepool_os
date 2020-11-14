@@ -1,0 +1,10 @@
+<div class="welcome-screen content-page" ng-controller="WelcomeVideoCtrl as vm">
+  <h1 class="welcome-header">Welcome, {{vm.getFirstName()}}!</h1>
+  <section class="video-container">
+    <p>Let’s get started with a quick overview of the product!</p>
+    <iframe id="welcome_video_iframe_v2" width="630" height="394" src="https://www.useloom.com/embed/a9e2532e681a454d85b36a733cf1918e" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <div class="welcome-video-buttons">
+      <button class="button" ng-click="vm.skipVideo()">Skip video</button>
+    </div>
+  </section>
+</div>

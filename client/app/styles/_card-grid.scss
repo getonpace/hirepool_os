@@ -1,0 +1,99 @@
+
+
+@media (min-width: 1170px){
+  [dynamic-layout]{
+    width: 1170px;
+    .dynamic-layout-card{
+      width: 390px;
+    }
+  }
+}
+@media (min-width: 780px) and (max-width: 1169px){
+  [dynamic-layout]{
+    width: 785px;
+    .dynamic-layout-card{
+      width: 390px;
+    }
+  }
+}
+@media (min-width: 780px) and (max-width: 779px){
+  [dynamic-layout]{
+    width: 320px;
+    .dynamic-layout-card{
+      width: 390px;
+    }
+  }
+}
+
+//mobile first styles here
+[dynamic-layout]{
+  width: 320px;
+  float: left;
+  position: relative;
+  .card.dynamic-layout-card.dynamic-layout-item{
+    margin: 0;
+  }
+  .dynamic-layout-card{
+    width: 320px;
+    .card{
+      margin: 0;
+    }
+  }
+  .dynamic-layout-card{
+    width: 320px;
+  }
+  .dynamic-layout-item{
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+  }
+  &.container-fluid{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+  }
+}
+
+.move-items-animation{
+  transition-property: left, top, bottom, right;
+  transition-duration: .5s;
+  transition-timing-function: ease-in-out;
+}
+.dynamic-layout-item-parent.ng-enter{
+  transition: .5s ease-in-out;
+  opacity:0;
+}
+.dynamic-layout-item-parent.ng-enter.ng-enter-active{
+  opacity:1;
+}
+.dynamic-layout-item-parent.ng-leave{
+  transition: .5s ease-in-out;
+  opacity:1;
+}
+.dynamic-layout-item-parent.ng-leave.ng-leave-active{
+  opacity:0;
+}
+@media (min-width: 1170px){
+  [dynamic-layout]{
+    width: 1170px;
+    .dynamic-layout-card{
+      width: 390px;
+    }
+  }
+}
+@media (min-width: 780px) and (max-width: 1169px){
+  [dynamic-layout]{
+    width: 785px;
+    .dynamic-layout-card{
+      width: 390px;
+    }
+  }
+}
+@media (min-width: 780px) and (max-width: 779px){
+  [dynamic-layout]{
+    width: 320px;
+    .dynamic-layout-card{
+      width: 390px;
+    }
+  }
+}

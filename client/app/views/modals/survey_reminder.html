@@ -1,0 +1,18 @@
+<div class="modal" id="survey-reminder-modal" ng-controller="ModalsSurveyReminderCtrl as vm">
+  <div class="modal-dialog">
+    <header>
+      <h4>{{vm.message.title}}</h4>
+      <button class="close-button" type="button"><span aria-hidden="true">&times;</span></button>
+    </header>
+    <section>
+      <div class="row">
+        <div class="columns medium-12">
+          <p>{{vm.message.reminderText}}</p>
+        </div>
+      </div>
+      <a href="#/survey1" class="button primary expanded" ng-click="vm.cancel()" hp-event-recorder="{action: 'goto_survey', modal: 'survey_reminder'}">{{'modal.survey_reminder.take_survey'|translate}}</a>  
+      <button class="button secondary expanded" ng-click="vm.cancel('later')" hp-event-recorder="{action: 'remind_later', modal: 'survey_reminder'}">{{'modal.survey_reminder.remind_later'|translate}}</button>  
+      <button class="button secondary expanded" ng-click="vm.cancel('never')" hp-event-recorder="{action: 'never_remind', modal: 'survey_reminder'}">{{'modal.survey_reminder.never_remind'|translate}}</button>  
+    </section>
+  </div>
+</div><!-- //Survey Reminder Modal -->

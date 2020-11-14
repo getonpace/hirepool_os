@@ -1,0 +1,241 @@
+.content-page{
+
+  /* http://meyerweb.com/eric/tools/css/reset/
+     v2.0 | 20110126
+     License: none (public domain)
+  */
+  h1, h2, h3, h4, h5, h6, p, li{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    font-family: "Open Sans","Helvetica Neue",Helvetica,sans-serif;
+    color: #8a8a8a;
+  }
+
+  /* basic text styling */
+  font-family: "Open Sans","Helvetica Neue",Helvetica,sans-serif;
+  color: #8a8a8a;
+  font-size: 8px;
+  @media (min-height: 850px) {
+    font-size: 9px;
+  }
+  @media (min-height: 1100px) {
+    font-size: 10px;
+  }
+  @media (max-width: 1070px), (max-height: 775px) {
+    font-size: 7px;
+  }
+  @media (max-width: 850px), (max-height: 700px) {
+    font-size: 6px;
+  }
+  @media (max-width: 700px) and (max-height: 700px) {
+    font-size: 5px;
+  }
+
+  h1, h2, h3, h4, h5, h6{
+    font-family: "Montserrat",sans-serif;
+    color: #3C4B5E;
+    margin-bottom: 0.5em;
+  }
+  h1{
+    font-size: 7.8em;
+    text-align: center;
+    a{
+      color: #3C4B5E;
+      &:hover{
+        color: #3C4B5E;
+      }
+    }
+  }
+  h2{
+    font-size: 5em;
+  }
+  h3{
+    font-size: 3.6em;
+  }
+  h4{
+    font-size: 3em;
+  }
+
+  p, ul, ol, th, td{
+    font-size: 2.8em;
+    font-weight: 200;
+    line-height: 1.5;
+    margin-bottom: 1em;
+    p, ul, ol{
+      font-size: 100%;
+      margin-bottom: 0;
+    }
+  }
+
+  table{
+    th{
+      text-align: left;
+      font-weight: 400;
+    }
+    td,th{
+      padding-left: 5px;
+    }
+    tr{
+      border-bottom: 1px solid $light-gray;
+    }
+  }
+
+  .button{
+    font-size: 2.8em;
+    margin-top: .25em;
+    margin-bottom: 1.25em;
+  }
+
+  ul, ol{
+    margin-left: 1.25em;
+    li{
+      margin-bottom: 0.5em;
+    }
+  }
+
+  /* main container layout */
+  max-width: 1000px;
+  padding: 0 30px;
+  margin: 0 auto 0 auto;
+
+  /* video containers */
+  .video-container{
+    iframe{
+      display: block;
+      max-width: 100%;
+      margin-bottom: 1em;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 2.8em;
+    }
+  }
+
+  /* images */
+  .image-caption{
+    margin-top: 0px;
+    font-size: 2em;
+    margin-bottom: 2em;
+    font-style: italic;
+    text-align: center;
+  }
+  img{
+    max-width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2.8em;
+    margin-top: 2em;
+  }
+
+  /* forms */
+  .ac-form{
+    font-size: 2.8em !important;
+    margin-top: 0.25em;
+    margin-bottom: 1.25em;
+    padding-bottom: 0;
+    input{
+      font-size: 1em !important;
+      font-weight: 200;
+    }
+    .fa{
+      font-size: 1em;
+    }
+  }
+
+  /* panels */
+  .panel{
+    padding: 2em;
+    border: 1px solid $slate-blue;
+    background-color: $cloud-blue;
+    border-radius: 12px;
+  }
+
+  /* collaborators.html */
+  &.collaborators{
+    #email-in-inbox{
+      width: 800px;
+    }
+    #full-email{
+      width: 800px;
+    }
+    #collaborator-feedback{
+      width: 600px;
+    }
+  }
+
+  /* welcome flow */
+  &.welcome-screen{
+    .button{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  /* account_options.html, premium_account/signup.html */
+  &.account-options-page{
+    .success-message{
+      h3{
+        color: $success-color;
+      }
+    }
+    .error-message{
+      h3{
+        color: $alert-color;
+      }
+    }
+    .welcome-subheader{
+      text-align: center;
+      margin-top: -1em;
+    }
+    .option-container{
+      padding: 20px;
+      .option-panel{
+        border-top-width: 10px;
+        h3,.subheader{
+          text-align: center;
+        }
+        .option-benefits-container{
+          border-bottom: 1px solid $slate-blue;
+          font-size: 100%;
+          margin-bottom: 1em;
+        }
+        .option-benefit{
+          height: 10em;
+          padding-top: 1em;
+          margin-bottom: 1em;
+          border-top: 1px solid $slate-blue;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          p{
+            font-size: 2em;
+            margin-bottom: 0;
+          }
+        }
+        .button{
+          margin-bottom: 0;
+        }
+        li:last-child{
+          margin-bottom: 0;
+        }
+        >ul:last-child{
+          margin-bottom: 0;
+        }
+      }
+      &.option-premium{
+        .option-panel{
+          border-top-color: $success-color;
+        }
+        .button{
+          background-color: $success-color;
+        }
+      }
+    }
+  }
+}

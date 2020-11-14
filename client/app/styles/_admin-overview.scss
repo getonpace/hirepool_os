@@ -1,0 +1,32 @@
+#admin_view_overview{
+  .collapsible-container{
+    .size-toggle{
+      top: 6px;
+      right: 10px;
+    }
+  }
+  .tab-control-container{
+    margin-bottom: 40px;
+    .tab-control-header{
+      li{
+        width: calc(16.66% + 1px);
+        &:hover{
+          min-width: calc(16.66% + 1px);
+          width: auto;
+        }
+        &.small{
+          width: calc(14.28% + 1px);
+          &:hover{
+            min-width: calc(14.28% + 1px);
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+  .hp-sortable-table-container{
+    table{
+      margin-bottom: 0;
+    }
+  }
+}

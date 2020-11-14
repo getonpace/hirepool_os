@@ -1,0 +1,21 @@
+<div class="modal ftu-overlay" ng-class="{ 'high-text' : vm.view.textPositionHigh }" id="opportunities_index_ftu_overlay" ng-controller="ModalsFtuOverlayCtrl as vm">
+  <canvas class="ftu-overlay-canvas" width="5000" height="5000"></canvas>
+  <div class="ftu-content-container">
+    <div class="ftu-step ftu-step-1" ng-show="vm.view.step === 1" data-target="app-header-add-new-button" data-target-type="class">
+      <p>To add something new start with the Add New button.</p>
+      <button class="button" ng-click="vm.nextStep()">Next</button>
+    </div>
+    <div class="ftu-step ftu-step-2" ng-show="vm.view.step === 2" data-target="app-header-add-opportunity-button" data-target-type="class">
+        <p>To add a new opportunity start with the Add Opportunity button.</p>
+        <button class="button" ng-click="vm.nextStep()">Next</button>
+      </div>
+    <div class="ftu-step ftu-step-3" ng-show="vm.view.step === 3" data-target="app-header-add-opportunities" data-target-type="class">
+      <p>Use Upload Opportunities to learn how to upload all existing opportunities from a spreadsheet or a job search site.</p>
+      <button class="button" ng-click="vm.nextStep()">Next</button>
+    </div>
+    <div class="ftu-step ftu-step-4 last-step" ng-show="vm.view.step === 4" data-target="opportunities-index-ftu-target-toggle-view" data-target-type="class">
+      <p>Choose the view that works best for you as a job seeker we won’t judge ;)</p>
+      <button class="button close-ftu-overlay-button" ng-click="vm.closeOverlay($event)">Done</button>
+    </div>
+  </div>
+</div>
